@@ -1,0 +1,26 @@
+[
+    {
+        "swell_direction": "north"
+    },
+    {
+        "swell_direction": "south"
+    },
+    {
+        "swell_direction": "west"
+    },
+    {
+        "swell_direction": "east"
+    },
+    {
+        "swell_direction": "north-west"
+    },
+    {
+        "swell_direction": "north-east"
+    },
+    {
+        "swell_direction": "south-west"
+    },
+    {
+        "swell_direction": "south-east"
+    }
+    ]

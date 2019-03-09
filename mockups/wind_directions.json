@@ -1,0 +1,26 @@
+[
+{
+    "wind_direction": "north"
+},
+{
+    "wind_direction": "south"
+},
+{
+    "wind_direction": "west"
+},
+{
+    "wind_direction": "east"
+},
+{
+    "wind_direction": "north-west"
+},
+{
+    "wind_direction": "north-east"
+},
+{
+    "wind_direction": "south-west"
+},
+{
+    "wind_direction": "south-east"
+}
+]
