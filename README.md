@@ -43,3 +43,52 @@ Error message for incomplete input fields, do one with JS, secondone with Python
 
 $ `sudo pip3 install -r requirements.txt`
 
+# Steps to start the project
+
+1. Install Flask `sudo pip install flask` or `sudo pip3 install Flask`
+2. Create new Python file - e.g. `app.py`
+3. Import flask functionality inside that file and create an instance of Flask:
+
+```py
+import os
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello World!'
+
+if __name__ = '__main__':
+    app.run(host=os.environ.get('IP),
+    port=int(os.environ.get('PORT')),
+    debug=True)
+```
+
+# Steps to upload the page to Heroku (Medium article)
+
+[Steps](https://medium.com/@gitaumoses4/deploying-a-flask-application-on-heroku-e509e5c76524)
+
+1. Installing Heroku CLI
+2. Creating a Heroku Account or Login to Heroku `heroku login`
+3. Initializing a git repository if not already createad
+4. Create a heroku application `heroku create your-first-heroku-app --buildpack heroku/python`
+5. Add the remote heroku git repository `heroku git:remote -a your-first-heroku-app`
+6. Install gunicorn (Gunicorn is a python WSGI HTTP server that will serve your Flask application at heroku) `pip install gunicorn`
+7. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project `pip freeze > requirements.txt`
+8. Adding a Procfile. Create a Procfile in the project root folder and add the following line: `web: gunicorn app:app` (The first app represents the name of the python file that runs your application or the name of the module it is in. The second app represents your app name.)
+9. Committing the files to Heroku’s repository master branch `git add .` and `git commit -m "First commit for heroku"` Push the changes from your local master branch to heroku’s master branch `git push heroku master`
+10. Done
+
+# Steps to upload the page to Heroku (CI)
+
+1. Login to Heroku `heroku login`
+2. Initializing a git repository if not already createad
+3. Create a heroku application `heroku create your-first-heroku-app --buildpack heroku/python`
+4. Add the remote heroku git repository `heroku git:remote -a your-first-heroku-app`
+5. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project `sudo pip3 freeze --local > requirements.txt`
+6. Adding a Procfile `echo web: python app.py > Procfile`
+7. Committing the files to Heroku’s repository master branch `git add .` and `git commit -m "First commit for heroku"` Push the changes from your local master branch to heroku’s master branch `git push heroku master`
+8. Run the application `heroku ps:scale web=1` (This is a command to the Heroku to tell it to get up and running)
+9. Heroku web app - go to Settings>Config Variables to specify our IP and PORT `IP = 0.0.0.0` and `PORT = 5000`
+10. DONE
