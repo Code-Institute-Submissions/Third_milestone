@@ -65,6 +65,29 @@ if __name__ = '__main__':
     debug=True)
 ```
 
+# FLASKs flask installation steps:
+
+1. We recommend using the latest version of Python 3
+2. Install Flask `pip install Flask`
+3. A minimal Flask Application looks like that:
+
+```py
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+```
+
+4. To run the application you can either use the flask command or python’s -m switch with Flask. Before you can do that you need to tell your terminal the application to work with by exporting the FLASK_APP environment variable:
+
+```
+$ export FLASK_APP=hello.py
+$ flask run
+ * Running on http://127.0.0.1:5000/
+```
+
 # Steps to upload the page to Heroku (Medium article)
 
 [Steps](https://medium.com/@gitaumoses4/deploying-a-flask-application-on-heroku-e509e5c76524)
