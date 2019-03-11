@@ -105,12 +105,12 @@ $ flask run
 
 # Steps to upload the page to Heroku (CI)
 
-1. Login to Heroku `heroku login`
+1. Login to Heroku `heroku login` **OK**
 2. Initializing a git repository if not already createad
-3. Create a heroku application `heroku create your-first-heroku-app --buildpack heroku/python`
-4. Add the remote heroku git repository `heroku git:remote -a your-first-heroku-app`
-5. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project `sudo pip3 freeze --local > requirements.txt`
-6. Adding a Procfile `echo web: python app.py > Procfile`
+3. Create a heroku application `heroku create your-first-heroku-app --buildpack heroku/python` **(created in the app itself)**
+4. Add the remote heroku git repository `heroku git:remote -a your-first-heroku-app` **OK**
+5. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project `sudo pip3 freeze --local > requirements.txt` **(WORKED)**
+6. Adding a Procfile `echo web: python app.py > Procfile` **OK**
 7. Committing the files to Heroku’s repository master branch `git add .` and `git commit -m "First commit for heroku"` Push the changes from your local master branch to heroku’s master branch `git push heroku master`
 8. Run the application `heroku ps:scale web=1` (This is a command to the Heroku to tell it to get up and running)
 9. Heroku web app - go to Settings>Config Variables to specify our IP and PORT `IP = 0.0.0.0` and `PORT = 5000`
