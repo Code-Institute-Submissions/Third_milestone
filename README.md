@@ -47,7 +47,7 @@ $ `sudo pip3 install -r requirements.txt`
 
 1. Install Flask `sudo pip install flask` or `sudo pip3 install Flask`
 2. Create new Python file - e.g. `app.py`
-3. Import flask functionality inside that file and create an instance of Flask:
+3. Import flask functionality inside that file and create an instance of Flask: **OK**
 
 ```py
 import os
@@ -57,7 +57,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Hello World!'
+    return 'Helloooo World!'
 
 if __name__ = '__main__':
     app.run(host=os.environ.get('IP),
@@ -65,11 +65,20 @@ if __name__ = '__main__':
     debug=True)
 ```
 
+<u>There are usual ten lines of code that you would use to run a flask application:</u>
+
+- The `app.run()` will run the server
+- Importing `os` and then inside of our `app.run` we pass in the series of arguments so the first argument passing is the host name `os.environ.get` will allow us to get the IP address (this is so we can
+tell flask which what the IP address we want to run this on)
+- next is the `port` that we want to open for this, so next one we do is the port and we need to cast that to an `int` so `int(os.environ.get)`
+- the debug mode is `True` because we're going to be developing and we want to be able to to do some debugging
+
+
 # FLASKs flask installation steps:
 
 1. We recommend using the latest version of Python 3
 2. Install Flask `pip install Flask`
-3. A minimal Flask Application looks like that:
+3. A minimal Flask Application looks like that: **Does not work with HEROKU**
 
 ```py
 from flask import Flask
@@ -112,6 +121,17 @@ $ flask run
 5. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project `sudo pip3 freeze --local > requirements.txt` **(WORKED)**
 6. Adding a Procfile `echo web: python app.py > Procfile` **OK**
 7. Committing the files to Heroku’s repository master branch `git add .` and `git commit -m "First commit for heroku"` Push the changes from your local master branch to heroku’s master branch `git push heroku master`
-8. Run the application `heroku ps:scale web=1` (This is a command to the Heroku to tell it to get up and running)
-9. Heroku web app - go to Settings>Config Variables to specify our IP and PORT `IP = 0.0.0.0` and `PORT = 5000`
-10. DONE
+8. Run the application `heroku ps:scale web=1` (This is a command to the Heroku to tell it to get up and running) **OK**
+9. Heroku web app - go to Settings>Config Variables to specify our IP and PORT `IP = 0.0.0.0` and `PORT = 5000` **OK**
+10. DONE 
+
+# Connect Flask to MongoDB (CI)
+
+1. To get Flask talking to Mongo, we're going to install a third party library called flask-pymongo `sudo pip3 install flask-pymongo`
+2. We also need to install a package called dnsython to use the new style connection string for MongoDB Atlas `sudo pip3 install dnspython`
+3. Add some additional imports to reflect our new installation in the app.py file and import something from the BSON library as well, which we'll use later on in the project
+```py
+from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
+```
+4. Add the Mongo database name and the URL linking to that database.
