@@ -137,3 +137,15 @@ from bson.objectid import ObjectId
 4. Add the Mongo database name and the URL linking to that database.
 5. Edit the `bashrc` via terminal `nano ~/.bashrc`
 6. Include `export MONGO_URI=mongodb+srv://daniel:<password>@myfirstcluster-ggk14.mongodb.net/surfingeurope?retryWrites=true`
+
+**Slack**
+You need to edit bashrc
+`nano ~/.bashrc`
+Then add the variable in and save it (ctrl x) + Y enter
+Then `source ~/.bashrc` to reload them
+
+1. Put this line at the end of your `~/.bashrc` file and save it:
+2. `export MONGO_URI=mongodb://username:password@ds139435.mlab.com:39435/dumpdinners`
+3. Enter `. ~/.bashrc` or `source ~/.bashrc`  in your terminal.   You should get no errors, no output.
+4. In the python3 shell, enter `import os` then `os.getenv("MONGO_URI")`   It should output the `mongodb://...` string.
+5. If that all works you should be good to go in your app using `app.config["MONGO_URI"] = os.getenv("MONGO_URI")`.
