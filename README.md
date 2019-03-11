@@ -135,3 +135,5 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 ```
 4. Add the Mongo database name and the URL linking to that database.
+5. Edit the `bashrc` via terminal `nano ~/.bashrc`
+6. Include `export MONGO_URI=mongodb+srv://daniel:<password>@myfirstcluster-ggk14.mongodb.net/surfingeurope?retryWrites=true`
