@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
+app.secret_key = os.getenv('SECRET_KEY')
 app.config['MONGO_DBNAME'] = 'surfingeurope'
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 
@@ -18,5 +19,4 @@ def hello_world():
 if __name__ == '__main__':
     app.run(host=os.getenv('IP'),
     port=int(os.getenv('PORT', '5000')),
-    secret_key=os.getenv('SECRET'),
     debug=True)
