@@ -1,3 +1,7 @@
+# Test vs PROD
+
+change the IP to local in MongoDB once lives
+
 # Project Scope
 
 1. Create a web application that allows users to **store** and easily **access** <del>cooking recipes</del> Surfing Locations
@@ -136,16 +140,15 @@ from bson.objectid import ObjectId
 ```
 4. Add the Mongo database name and the URL linking to that database.
 5. Edit the `bashrc` via terminal `nano ~/.bashrc`
-6. Include `export MONGO_URI=mongodb+srv://daniel:<password>@myfirstcluster-ggk14.mongodb.net/surfingeurope?retryWrites=true`
+6. Include `export MONGO_URI='mongodb+srv://daniel:<PASSWORD>@myfirstcluster-ggk14.mongodb.net/DBNAME?retryWrites=true'`
+7. Press `ctr+X` to exit, `Y` to save and `enter` to confirm the filename
+8. Go to project directory and run `source ~/.bashrc` and check the path by running `echo $MONGO_URI` 
 
-**Slack**
-You need to edit bashrc
-`nano ~/.bashrc`
-Then add the variable in and save it (ctrl x) + Y enter
-Then `source ~/.bashrc` to reload them
 
-1. Put this line at the end of your `~/.bashrc` file and save it:
-2. `export MONGO_URI=mongodb://username:password@ds139435.mlab.com:39435/dumpdinners`
-3. Enter `. ~/.bashrc` or `source ~/.bashrc`  in your terminal.   You should get no errors, no output.
-4. In the python3 shell, enter `import os` then `os.getenv("MONGO_URI")`   It should output the `mongodb://...` string.
-5. If that all works you should be good to go in your app using `app.config["MONGO_URI"] = os.getenv("MONGO_URI")`.
+
+**.bashrc** - bashrc is basically a shell script that will run whenever the environment is loaded. So you can set an environment variable in there and then it is available within your environment. If you make any changes to the bashrc you will have to reload the environment for the changes to take place. You can do this by closing any terminal you were working with in your workspace and opening a new one. The .bashrc file lives in our home directory, which is one level above where we are now.
+
+**environment variable** `os.getenv('MONGO_URI')` or `os.environ.get('MONGO_URI')`. You can use either, personally I prefer `os.environ.get`as it will give you an error message if you forget to set the environment variable or have mispelled it! os.getenv will stay silent if it's not working!
+
+The reason we're doing this is because in production, when our code is live on a server, we don't want to go exposing these kinds of connection strings, particularly when they contain passwords.
+We should never commit usernames, passwords, secret keys, and API keys to GitHub where they're visible to the whole world. Use environment variables instead.
