@@ -171,3 +171,14 @@ mongoimport --host myfirstcluster-shard-00-02-ggk14.mongodb.net:27017 --db surfi
 7. Run `use surfingeurope` to selecte it
 8. Run `show collections` to display all available collections
 9. Run `db.locations.find()` to show the data
+
+
+# Notes to self
+
+**Static Files**
+Dynamic web applications also need static files. That’s usually where the CSS and JavaScript files are coming from. Ideally your web server is configured to serve them for you, but during development Flask can do that as well. Just create a folder called static in your package or next to your module and it will be available at `/static` on the application.
+
+To generate URLs for static files, use the special 'static' endpoint name:
+
+`url_for('static', filename='style.css')`
+The file has to be stored on the filesystem as `static/style.css`.
