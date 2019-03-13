@@ -1,0 +1,29 @@
+[
+    {
+        "country": ["Belgium", "Croatia", "Denmark", "England", "Estonia", "France", "Germany", "Greece", "Ireland", "Italy", "Latvia", "Lithuania", "Malta", "Montenegro", "Netherlands", "Northern Ireland", "Norway", "Poland", "Portugal", "Scotland", "Spain", "Sweden", "Turkey", "Wales"]
+    },
+    {
+        "break_type": ["reef break", "beach break", "river wave"]
+    },
+    {
+        "wave_direction": ["right", "left", "right & left"]
+    },
+    {
+        "wind_direction": ["north", "south", "west", "east", "north-west", "north-east", "south-west", "south-east"]
+    },
+    {
+        "swell_direction": ["north", "south", "west", "east", "north-west", "north-east", "south-west", "south-east"]
+    },
+    {
+        "bottom": ["sand", "rocky reef", "sand & rocks", "rocks"]
+    },
+    {
+        "facilities": ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental"]
+    },
+    {
+        "surroundings": ["remote", "village", "town", "city"]
+    },
+    {
+        "hazards": ["rocks", "pollution", "localism", "no life guards", "urchins", "strong currents"]
+    }
+]
