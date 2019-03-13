@@ -152,3 +152,22 @@ from bson.objectid import ObjectId
 
 The reason we're doing this is because in production, when our code is live on a server, we don't want to go exposing these kinds of connection strings, particularly when they contain passwords.
 We should never commit usernames, passwords, secret keys, and API keys to GitHub where they're visible to the whole world. Use environment variables instead.
+
+# Import db into MongoDB
+
+1. Get the latest MongoDB Shell compatibile with your cluster `brew install mongodb/brew/mongodb-community-shell`
+2. Add `<your Mongo Shell's download directory>/bin` to your $PATH variable like so:
+```
+# Adding MongoDB Shell 
+export PATH=$PATH:/usr/local/mongodb/bin
+```
+3. Reset by typing `. .bash_profile`
+4. Use [mongoimport](https://docs.mongodb.com/manual/reference/program/mongoimport/index.html#mongoimport) to inject the data
+```
+mongoimport --host myfirstcluster-shard-00-02-ggk14.mongodb.net:27017 --db surfingeurope --type json --file mockups/locations.json --jsonArray --authenticationDatabase admin --ssl --username daniel --password <XXX>
+```
+5. Run your connection string in your command line `mongo "mongodb+srv://myfirstcluster-ggk14.mongodb.net/test"     --username daniel`
+6. Run `show dbs` to see all available databases
+7. Run `use surfingeurope` to selecte it
+8. Run `show collections` to display all available collections
+9. Run `db.locations.find()` to show the data
