@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% for location in locations %}
+            <div class="col s12 m6">
+                <div class="card">
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
+                    <span class="card-title">{{location.name}}</span>
+                </div>
+                <div class="card-content center-align light-blue white-text">
+                    <p>{{location.country}} | {{location.break_type}}</p>
+                </div>
+                <div class="card-action center-align">
+                    <!-- <a href="#">This is a link</a> -->
+                    <a class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+    <!-- <p>
+    {% for category in categories %}
+            {{category.country}}<br>
+            {{category.break_type}}<br>
+            {{category.wave_direction}}<br>
+            {{category.wind_direction}}<br>
+            {{category.swell_direction}}<br>
+            {{category.bottom}}<br>
+            {{category.facilities}}<br>
+            {{category.surroundings}}<br>
+            {{category.hazards}}<br>
+        {% endfor %}
+    </p> -->
+{% endblock %}
