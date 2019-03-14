@@ -2,6 +2,10 @@
 
 change the IP to local in MongoDB once lives
 
+# Credits
+
+Photo by Thierry Meier on Unsplash (hero_main.jpg)
+
 # Project Scope
 
 1. Create a web application that allows users to **store** and easily **access** <del>cooking recipes</del> Surfing Locations

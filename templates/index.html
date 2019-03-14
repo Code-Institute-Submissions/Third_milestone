@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>
-    {% for category in categories %}
-            {{category.country}}<br>
-            {{category.break_type}}<br>
-            {{category.wave_direction}}<br>
-            {{category.wind_direction}}<br>
-            {{category.swell_direction}}<br>
-            {{category.bottom}}<br>
-            {{category.facilities}}<br>
-            {{category.surroundings}}<br>
-            {{category.hazards}}<br>
-        {% endfor %}
-    </p>
+
+<div class="row hero-img">
+    <div class="col s12 valign-wrapper">
+        <img src="{{ url_for('static', filename='assets/hero_main.jpg') }}">
+        <h3 class="center-align">Explore Surfing Locations in Europe</h3>
+    </div>
+</div>
+
 {% endblock %}
