@@ -1,6 +1,22 @@
+/* Sticky Footer */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* base.html style changes */
+
 nav .brand-logo, nav ul a, nav a {
     color: #263238;
 }
+
+/* index.html style changes */
 
 .hero-img {
     height: 500px;
@@ -9,12 +25,27 @@ nav .brand-logo, nav ul a, nav a {
     overflow: hidden;
 }
 
-.hero-img .col {
-    padding: 0; 
+.welcome-txt {
+    position: absolute;
+    top: 250px;
+    color: white;
 }
 
-.hero-img h3 {
+.welcome-txt h3 {
     width: 100%;
+}
+
+.welcome-btn {
     position: absolute;
+    top: 400px;
     color: white;
+}
+
+.welcome-btn a {
+    margin: 0 auto;
+}
+
+.btn-flat {
+    color: #263238;
+    background-color: white;
 }

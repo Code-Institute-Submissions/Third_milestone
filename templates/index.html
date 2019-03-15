@@ -3,9 +3,12 @@
 {% block content %}
 
 <div class="row hero-img">
-    <div class="col s12 valign-wrapper">
-        <img src="{{ url_for('static', filename='assets/hero_main.jpg') }}">
+    <img src="{{ url_for('static', filename='assets/hero_main.jpg') }}">
+    <div class="col s12 valign-wrapper welcome-txt">
         <h3 class="center-align">Explore Surfing Locations in Europe</h3>
+    </div>
+    <div class="col s12 valign-wrapper welcome-btn">
+        <a class="waves-effect waves-teal btn-flat">EXPLORE</a>
     </div>
 </div>
 

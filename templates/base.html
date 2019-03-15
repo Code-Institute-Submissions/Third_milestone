@@ -29,17 +29,17 @@
         </div>
     </nav>
 
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('locations') }}">All Locations</a></li>
+        <li><a href="{{ url_for('search') }}">Search</a></li>
+        <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('register') }}">Log in / Register</a></li>
+    </ul>
+
     <main>
-
-        <ul class="sidenav" id="mobile-demo">
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('locations') }}">All Locations</a></li>
-            <li><a href="{{ url_for('search') }}">Search</a></li>
-            <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
-            <li><a href="{{ url_for('about') }}">About</a></li>
-            <li><a href="{{ url_for('register') }}">Log in / Register</a></li>
-        </ul>
-
+        
         {% block content %}
         {% endblock %}
 
