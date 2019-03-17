@@ -8,7 +8,32 @@
         <h3 class="center-align">Explore Surfing Locations in Europe</h3>
     </div>
     <div class="col s12 valign-wrapper welcome-btn">
-        <a class="waves-effect waves-teal btn-flat">EXPLORE</a>
+        <a class="waves-effect btn-flat">EXPLORE</a>
+    </div>
+</div>
+
+<div class="container">
+    <h4 class="center-align">The Top Rated Locations:</h4>
+    <div class="row">
+        {% for location in locations %}
+        {% if location.country == 'Ireland' %}
+            <div class="col s12 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
+                        <span class="card-title">{{location.name}}</span>
+                    </div>
+                    <div class="card-content center-align light-blue white-text">
+                        <p>{{location.country}} | {{location.break_type}}</p>
+                    </div>
+                    <div class="card-action center-align">
+                        <!-- <a href="#">This is a link</a> -->
+                        <a class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
     </div>
 </div>
 

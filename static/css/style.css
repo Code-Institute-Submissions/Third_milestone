@@ -49,3 +49,11 @@ nav .brand-logo, nav ul a, nav a {
     color: #263238;
     background-color: white;
 }
+
+.btn-flat:hover {
+    transform: scale(1.1);
+}
+
+.page-footer {
+    background-image: url("../assets/footer.jpg");
+}
