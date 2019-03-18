@@ -2,4 +2,20 @@
 
 {% block content %}
 
+{% for category in categories %}
+    {% for element in category.country %}
+    <!-- <h6>{{ category.country }}</h6> -->
+    <h6>{{ element }}</h6>
+
+    {% endfor %}
+
+    {% for type in category.bottom %}
+
+    <!-- <h8>{{ category.bottom }}</h8> -->
+    <h3>{{ type }}</h3>
+
+    {% endfor %}
+
+{% endfor %}
+
 {% endblock %}

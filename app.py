@@ -17,15 +17,15 @@ def index():
 
 @app.route('/locations')
 def locations():
-    return render_template('locations.html', locations=mongo.db.locations.find())
+    return render_template('locations.html', categories=mongo.db.categories.find(), locations=mongo.db.locations.find())
 
 @app.route('/search')
 def search():
-    return render_template('search.html', locations=mongo.db.locations.find())
+    return render_template('search.html', countries=mongo.db.countries.find(), break_types=mongo.db.break_types.find(), wave_directions=mongo.db.wave_directions.find(), bottom=mongo.db.bottom.find(), facilities=mongo.db.facilities.find(), hazards=mongo.db.hazards.find())
 
 @app.route('/add_spot')
 def add_spot():
-    return render_template('addSpot.html', locations=mongo.db.locations.find())
+    return render_template('addSpot.html', categories=mongo.db.categories.find(), locations=mongo.db.locations.find())
 
 @app.route('/about')
 def about():
