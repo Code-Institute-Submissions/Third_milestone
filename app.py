@@ -11,21 +11,45 @@ app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 
 mongo = PyMongo(app)
 
+
+def get_locations():
+    locations = mongo.db.locations.find()
+    return locations
+
+def get_facilities():
+    facilities = mongo.db.categories.find( { 'facilities': { '$eq': ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental"] } } )
+    return facilities
+
+def get_location_name():
+    location_name = mongo.db.locations.find( { 'name': { '$ne': 'null' }} )
+    return location_name
+
+
 @app.route('/')
 def index():
-    return render_template('index.html', categories=mongo.db.categories.find(), locations=mongo.db.locations.find())
+    locations = get_locations()
+    facilities = get_facilities()
+    location_name = get_location_name()
+    return render_template('index.html', locations=locations, facilities=facilities, location_name=location_name)
 
 @app.route('/locations')
 def locations():
-    return render_template('locations.html', categories=mongo.db.categories.find(), locations=mongo.db.locations.find())
+    return render_template('locations.html', locations=mongo.db.locations.find())
 
 @app.route('/search')
 def search():
-    return render_template('search.html', countries=mongo.db.countries.find(), break_types=mongo.db.break_types.find(), wave_directions=mongo.db.wave_directions.find(), bottom=mongo.db.bottom.find(), facilities=mongo.db.facilities.find(), hazards=mongo.db.hazards.find())
+    categories = mongo.db.categories
+    countries = categories.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
+    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
+    return render_template('search.html', countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards)
 
 @app.route('/add_spot')
 def add_spot():
-    return render_template('addSpot.html', categories=mongo.db.categories.find(), locations=mongo.db.locations.find())
+    return render_template('addSpot.html', locations=mongo.db.locations.find())
 
 @app.route('/about')
 def about():

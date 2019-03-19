@@ -18,6 +18,10 @@ nav .brand-logo, nav ul a, nav a {
 
 /* index.html style changes */
 
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+    margin-right: 0;
+}
+
 .hero-img {
     height: 500px;
     width: 100%;
@@ -69,8 +73,8 @@ label {
 }
 
 .space {
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 #advanced_btn {

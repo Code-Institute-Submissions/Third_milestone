@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container space">
     <div class="row">
 
         <div class="input-field col s12">
             <i class="material-icons prefix">search</i>
-            <input type="text" id="autocomplete-input" class="autocomplete">
-            <label for="autocomplete-input">Surfing Location Name</label>
+            <input placeholder="Surfing Location Name" id="search" type="search" class="validate">
+            <label for="search">Search</label>
         </div>
 
         <a id="advanced_btn">Advanced search</a>
@@ -18,7 +18,9 @@
                 <select id="category" name="countries">
                     <option value="" disabled selected>Choose your option</option>
                     {% for country in countries %}
-                        <option>{{ country.country }}</option>
+                        {% for element in country.country %}
+                            <option>{{ element }}</option>
+                        {% endfor %} 
                     {% endfor %}    
                 </select>
                 <label>Country Name</label>
@@ -27,9 +29,11 @@
             <div class="input-field col s12">
                 <select id="category" name="break_types">
                     <option value="" disabled selected>Choose your option</option>
-                    {% for break_type in break_types %}
-                        <option>{{ break_type.break_type }}</option>
-                    {% endfor %}    
+                    {% for break in break_types %}
+                        {% for element in break.break_type %}
+                            <option>{{ element }}</option>
+                        {% endfor %} 
+                    {% endfor %}  
                 </select>
                 <label>Break Type</label>
             </div>
@@ -37,8 +41,10 @@
             <div class="input-field col s12">
                 <select id="category" name="wave_directions">
                     <option value="" disabled selected>Choose your option</option>
-                    {% for wave_direction in wave_directions %}
-                        <option>{{ wave_direction.wave_direction }}</option>
+                    {% for wave in wave_directions %}
+                        {% for element in wave.wave_direction %}
+                            <option>{{ element }}</option>
+                        {% endfor %} 
                     {% endfor %} 
                 </select>
                 <label>Wave Direction</label>
@@ -47,8 +53,10 @@
             <div class="input-field col s12">
                 <select id="category" name="bottom">
                     <option value="" disabled selected>Choose your option</option>
-                    {% for bottom_type in bottom %}
-                        <option>{{ bottom_type.bottom }}</option>
+                    {% for surface in bottom %}
+                        {% for element in surface.bottom %}
+                            <option>{{ element }}</option>
+                        {% endfor %} 
                     {% endfor %} 
                 </select>
                 <label>Bottom</label>
@@ -58,26 +66,30 @@
                 <p class="grey-text">Please select below the Facilities you wish to include in the search:</p>
                 <form action="#">
                     {% for facility in facilities %}
-                        <div class="col s12 m6 l4">
-                            <label>
-                                <input type="checkbox" class="filled-in"/>
-                                <span>{{ facility.facilities }}</span>
-                            </label>
-                        </div>
+                        {% for element in facility.facilities %}
+                            <div class="col s12 m6 l4">
+                                <label>
+                                    <input type="checkbox" class="filled-in"/>
+                                    <span>{{ element }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
                 </form>
             </div>
-
+            
             <div class="col s12">
                 <p class="grey-text">Please select below the Hazards you wish to exclude from the search:</p>
                 <form action="#">
                     {% for hazard in hazards %}
-                        <div class="col s12 m6 l4">
-                            <label>
-                                <input type="checkbox" class="filled-in"/>
-                                <span>{{ hazard.hazards }}</span>
-                            </label>
-                        </div>
+                        {% for element in hazard.hazards %}
+                            <div class="col s12 m6 l4">
+                                <label>
+                                    <input type="checkbox" class="filled-in"/>
+                                    <span>{{ element }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
                 </form>
             </div>
