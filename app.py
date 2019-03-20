@@ -1,4 +1,4 @@
-import os
+import os, random
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -35,11 +35,11 @@ def users_loged():
 
 @app.route('/')
 def index():
-    
     locations = get_locations()
     facilities = get_facilities()
     user = users_loged()
-    return render_template('index.html', locations=locations, facilities=facilities, user=user, location_name=get_locations_name())
+    random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
+    return render_template('index.html', locations=locations, facilities=facilities, user=user, random=random, location_name=get_locations_name())
 
 @app.route('/locations')
 def locations():
@@ -71,10 +71,8 @@ def about():
 
 @app.route('/user')
 def user():
-    if 'username' in session:
-        return 'You are logged in as ' + session['username']
-
-    return render_template('user.html')
+    user = users_loged()
+    return render_template('user.html', user=user)
 
 @app.route('/login', methods=['POST'])
 def login():
