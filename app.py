@@ -45,6 +45,11 @@ def index():
 def locations():
     return render_template('locations.html', locations=mongo.db.locations.find())
 
+@app.route('/spot/<location_id>')
+def spot(location_id):
+    location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
+    return render_template('spot.html', location=location)
+
 @app.route('/search')
 def search():
     categories = mongo.db.categories
