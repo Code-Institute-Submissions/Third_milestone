@@ -48,7 +48,8 @@ def locations():
 @app.route('/spot/<location_id>')
 def spot(location_id):
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
-    return render_template('spot.html', location=location)
+    random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
+    return render_template('spot.html', location=location, random=random)
 
 @app.route('/search')
 def search():
