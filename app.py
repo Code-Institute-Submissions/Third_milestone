@@ -27,32 +27,35 @@ def get_locations_name():
     location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
     return location_name
 
-def users_loged():
+def user_in_session():
     if 'username' in session:
         return session['username']
     else:
-        return ''
+        return 'Log In'
 
 @app.route('/')
 def index():
     locations = get_locations()
     facilities = get_facilities()
-    user = users_loged()
+    user = user_in_session()
     random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
     return render_template('index.html', locations=locations, facilities=facilities, user=user, random=random, location_name=get_locations_name())
 
 @app.route('/locations')
 def locations():
-    return render_template('locations.html', locations=mongo.db.locations.find())
+    user = user_in_session()
+    return render_template('locations.html',user=user, locations=mongo.db.locations.find())
 
 @app.route('/spot/<location_id>')
 def spot(location_id):
+    user = user_in_session()
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
     random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
-    return render_template('spot.html', location=location, random=random)
+    return render_template('spot.html', user=user, location=location, random=random)
 
 @app.route('/search')
 def search():
+    user = user_in_session()
     categories = mongo.db.categories
     countries = categories.find( { 'country': {'$ne': 'null'} } )
     break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
@@ -65,20 +68,27 @@ def search():
 
     if request.method == 'POST':
         print(request.form)
-    return render_template('search.html', countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=get_locations_name())
+    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=get_locations_name())
 
 @app.route('/add_spot')
 def add_spot():
-    return render_template('addSpot.html', locations=mongo.db.locations.find())
+    user = user_in_session()
+    return render_template('addSpot.html', user=user, locations=mongo.db.locations.find())
 
 @app.route('/about')
 def about():
-    return render_template('about.html', locations=mongo.db.locations.find())
+    user = user_in_session()
+    return render_template('about.html', user=user, locations=mongo.db.locations.find())
 
 @app.route('/user')
 def user():
-    user = users_loged()
+    user = user_in_session()
     return render_template('user.html', user=user)
+
+@app.route('/user_logged')
+def user_logged():
+    user = user_in_session()
+    return render_template('user_logged.html', user=user)
 
 @app.route('/login', methods=['POST'])
 def login():

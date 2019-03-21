@@ -16,7 +16,7 @@
 
     <nav class="transparent">
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">SurfingEurope</a>
+            <a href="{{ url_for('index') }}" class="brand-logo">SurfingEurope</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -24,8 +24,12 @@
             <li><a href="{{ url_for('search') }}">Search</a></li>
             <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
-            <li><a href="{{ url_for('user') }}">Log In</a></li>
+            {% if user == 'Log In' %}
+            <li><a href="{{ url_for('user') }}">{{ user }}</a></li>
+            {% else %}
+            <li><a href="{{ url_for('user_logged') }}">{{ user }}</a></li>
             </ul>
+            {% endif %}
         </div>
     </nav>
 
