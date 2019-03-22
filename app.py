@@ -1,5 +1,5 @@
 import os, random
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, Response
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from bson.json_util import dumps
@@ -89,6 +89,11 @@ def user():
 def user_logged():
     user = user_in_session()
     return render_template('user_logged.html', user=user)
+
+@app.route('/user_logout')
+def user_logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route('/login', methods=['POST'])
 def login():
