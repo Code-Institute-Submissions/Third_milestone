@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h5>Please find below all available surfing locations in Europe.</h5>
+            <h6>Use the filter to sort locations by Name or Country:</h6>
+        </div>
+        <div class="col s12 m6 center-align">
+            <a href="{{ url_for('locationsbyname') }}" class="waves-effect btn-flat">Sort by Name</a>
+        </div>
+        <div class="col s12 m6 center-align">
+            <a href="{{ url_for('locationsbycountry') }}" class="waves-effect btn-flat">Sort by Country</a>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         {% for location in locations %}
@@ -23,17 +39,4 @@
     </div>
 </div>
 
-    <!-- <p>
-    {% for category in categories %}
-            {{category.country}}<br>
-            {{category.break_type}}<br>
-            {{category.wave_direction}}<br>
-            {{category.wind_direction}}<br>
-            {{category.swell_direction}}<br>
-            {{category.bottom}}<br>
-            {{category.facilities}}<br>
-            {{category.surroundings}}<br>
-            {{category.hazards}}<br>
-        {% endfor %}
-    </p> -->
 {% endblock %}

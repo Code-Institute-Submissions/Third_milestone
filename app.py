@@ -13,6 +13,9 @@ app.secret_key = 'super secret key'
 
 mongo = PyMongo(app)
 
+'''
+HELPER FUNCTIONS
+'''
 
 def get_locations():
     locations = mongo.db.locations.find()
@@ -33,6 +36,11 @@ def user_in_session():
     else:
         return 'Log In'
 
+
+'''
+INDEX
+'''
+
 @app.route('/')
 def index():
     locations = get_locations()
@@ -41,10 +49,33 @@ def index():
     random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
     return render_template('index.html', locations=locations, facilities=facilities, user=user, random=random, location_name=get_locations_name())
 
-@app.route('/locations')
+'''
+ALL LOCATIONS
+'''
+
+@app.route('/locations', methods=['GET', 'POST'])
 def locations():
+    # locations = get_locations()
+    loc_by_name = mongo.db.locations.find().sort( [( 'name', 1 )] )
     user = user_in_session()
-    return render_template('locations.html',user=user, locations=mongo.db.locations.find())
+    
+    return render_template('locations.html',user=user, locations=loc_by_name)
+
+@app.route('/locationsbyname')
+def locationsbyname():
+    loc_by_name = mongo.db.locations.find().sort( [( 'name', 1 )] )
+    user = user_in_session()
+    return render_template('locations.html',user=user, locations=loc_by_name)
+
+@app.route('/locationsbycountry')
+def locationsbycountry():
+    loc_by_country = mongo.db.locations.find().sort( [( 'country', 1 ), ( 'name', 1 ) ] )
+    user = user_in_session()
+    return render_template('locations.html',user=user, locations=loc_by_country)
+
+'''
+SELECTED LOCATION
+'''
 
 @app.route('/spot/<location_id>')
 def spot(location_id):
@@ -52,6 +83,10 @@ def spot(location_id):
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
     random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
     return render_template('spot.html', user=user, location=location, random=random)
+
+'''
+SEARCH
+'''
 
 @app.route('/search')
 def search():
@@ -70,15 +105,27 @@ def search():
         print(request.form)
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=get_locations_name())
 
+'''
+ADD LOCATION
+'''
+
 @app.route('/add_spot')
 def add_spot():
     user = user_in_session()
     return render_template('addSpot.html', user=user, locations=mongo.db.locations.find())
 
+'''
+ABOUT
+'''
+
 @app.route('/about')
 def about():
     user = user_in_session()
     return render_template('about.html', user=user, locations=mongo.db.locations.find())
+
+'''
+LOG IN | LOG OUT and USER PAGE
+'''
 
 @app.route('/user')
 def user():
@@ -102,7 +149,7 @@ def login():
 
     if login_user:
         session['username'] = request.form['username']
-        return redirect(url_for('index'))
+        return redirect(url_for('user_logged'))
 
     return 'Invalid username'
 
@@ -113,13 +160,14 @@ def register():
         existing_user = users.find_one({'name' : request.form['username']})
 
         if existing_user is None:
-            users.insert({'name' : request.form['username']})
+            users.insert({'name' : { '$toLower': request.form['username'] }})
             session['username'] = request.form['username']
             return redirect(url_for('index'))
         
         return 'That username already exists!'
 
     return render_template('register.html')
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

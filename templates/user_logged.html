@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <h5>Aloha {{ user }}</h5>
+            <h5>Aloha {{ user | capitalize }}</h5>
             <p>Find below all your comments and locations that you either edited or created</p>
 
             <h6>Done for today? <a href="{{ url_for('user_logout') }}">Log out here</a>.</h6>

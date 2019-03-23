@@ -25,9 +25,9 @@
                 <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
                 {% if user == 'Log In' %}
-                <li><a href="{{ url_for('user') }}">{{ user }}</a></li>
+                <li><a href="{{ url_for('user') }}">{{ user | capitalize }}</a></li>
                 {% else %}
-                <li><a href="{{ url_for('user_logged') }}">{{ user }}</a></li>
+                <li><a href="{{ url_for('user_logged') }}">{{ user | capitalize }}</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -40,9 +40,9 @@
         <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
         <li><a href="{{ url_for('about') }}">About</a></li>
         {% if user == 'Log In' %}
-        <li><a href="{{ url_for('user') }}">{{ user }}</a></li>
+        <li><a href="{{ url_for('user') }}">{{ user | capitalize }}</a></li>
         {% else %}
-        <li><a href="{{ url_for('user_logged') }}">{{ user }}</a></li>
+        <li><a href="{{ url_for('user_logged') }}">{{ user | capitalize }}</a></li>
         {% endif %}
     </ul>
 
