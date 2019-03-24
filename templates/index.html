@@ -35,7 +35,7 @@
                         <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
-                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
+                        <a href="{{ url_for('spot', location_id=location.old_id[0]) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                         <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
-                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
+                        <a href="{{ url_for('spot', location_id=location.old_id[0]) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
                     </div>
                 </div>
             </div>

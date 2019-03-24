@@ -55,7 +55,8 @@ def index():
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
                 'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'}
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
             }
         },
         { 
@@ -65,7 +66,7 @@ def index():
             '$limit': 3
         }
     ])
-
+    # print(list(locations))
     '''
     Ranodm selection will display 3 random location including the top rated from above
     '''
@@ -77,7 +78,8 @@ def index():
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
                 'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'}
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
             }
         },
         { 
@@ -106,7 +108,8 @@ def locations():
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
                 'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'}
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
             }
         },
         { 
@@ -127,7 +130,8 @@ def locations_by_country():
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
                 'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'}
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
             }
         },
         { 
@@ -146,7 +150,8 @@ def locations_by_rating():
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
                 'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'}
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
             }
         },
         { 
