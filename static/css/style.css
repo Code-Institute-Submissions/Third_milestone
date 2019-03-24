@@ -90,6 +90,18 @@ label {
 /* star button */
 
 .btn-floating, .btn-floating:hover, .btn-floating:active, .btn-floating:visited, .btn-floating:focus {
+    width: 50px;
     box-shadow: none;
     cursor: default;
+    color: blue;
+}
+
+.btn-floating i {
+    font-size: 3rem;
+    margin: 0 auto;
+}
+
+.rating-floating {
+    font-size: 1.2rem;
+    margin: 0 auto;
 }

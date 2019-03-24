@@ -14,44 +14,56 @@
 
 <div class="container">
 
+<!-- Top Rated Locations -->
+
     <h4 class="center-align">Aloha! Check the top rated locations:</h4>
     <div class="row">
-        {% for location in locations | sort(attribute='name') %}
-        {% if loop.index <= 3 %}
+        {% for location in locations %}
             <div class="col s12 l4">
                 <div class="card">
                     <div class="card-image">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{location.name}}</span>
+                        <span class="card-title">{{ location._id }}</span>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <i class="material-icons">star</i>                            
+                        </div>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <p class="rating-floating">{{ location.average_rating | round|int }}</p>
+                        </div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
-                        <p>{{location.country}} | {{location.break_type}}</p>
+                        <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
-                        <!-- <a href="#">This is a link</a> -->
-                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect btn-flat light-blue-text">Explore</a>
+                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
                     </div>
                 </div>
             </div>
-        {% endif %}
         {% endfor %}
     </div>
 
+<!-- Randomly Selected Locations -->
+
     <h4 class="center-align">Check some other locations on our list:</h4>
     <div class="row">
-        {% for location in random %}
+        {% for location in locations_random %}
             <div class="col s12 l4">
                 <div class="card">
                     <div class="card-image">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{location.name}}</span>
+                        <span class="card-title">{{ location._id }}</span>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <i class="material-icons">star</i>                            
+                        </div>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <p class="rating-floating">{{ location.average_rating | round|int }}</p>
+                        </div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
-                        <p>{{location.country}} | {{location.break_type}}</p>
+                        <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
-                        <!-- <a href="#">This is a link</a> -->
-                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect btn-flat light-blue-text">Explore</a>
+                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
                     </div>
                 </div>
             </div>

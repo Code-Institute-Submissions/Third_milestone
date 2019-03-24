@@ -43,14 +43,57 @@ INDEX
 
 @app.route('/')
 def index():
-    locations = get_locations()
+
+    '''
+    locations will show 3 top rated location
+    '''
+
+    locations = mongo.db.locations.aggregate([
+        { '$unwind': '$ratings' },
+        {
+            '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'}
+            }
+        },
+        { 
+            '$sort': { 'average_rating': -1, '_id': 1 }
+        },
+        { 
+            '$limit': 3
+        }
+    ])
+
+    '''
+    Ranodm selection will display 3 random location including the top rated from above
+    '''
+
+    locations_random = mongo.db.locations.aggregate([
+        { '$unwind': '$ratings' },
+        {
+            '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'}
+            }
+        },
+        { 
+            '$sample': { 'size': 3 }
+        },
+        {
+            '$limit': 3
+        }
+    ])
     facilities = get_facilities()
     user = user_in_session()
-    random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
-    return render_template('index.html', locations=locations, facilities=facilities, user=user, random=random, location_name=get_locations_name())
+    # random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
+    return render_template('index.html', locations=locations, facilities=facilities, user=user, locations_random=locations_random)
 
 '''
-ALL LOCATIONS
+ALL LOCATIONS WITH SORT FILTER
 '''
 
 @app.route('/locations', methods=['GET', 'POST'])
