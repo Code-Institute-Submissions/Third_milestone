@@ -168,8 +168,45 @@ SELECTED LOCATION
 def spot(location_id):
     user = user_in_session()
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
-    random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
-    return render_template('spot.html', user=user, location=location, random=random)
+    locations_random = mongo.db.locations.aggregate([
+        { '$unwind': '$ratings' },
+        {
+            '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
+            }
+        },
+        { 
+            '$sample': { 'size': 3 }
+        },
+        {
+            '$limit': 3
+        }
+    ])
+    return render_template('spot.html', user=user, location=location, locations_random=locations_random)
+
+'''
+RATING
+'''
+
+# @app.route('/spot/<location_id>/rating')
+# def spot(location_id):
+#     user = user_in_session()
+#     if request.method == 'POST':
+#         users = mongo.db.users
+#         existing_user = users.find_one({'name' : request.form['username']})
+
+#         if existing_user is None:
+#             users.insert({'name' : { '$toLower': request.form['username'] }})
+#             session['username'] = request.form['username']
+#             return redirect(url_for('index'))
+        
+#         return 'That username already exists!'
+
+#     return render_template('register.html')
 
 '''
 SEARCH

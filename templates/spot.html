@@ -4,52 +4,126 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <h4>{{ location.name }}</h4>
-            <h5>{{ location.country }} | {{ location.region }}</h5>
-            <h6>Details:</h6>
-            <ul>
-                <li>Break Type: {{ location.break_type }}</li>
-                <li>Wave Direction: {{ location.wave_direction }}</li>
-                <li>Wind Direction: {{ location.wind_direction }}</li>
-                <li>Swell Direction: {{ location.swell_direction }}</li>
-                <li>Surroundings: {{ location.surroundings }}</li>
-                <li>
-                    <ul>Facilities:
-                        {% for value in location.facilities %}
-                        <li>- {{ value }}</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <li>
-                    <ul>Hazards:
-                        {% for value in location.hazards %}
-                        <li>- {{ value }}</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            </ul>
+            <div class="col s12 m6">
+                <h4>{{ location.name }}</h4>
+                <h5>{{ location.country }} | {{ location.region }}</h5>
+                <h6>Details:</h6>
+                <ul>
+                    <li>Break Type: {{ location.break_type }}</li>
+                    <li>Wave Direction: {{ location.wave_direction }}</li>
+                    <li>Wind Direction: {{ location.wind_direction }}</li>
+                    <li>Swell Direction: {{ location.swell_direction }}</li>
+                    <li>Surroundings: {{ location.surroundings }}</li>
+                </ul>
+            </div>
+
+            <div class="col s12 m6">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
+            </div>
+        </div>
+
+        <div class="col s12">
+            <div class="col s12 m6">
+                <ul>
+                    <li>
+                        <ul>Facilities:
+                            {% for value in location.facilities %}
+                            <li>- {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 m6">
+                <ul>
+                    <li>
+                        <ul>Hazards:
+                            {% for value in location.hazards %}
+                            <li>- {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col s12">
             <h6>Description:</h6>
             <p>{{ location.description }}</p>
+            <h6>Rating:</h6>
+            {% for rate in location.ratings %}
+            <p>{{ rate.rate }}</p>
+            {% endfor %}
+            <h6>Comments:</h6>
+            <p>user_name</p>
+            <p>Comment</p>
         </div>
-        <div class="col s12">
+ 
+    </div>
+</div>
+
+<div class="container">
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header">
+                    <i class="material-icons right">thumb_up</i>Rate {{ location.name }}
+                </div>
+                <div class="collapsible-body">
+                    <form action="#">
+                        <p class="range-field">
+                            <input type="range" id="test5" min="1" max="5" />
+                        </p>
+                    </form>
+                    <div class="col s12 m4 center-align">
+                        <a href="{{ url_for('spot', location_id=location._id),  }}" class="waves-effect btn-flat" id="explore">SUBMIT</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons right">add_comment</i>Comment on {{ location.name }}</div>
+                <div class="collapsible-body">
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                            <div class="input-field col s12">
+                                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                <label for="textarea1">Comment</label>
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col s12 m4 center-align">
+                        <a href="{{ url_for('locations') }}" class="waves-effect btn-flat" id="explore">SUBMIT</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="col s12 m4 center-align">
             <a href="{{ url_for('locations') }}" class="waves-effect btn-flat" id="explore">EXPLORE ALL</a>
         </div>
-    </div>
-    <h4 class="center-align">Check some similar locations on our list:</h4>
+</div>
+
+<div class="container">
+    <h4 class="center-align">Check some other locations on our list:</h4>
     <div class="row">
-        {% for location in random %}
+        {% for location in locations_random %}
             <div class="col s12 l4">
                 <div class="card">
                     <div class="card-image">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{location.name}}</span>
+                        <span class="card-title">{{ location._id }}</span>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <i class="material-icons">star</i>                            
+                        </div>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <p class="rating-floating">{{ location.average_rating | round|int }}</p>
+                        </div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
-                        <p>{{location.country}} | {{location.break_type}}</p>
+                        <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
-                        <!-- <a href="#">This is a link</a> -->
-                        <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect btn-flat light-blue-text">Explore</a>
+                        <a href="{{ url_for('spot', location_id=location.old_id[0]) }}" class="waves-effect waves-teal btn-flat light-blue-text">Explore</a>
                     </div>
                 </div>
             </div>
