@@ -11,6 +11,20 @@
     "facilities": ["parking", "accommodation", "bar", "food", "toilets", "showers", "school & rental"],
     "surroundings": "town",
     "hazards": ["rocks", "no life guards"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 4
+        },
+        {
+            "user_name": "daniel",
+            "rate": 4
+        },
+        {
+            "user_name": "ewa",
+            "rate": 5
+        }
+    ],
     "description": "Beach break suitable for beginners and intermediates. South West swell with easterly wind best. As famous for its place in Irish surf history as it is for its waves. Hit the Surfers Bar or Smugglers to meet some Irish legends. Lessons and hire available."
 },
 {
@@ -25,6 +39,20 @@
     "facilities": ["parking", "accommodation", "bar", "food", "toilets", "showers", "school & rental"],
     "surroundings": "village",
     "hazards": ["strong currents", "no life guards"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 4
+        },
+        {
+            "user_name": "daniel",
+            "rate": 5
+        },
+        {
+            "user_name": "ewa",
+            "rate": 5
+        }
+    ],
     "description": "The beach has good shape and is always busy; locals surf in front of the surf shop, beginners go for the gentler peaks to the north. Care is needed around high tide as the beach is covered. Lahinch is a great little surf town with something for riders of all abilities."
 },
 {
@@ -39,6 +67,20 @@
     "facilities": ["parking", "accommodation", "bar", "food"],
     "surroundings": "village",
     "hazards": ["strong currents", "no life guards", "rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 3
+        },
+        {
+            "user_name": "daniel",
+            "rate": 3
+        },
+        {
+            "user_name": "ewa",
+            "rate": 2
+        }
+    ],
     "description": "Popular beachbreak with a variety of options. Split peaks in the middle of the beach that can get hollow; Bluerock - a long righthand boulder point at the north end and a rivermouth sandbar at the south."
 },
 {   
@@ -53,6 +95,16 @@
     "facilities": ["parking", "accommodation", "bar", "food", "toilets", "showers", "school & rental"],
     "surroundings": "town",
     "hazards": ["strong currents", "rocks", "localism"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 4
+        },
+        {
+            "user_name": "daniel",
+            "rate": 4
+        }
+    ],
     "description": "Nice white beach, very good waves, unfortunaly Hendaye knows the word tide, during low the waves aren't very good, but once there is a high tide it rocks!!. Unfortunaly you have to deal with a lot of rocks and a lot of beginner groups which make surfing difficult when you have to fight with 10 to 20 beginners for a wave. You can use both short and longboards. This is the answer when everything else is closing-out. A long stretch of average beachbreaks offers a wide choice of peaks; usually better close to the casino or the south jetty."
 },
 {   
@@ -64,9 +116,15 @@
     "wind_direction": "north-east",
     "swell_direction": "south-west",
     "bottom": "sand",
-    "facilities": null,
+    "facilities": ["none"],
     "surroundings": "remote",
     "hazards": ["strong currents", "no life guards"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "This is a popular stretch of coast and it gets busy when the swell is there although if you are prepared to have a bit of a walk you can usually find a spot with minimal crowds."
 },
 {   
@@ -81,6 +139,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "toilets", "showers", "school & rental"],
     "surroundings": "town",
     "hazards": ["localism"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "One of the high quality beach break waves found in the Hossegor area. The wave is a consistent, hollow and powerful wave that breaks and right. The exposed coast here opens the swell window up to North West, West and South West swells. The beach here can hold good size."
 },
 {   
@@ -95,6 +159,12 @@
     "facilities": ["parking"],
     "surroundings": "remote",
     "hazards": ["strong currents", "no life guards", "rocks", "localism", "urchins"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "An amazing powerful right hander, one of the best waves in the region. The wave peels down the point relentlessly and is a real classic in the right conditions. Exposed reef break that has fairly consistent surf and can work at any time of the year."
 },
 {   
@@ -109,6 +179,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "school & rental"],
     "surroundings": "village",
     "hazards": ["no life guards", "rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Quality right-hand pointbreak that holds a decent swell. It produces really long workable walls, with several surf spots along the coast."
 },
 {   
@@ -122,7 +198,13 @@
     "bottom": "sand",
     "facilities": ["parking", "bar", "food", "toilets", "school & rental"],
     "surroundings": "remote",
-    "hazards": null,
+    "hazards": ["none"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Large beach and very nice to surf for beginners and pros."
 },
 {   
@@ -137,6 +219,12 @@
     "facilities": ["parking", "bar", "food", "toilets", "school & rental"],
     "surroundings": "town",
     "hazards": ["rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "One of the better spots in the area with decent waves giving some power and good shape on E swells."
 },
 {   
@@ -151,6 +239,12 @@
     "facilities": ["parking", "food", "school & rental"],
     "surroundings": "village",
     "hazards": ["strong currents", "no life guards", "rocks", "localism"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "The most popular surf spot in Galicia, home to an annual pro contest. Ultra consistent, Pantin hoovers up W-NW swell and can hold quite a bit of size. Both left and right peaks can line up and spitting barrels are common. Better low to mid but surfable on all tides. Strong rips with paddling channel at northern end."
 },
 {   
@@ -165,6 +259,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "school & rental", "showers", "toilets"],
     "surroundings": "city",
     "hazards": ["strong currents", "pollution", "localism"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Very consistent, good quality, beachbreak. Doesn’t need much swell to work. A long beach with several peaks, mostly performance orientated. Highly competitive in the water with a very high level of surfing."
 },
 {   
@@ -179,6 +279,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "school & rental", "showers", "toilets"],
     "surroundings": "town",
     "hazards": ["pollution"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 4
+        }
+    ],
     "description": "Spot produces good quality beachbreaks for surfers of all standards. Works on all tides and best on a northerly swell. Offshore from the south."
 },
 {   
@@ -193,6 +299,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "school & rental", "showers", "toilets"],
     "surroundings": "town",
     "hazards": ["rocks", "strong currents", "no life guards", "localism"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Scotland’s premier righthand reefbreak and a world-class barrel on its day. In NW swells at mid tide a relatively simple drop leads into one of the longest, hollowest rides in Europe. "
 },
 {   
@@ -207,6 +319,12 @@
     "facilities": ["parking"],
     "surroundings": "remote",
     "hazards": ["no life guards"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Decent beachbreak peaks with some reef potential. Rippy and rocky. Park at Southerndown village and walk to Dunraven Bay."
 },
 {   
@@ -221,6 +339,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "school & rental", "showers", "toilets"],
     "surroundings": "town",
     "hazards": ["strong currents"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Perranporth beach is a brillaint surfing beach when the waves are right. The waves are constant on a good day because of a rip tide. However the same rip tide can get annoying, you will find you are spending most your time walking back into the surfing flaged area."
 },
 {   
@@ -235,6 +359,12 @@
     "facilities": ["parking", "accommodation", "bar", "food", "school & rental", "showers", "toilets"],
     "surroundings": "town",
     "hazards": ["strong currents", "pollution"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Great beginners waves also really good longboarding or paddle boarding wave"
 },
 {   
@@ -249,6 +379,12 @@
     "facilities": ["parking", "accommodation", "food", "school & rental"],
     "surroundings": "village",
     "hazards": ["strong currents", "rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Beachbreak that suffers a bit of swell shadow compared to the two pointbreaks that flank it. Breaks over sand and some scattered boulders but is fine for beginners and the local surf school."
 },
 {   
@@ -263,6 +399,12 @@
     "facilities": ["parking"],
     "surroundings": "remote",
     "hazards": ["strong currents"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Works on W-NW swells and offers a bit of N wind protection. Classic days can hold up nicely and be more hollow than Bore, if the swell is lining up. Unfortunately this is rare and Bore is always bigger."
 },
 {   
@@ -276,7 +418,13 @@
     "bottom": "sand",
     "facilities": ["parking", "accommodation", "food", "school & rental", "showers", "toilets"],
     "surroundings": "village",
-    "hazards": null,
+    "hazards": ["none"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Premier spot closest to Amsterdam. Left and right walls in a NW swell and weaker disorganised corners in SW conditions, when the huge harbour jetty provides some wind protection."
 },
 {   
@@ -291,6 +439,12 @@
     "facilities": ["parking", "accommodation", "food", "school & rental", "showers", "toilets", "bar"],
     "surroundings": "town",
     "hazards": ["pollution"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Premier spot closest to Amsterdam. Left and right walls in a NW swell and weaker disorganised corners in SW conditions, when the huge harbour jetty provides some wind protection."
 },
 {   
@@ -305,6 +459,12 @@
     "facilities": ["parking"],
     "surroundings": "remote",
     "hazards": ["strong currents", "no life guards"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Not so popular but can also produce good fun waves.Don`t forget your longboard for the small days."
 },
 {   
@@ -313,12 +473,18 @@
     "region": "Munich",
     "break_type": "river wave",
     "wave_direction": "right & left",
-    "wind_direction": null,
-    "swell_direction": null,
+    "wind_direction": ["none"],
+    "swell_direction": ["none"],
     "bottom": "sand",
     "facilities": ["parking", "accommodation", "food", "bar"],
     "surroundings": "city",
     "hazards": ["strong currents", "no life guards","pollution","rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "The Eisbach was once the heart of the most surreptitious underground surfing scene in Europe, but now, it’s the centre of the most famous city river surfing site on the entire globe."
 },
 {   
@@ -333,17 +499,17 @@
     "facilities": ["parking", "accommodation", "food", "school & rental", "showers", "toilets", "bar"],
     "surroundings": "village",
     "hazards": ["strong currents", "no life guards"],
-    "star_rating": [
+    "ratings": [
         {
-            "name": "admin",
+            "user_name": "admin",
             "rate": 4
         },
         {
-            "name": "daniel",
+            "user_name": "daniel",
             "rate": 3
         },
         {
-            "name": "ewa",
+            "user_name": "ewa",
             "rate": 5
         }
     ],
@@ -361,6 +527,12 @@
     "facilities": ["parking"],
     "surroundings": "remote",
     "hazards": ["strong currents", "no life guards","rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "200m long right , needs a strong S-SW onshore wind to work. Harbour breakwall provides some wind protection and easy access. Breaks over a rock ledge, with enough power to get going on a shorter board."
 },
 {   
@@ -375,6 +547,12 @@
     "facilities": ["parking"],
     "surroundings": "remote",
     "hazards": ["no life guards"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Average beach break that can handle some west wind."
 },
 {   
@@ -389,6 +567,12 @@
     "facilities": ["parking", "accommodation", "food", "showers", "toilets", "bar"],
     "surroundings": "village",
     "hazards": ["no life guards", "rocks"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "North of Capo Spartivento the coast is very exposed to S swells and remains surfable when other spots are flat. Left point with possible barrel sections on small SE swells, provided it’s windless or offshore."
 },
 {   
@@ -403,6 +587,12 @@
     "facilities": ["parking", "accommodation", "food", "showers", "toilets", "bar","school & rental"],
     "surroundings": "town",
     "hazards": ["localism", "rocks", "pollution"],
+    "ratings": [
+        {
+            "user_name": "admin",
+            "rate": 0
+        }
+    ],
     "description": "Varazze is one of the better waves on the Italian Coastline. It does get busy there, whether the waves are good or not."
 }
 ]

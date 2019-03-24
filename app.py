@@ -55,51 +55,62 @@ ALL LOCATIONS
 
 @app.route('/locations', methods=['GET', 'POST'])
 def locations():
-    # locations = get_locations()
-    loc_by_name = mongo.db.locations.find().sort( [( 'name', 1 )] )
     user = user_in_session()
-    # user_id - mongo.db.users.find_one({'_id': ObjectId(location_id)})
-    # rating_sum = mongo.db.users.aggregate([{
-    #     '$group': {
-    #         '_id': '$loc_name',
-    #         'overall_rating': { '$avg': '$rate' }
-    #     }
-    # }])
-    unwind = mongo.db.users.aggregate([
-        { '$unwind': '$votes' }
+    locations = mongo.db.locations.aggregate([
+        { '$unwind': '$ratings' },
+        {
+            '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'}
+            }
+        },
+        { 
+            '$sort': { '_id': 1 }
+        }
     ])
-    average = mongo.db.users.aggregate([
-        { '$unwind': '$votes' },
-        { '$group': {
-            '_id': '$votes.loc_name',
-            'average_rating': { '$avg': '$votes.rate'}
-        }}
-        # { '$group': {
-        #     '_id': '$_id',
-        #     'Agger': { '$max': { '$cond': [ { '$eq': ['$votes.loc_name', 'Agger'] }, '$votes.rate', 'null' ]}},
-        # }}
-    ])
-    # rating_sum = mongo.db.users.aggregate([{
-    #     '$group': {
-    #         'rated_location': { }
-    #         'overall_rating': { '$avg': '$votes.rate' }
-    #     }
-    # }])
-    print(average)
+    users = mongo.db.users.find()
     
-    return render_template('locations.html',user=user, locations=loc_by_name, unwind=unwind, average=average)
+    return render_template('locations.html',user=user, locations=locations)
 
-@app.route('/locationsbyname')
-def locationsbyname():
-    loc_by_name = mongo.db.locations.find().sort( [( 'name', 1 )] )
+@app.route('/locations_by_country')
+def locations_by_country():
     user = user_in_session()
-    return render_template('locations.html',user=user, locations=loc_by_name)
+    locations = mongo.db.locations.aggregate([
+        { '$unwind': '$ratings' },
+        {
+            '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'}
+            }
+        },
+        { 
+            '$sort': { 'country_name': 1, '_id': 1 }
+        }
+    ])
+    return render_template('locations.html',user=user, locations=locations)
 
-@app.route('/locationsbycountry')
-def locationsbycountry():
-    loc_by_country = mongo.db.locations.find().sort( [( 'country', 1 ), ( 'name', 1 ) ] )
+@app.route('/locations_by_rating')
+def locations_by_rating():
     user = user_in_session()
-    return render_template('locations.html',user=user, locations=loc_by_country)
+    locations = mongo.db.locations.aggregate([
+        { '$unwind': '$ratings' },
+        {
+            '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'}
+            }
+        },
+        { 
+            '$sort': { 'average_rating': -1, '_id': 1 }
+        }
+    ])
+    return render_template('locations.html',user=user, locations=locations)
 
 '''
 SELECTED LOCATION

@@ -10,12 +10,15 @@
             <h5>Please find below all available surfing locations in Europe.</h5>
             <h6>Use the filter to sort locations by Name or Country:</h6>
         </div>
-        <div class="col s12 m6 center-align">
-            <a href="{{ url_for('locationsbyname') }}" class="waves-effect btn-flat">Sort by Name</a>
+        <div class="col s12 m4 center-align">
+            <a href="{{ url_for('locations') }}" class="waves-effect btn-flat">Sort by Name</a>
         </div>
-        <div class="col s12 m6 center-align">
-            <a href="{{ url_for('locationsbycountry') }}" class="waves-effect btn-flat">Sort by Country</a>
+        <div class="col s12 m4 center-align">
+            <a href="{{ url_for('locations_by_country') }}" class="waves-effect btn-flat">Sort by Country</a>
         </div>
+        <div class="col s12 m4 center-align">
+                <a href="{{ url_for('locations_by_rating') }}" class="waves-effect btn-flat">Sort by Rating</a>
+            </div>
         <div class="col s12">
             <h6>Alternatively do the search here</h6>
             <a href="{{ url_for('search') }}" class="waves-effect btn-flat">SEARCH</a>
@@ -23,12 +26,6 @@
     </div>
 </div>
 
-{% for u in unwind %}
-    <p>{{ u }}</p>
-{% endfor %}
-{% for a in average %}
-    <p>{{ a }}</p>
-{% endfor %}
 <!-- Location cards -->
 
 <div class="container">
@@ -38,17 +35,12 @@
                 <div class="card">
                 <div class="card-image">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                    <span class="card-title">{{location.name}}</span>
+                    <span class="card-title">{{location._id}}</span>
                     <a class="btn-floating halfway-fab transparent"><i class="material-icons">star</i></a>
+                    
                 </div>
                 <div class="card-content center-align light-blue white-text">
-                    <p>{{location.country}} | {{location.break_type}}</p>
-                    <!-- {% for x in location.star_rating %}
-                    <p>{{x.name}} - {{x.rate}}</p>
-                    {% endfor %}
-                    {% for rate in rating_sum %}
-                    <p>{{ rate }}</p>
-                    {% endfor %} -->
+                    <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }} | {{ location.average_rating | round }}</p>
                 </div>
                 <div class="card-action center-align">
                     <!-- <a href="#">This is a link</a> -->
