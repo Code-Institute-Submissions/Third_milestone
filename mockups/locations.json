@@ -333,6 +333,20 @@
     "facilities": ["parking", "accommodation", "food", "school & rental", "showers", "toilets", "bar"],
     "surroundings": "village",
     "hazards": ["strong currents", "no life guards"],
+    "star_rating": [
+        {
+            "name": "admin",
+            "rate": 4
+        },
+        {
+            "name": "daniel",
+            "rate": 3
+        },
+        {
+            "name": "ewa",
+            "rate": 5
+        }
+    ],
     "description": "South of the town, endless numbers of jetties stabilise the fragile barrier between the sea and the Nissum fjord. A long jetty at the entrance can cut some wind and current but it needs SW swell and E winds to be good. A long peeling righthander after the third pier inside the fjord works in big nortwest conditions, but the seas have to be at least 4 m. Best for longboards."
 },
 {   

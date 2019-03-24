@@ -86,3 +86,10 @@ label {
 #advanced_form {
     padding-top: 25px;
 }
+
+/* star button */
+
+.btn-floating, .btn-floating:hover, .btn-floating:active, .btn-floating:visited, .btn-floating:focus {
+    box-shadow: none;
+    cursor: default;
+}

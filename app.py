@@ -58,8 +58,36 @@ def locations():
     # locations = get_locations()
     loc_by_name = mongo.db.locations.find().sort( [( 'name', 1 )] )
     user = user_in_session()
+    # user_id - mongo.db.users.find_one({'_id': ObjectId(location_id)})
+    # rating_sum = mongo.db.users.aggregate([{
+    #     '$group': {
+    #         '_id': '$loc_name',
+    #         'overall_rating': { '$avg': '$rate' }
+    #     }
+    # }])
+    unwind = mongo.db.users.aggregate([
+        { '$unwind': '$votes' }
+    ])
+    average = mongo.db.users.aggregate([
+        { '$unwind': '$votes' },
+        { '$group': {
+            '_id': '$votes.loc_name',
+            'average_rating': { '$avg': '$votes.rate'}
+        }}
+        # { '$group': {
+        #     '_id': '$_id',
+        #     'Agger': { '$max': { '$cond': [ { '$eq': ['$votes.loc_name', 'Agger'] }, '$votes.rate', 'null' ]}},
+        # }}
+    ])
+    # rating_sum = mongo.db.users.aggregate([{
+    #     '$group': {
+    #         'rated_location': { }
+    #         'overall_rating': { '$avg': '$votes.rate' }
+    #     }
+    # }])
+    print(average)
     
-    return render_template('locations.html',user=user, locations=loc_by_name)
+    return render_template('locations.html',user=user, locations=loc_by_name, unwind=unwind, average=average)
 
 @app.route('/locationsbyname')
 def locationsbyname():

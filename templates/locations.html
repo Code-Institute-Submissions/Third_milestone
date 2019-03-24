@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<!-- Filter and Search -->
+
 <div class="container">
     <div class="row">
         <div class="col s12">
@@ -14,8 +16,20 @@
         <div class="col s12 m6 center-align">
             <a href="{{ url_for('locationsbycountry') }}" class="waves-effect btn-flat">Sort by Country</a>
         </div>
+        <div class="col s12">
+            <h6>Alternatively do the search here</h6>
+            <a href="{{ url_for('search') }}" class="waves-effect btn-flat">SEARCH</a>
+        </div>
     </div>
 </div>
+
+{% for u in unwind %}
+    <p>{{ u }}</p>
+{% endfor %}
+{% for a in average %}
+    <p>{{ a }}</p>
+{% endfor %}
+<!-- Location cards -->
 
 <div class="container">
     <div class="row">
@@ -25,9 +39,16 @@
                 <div class="card-image">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
                     <span class="card-title">{{location.name}}</span>
+                    <a class="btn-floating halfway-fab transparent"><i class="material-icons">star</i></a>
                 </div>
                 <div class="card-content center-align light-blue white-text">
                     <p>{{location.country}} | {{location.break_type}}</p>
+                    <!-- {% for x in location.star_rating %}
+                    <p>{{x.name}} - {{x.rate}}</p>
+                    {% endfor %}
+                    {% for rate in rating_sum %}
+                    <p>{{ rate }}</p>
+                    {% endfor %} -->
                 </div>
                 <div class="card-action center-align">
                     <!-- <a href="#">This is a link</a> -->

@@ -6,6 +6,7 @@ change the IP to local in MongoDB once lives
 
 Photo by Thierry Meier on Unsplash (hero_main.jpg)
 Photo by Cristian Palmer on Unsplash (footer.jpg)
+[article on conditional aggregation](http://davenewson.com/posts/2013/conditional-aggregation-on-arrays-of-objects-in-mongodb.html)
 
 # Project Scope
 
