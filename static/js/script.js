@@ -8,4 +8,8 @@ $(document).ready(function(){
 
     // Initialization of collapsible accordion element
     $('.collapsible').collapsible();
+
+    // Acivation of dropdown menu element
+    $(".dropdown-trigger").dropdown();
+
   });

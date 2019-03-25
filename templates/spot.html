@@ -52,7 +52,7 @@
             <p>{{ location.description }}</p>
             <h6>Rating:</h6>
             {% for rate in location.ratings %}
-            <p>{{ rate.rate }}</p>
+            <p>{{ rate.rate }} by {{ rate.user_name }}</p>
             {% endfor %}
             <h6>Comments:</h6>
             <p>user_name</p>

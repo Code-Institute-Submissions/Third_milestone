@@ -173,6 +173,10 @@ def spot(location_id):
 
     return render_template('spot.html', user=user, location=location, locations_random=locations_random)
 
+'''''''''''''''''''''''''''''''''
+RATING
+'''''''''''''''''''''''''''''''''
+
 @app.route('/user_input/<location_id>', methods=['POST', 'GET'])
 def user_input(location_id):
     user = user_in_session()
@@ -189,63 +193,11 @@ def user_input(location_id):
                     }
                 }
             }
-            # {
-            #     '$addToSet': { 'ratings.rate': request.form['rating'] }
-            # }
-            # {
-            #     '$push': {
-            #         'ratings.user_name': user,
-            #         'ratings.rate': request.form['rating'] 
-            #     }
-            # }
         )
-
-    print(location)
+        flash('Thank you for rating the spot!')
+        return redirect(url_for('user_logged'))
     
     return render_template('user_input.html', user=user, location=location)
-
-# @app.route('/rating/<location_id>', methods=['POST', 'GET'])
-# def rating(location_id):
-#     if request.method == 'POST':
-#         if 'username' in session:
-#             user = session['username']
-#             location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
-#             location.update({
-#                 '$set': {
-#                     'ratings': { 
-#                         'user_name': user,
-#                         'rate': request.form['rating'] 
-#                         }
-#                 }
-#             })
-#             return redirect(url_for('index'))
-#         return 'Please log in to rate this location'
-#         print(user)
-#         print(location)
-#     return redirect(url_for('locations'))   
-
-
-'''''''''''''''''''''''''''''''''
-RATING
-'''''''''''''''''''''''''''''''''
-
-# @app.route('/rating', methods=['POST', 'GET'])
-# def rating():
-#     locations = mongo.db.locations
-#     if 'username' in session:
-#         user = session['username']
-#         return user
-#     return 'Please log in to rate this location'
-    
-#     if request.method == 'POST':
-#         if user:
-#             locations.insert({'ratings': { 
-#                 'user_name': user,
-#                 'rate': request.form['rating'] 
-#                 }
-#             })
-#             return redirect(url_for('/spot/<location_id>'))
-#         return 'Please log in to rate this location'
 
 '''''''''''''''''''''''''''''''''
 SEARCH
@@ -312,6 +264,7 @@ def login():
 
     if login_user:
         session['username'] = request.form['username']
+        flash('Welcome back!')
         return redirect(url_for('user_logged'))
 
     return 'Invalid username'
@@ -325,8 +278,8 @@ def register():
         if existing_user is None:
             users.insert({'name' : request.form['username'] })
             session['username'] = request.form['username']
-            flash('You were successfully registered ')
-            return redirect(url_for('index'))
+            flash('You were successfully registered!')
+            return redirect(url_for('user_logged'))
         error = 'That username already exists!'
     return render_template('register.html', error=error)
 
