@@ -83,7 +83,7 @@ def index():
 ALL LOCATIONS WITH SORT FILTER
 '''''''''''''''''''''''''''''''''
 
-@app.route('/locations', methods=['GET', 'POST'])
+@app.route('/locations')
 def locations():
     user = user_in_session()
     locations = mongo.db.locations.aggregate([
@@ -92,7 +92,6 @@ def locations():
             '$group': {
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
-                # 'average_rating': { '$cond': [ '$ratings.rate', {'$avg': '$ratings.rate' }, 'null' ] } ,
                 'country_name': { '$addToSet': '$country'},
                 'break_type_name': { '$addToSet': '$break_type'},
                 'old_id': { '$addToSet': '$_id'}
@@ -102,8 +101,7 @@ def locations():
             '$sort': { '_id': 1 }
         }
     ])
-    users = mongo.db.users.find()
-    # print(list(locations))
+
     return render_template('locations.html',user=user, locations=locations)
 
 @app.route('/locations_by_country')
@@ -150,7 +148,7 @@ def locations_by_rating():
 SELECTED LOCATION
 '''''''''''''''''''''''''''''''''
 
-@app.route('/spot/<location_id>')
+@app.route('/spot/<location_id>', methods=['POST', 'GET'])
 def spot(location_id):
     user = user_in_session()
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
@@ -172,29 +170,82 @@ def spot(location_id):
             '$limit': 3
         }
     ])
+
     return render_template('spot.html', user=user, location=location, locations_random=locations_random)
+
+@app.route('/user_input/<location_id>', methods=['POST', 'GET'])
+def user_input(location_id):
+    user = user_in_session()
+    location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
+    if request.method == 'POST':
+        mongo.db.locations.update(
+            {
+                '_id': ObjectId(location_id)
+            },
+            {
+                '$push': {
+                    'ratings': {
+                        '$each': [ { 'user_name': user, 'rate': request.form['rating'] } ]
+                    }
+                }
+            }
+            # {
+            #     '$addToSet': { 'ratings.rate': request.form['rating'] }
+            # }
+            # {
+            #     '$push': {
+            #         'ratings.user_name': user,
+            #         'ratings.rate': request.form['rating'] 
+            #     }
+            # }
+        )
+
+    print(location)
+    
+    return render_template('user_input.html', user=user, location=location)
+
+# @app.route('/rating/<location_id>', methods=['POST', 'GET'])
+# def rating(location_id):
+#     if request.method == 'POST':
+#         if 'username' in session:
+#             user = session['username']
+#             location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
+#             location.update({
+#                 '$set': {
+#                     'ratings': { 
+#                         'user_name': user,
+#                         'rate': request.form['rating'] 
+#                         }
+#                 }
+#             })
+#             return redirect(url_for('index'))
+#         return 'Please log in to rate this location'
+#         print(user)
+#         print(location)
+#     return redirect(url_for('locations'))   
+
 
 '''''''''''''''''''''''''''''''''
 RATING
 '''''''''''''''''''''''''''''''''
 
-@app.route('/rating', methods=['POST', 'GET'])
-def rating():
-    locations = mongo.db.locations
-    if 'username' in session:
-        user = session['username']
-        return user
-    return 'Please log in to rate this location'
+# @app.route('/rating', methods=['POST', 'GET'])
+# def rating():
+#     locations = mongo.db.locations
+#     if 'username' in session:
+#         user = session['username']
+#         return user
+#     return 'Please log in to rate this location'
     
-    if request.method == 'POST':
-        if user:
-            locations.insert({'ratings': { 
-                'user_name': user,
-                'rate': request.form['rating'] 
-                }
-            })
-            return redirect(url_for('/spot/<location_id>'))
-        return 'Please log in to rate this location'
+#     if request.method == 'POST':
+#         if user:
+#             locations.insert({'ratings': { 
+#                 'user_name': user,
+#                 'rate': request.form['rating'] 
+#                 }
+#             })
+#             return redirect(url_for('/spot/<location_id>'))
+#         return 'Please log in to rate this location'
 
 '''''''''''''''''''''''''''''''''
 SEARCH

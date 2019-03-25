@@ -1,6 +1,8 @@
 # Test vs PROD
 
-change the IP to local in MongoDB once lives
+**change the IP to local in MongoDB once lives
+&
+Turn OFF BEGUN in profuction**
 
 # Credits
 

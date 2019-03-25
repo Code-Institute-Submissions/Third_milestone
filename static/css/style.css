@@ -105,3 +105,12 @@ label {
     font-size: 1.2rem;
     margin: 0 auto;
 }
+
+/* Login form layout */
+
+.form {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 25px;
+    border: 1px solid lightgrey;
+}
