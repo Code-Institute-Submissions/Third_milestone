@@ -2,6 +2,20 @@
 
 {% block content %}
 
+<!-- success message for user interactions -->
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="container">
+            <div class="col s12">
+                <h6>{{ message }}</h6>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="container">
     <div class="col s12">
         <h5>Please log in with your username below to access all the exciting features of the SurfingEurope site:</h5>
@@ -27,7 +41,7 @@
             </form>
 
             <div>
-                <h6>Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.</h6>
+                <h6>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</h6>
             </div>
 
         </div>

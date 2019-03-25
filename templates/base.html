@@ -32,20 +32,6 @@
         </div>
     </nav>
 
-    <!-- Dropdown Structure for user interactions -->
-
-    <ul id="dropdown1" class="dropdown-content">
-        {% if user == 'Log In' %}
-        <li><a href="{{ url_for('user') }}">{{ user | capitalize }}</a></li>
-        <li class="divider"></li>
-        <li><a href="{{ url_for('register') }}">Register</a></li>
-        {% else %}
-        <li><a href="{{ url_for('user_logged') }}">{{ user | capitalize }}</a></li>
-        <li class="divider"></li>
-        <li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
-        {% endif %}
-    </ul>    
-
     <!-- Mobile menu side navigation sctructure -->
 
     <ul class="sidenav" id="mobile-demo">
@@ -54,12 +40,29 @@
         <li><a href="{{ url_for('search') }}">Search</a></li>
         <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
         <li><a href="{{ url_for('about') }}">About</a></li>
-        {% if user == 'Log In' %}
-        <li><a href="{{ url_for('user') }}">{{ user | capitalize }}</a></li>
-        {% else %}
+        <li class="divider"></li>
+        {% if user %}
         <li><a href="{{ url_for('user_logged') }}">{{ user | capitalize }}</a></li>
+        <li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
+        {% else %}
+        <li><a href="{{ url_for('user') }}">Log In</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
         {% endif %}
     </ul>
+
+    <!-- Dropdown Structure for user interactions -->
+
+    <ul id="dropdown1" class="dropdown-content">
+        {% if user %}
+        <li><a href="{{ url_for('user_logged') }}">{{ user | capitalize }}</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
+        {% else %}
+        <li><a href="{{ url_for('user') }}">Log In</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
+    </ul>    
 
     <main>
 

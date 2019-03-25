@@ -20,8 +20,6 @@ HELPER FUNCTIONS
 def user_in_session():
     if 'username' in session:
         return session['username']
-    else:
-        return 'Log In'
 
 
 '''''''''''''''''''''''''''''''''
@@ -174,29 +172,49 @@ def spot(location_id):
     return render_template('spot.html', user=user, location=location, locations_random=locations_random)
 
 '''''''''''''''''''''''''''''''''
-RATING
+RATES AND COMMENTS
 '''''''''''''''''''''''''''''''''
 
 @app.route('/user_input/<location_id>', methods=['POST', 'GET'])
 def user_input(location_id):
     user = user_in_session()
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
+    if 'username' not in session:
+        flash('Please log in or register to rate and comment!')
+        return redirect(url_for('user'))
+
     if request.method == 'POST':
-        mongo.db.locations.update(
+        if 'rating' in request.form:
+            mongo.db.locations.update(
+                {
+                    '_id': ObjectId(location_id)
+                },
+                {
+                    '$push': {
+                        'ratings': {
+                            '$each': [ { 'user_name': user, 'rate': request.form['rating'] } ]
+                        }
+                    }
+                }
+            )
+            flash('Thank you for rating the spot!')
+            return redirect(url_for('user_logged'))
+        else:
+            mongo.db.locations.update(
             {
                 '_id': ObjectId(location_id)
             },
             {
                 '$push': {
-                    'ratings': {
-                        '$each': [ { 'user_name': user, 'rate': request.form['rating'] } ]
+                    'comments': {
+                        '$each': [ { 'user_name': user, 'comment': request.form['add_comment'] } ]
                     }
                 }
             }
         )
-        flash('Thank you for rating the spot!')
+        flash('Thank you for commenting on the spot!')
         return redirect(url_for('user_logged'))
-    
+
     return render_template('user_input.html', user=user, location=location)
 
 '''''''''''''''''''''''''''''''''
@@ -242,6 +260,18 @@ def about():
 LOG IN | LOG OUT and USER PAGE
 '''''''''''''''''''''''''''''''''
 
+@app.route('/login', methods=['POST'])
+def login():
+    users = mongo.db.users
+    login_user = users.find_one({'name' : request.form['username']})
+
+    if login_user:
+        session['username'] = request.form['username']
+        flash('Welcome back!')
+        return redirect(url_for('user_logged'))
+
+    return 'Invalid username'
+
 @app.route('/user')
 def user():
     user = user_in_session()
@@ -257,17 +287,9 @@ def user_logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/login', methods=['POST'])
-def login():
-    users = mongo.db.users
-    login_user = users.find_one({'name' : request.form['username']})
-
-    if login_user:
-        session['username'] = request.form['username']
-        flash('Welcome back!')
-        return redirect(url_for('user_logged'))
-
-    return 'Invalid username'
+'''''''''''''''''''''''''''''''''
+REGISTER
+'''''''''''''''''''''''''''''''''
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():

@@ -55,8 +55,10 @@
             <p>{{ rate.rate }} by {{ rate.user_name }}</p>
             {% endfor %}
             <h6>Comments:</h6>
-            <p>user_name</p>
-            <p>Comment</p>
+            {% for comment in location.comments %}
+            <p>{{ comment.user_name }}</p>
+            <p>{{ comment.comment }}</p>
+            {% endfor %}
         </div>
  
     </div>

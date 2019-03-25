@@ -114,3 +114,10 @@ label {
     padding: 25px;
     border: 1px solid lightgrey;
 }
+
+.form-empty {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 25px;
+    border: none;
+}
