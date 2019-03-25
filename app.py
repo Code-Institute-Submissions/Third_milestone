@@ -1,5 +1,5 @@
 import os, random
-from flask import Flask, render_template, redirect, request, url_for, session, Response
+from flask import Flask, render_template, redirect, request, url_for, session, Response, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from bson.json_util import dumps
@@ -9,26 +9,13 @@ app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'surfingeurope'
 app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
-app.secret_key = 'super secret key'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-'''
+'''''''''''''''''''''''''''''''''
 HELPER FUNCTIONS
-'''
-
-def get_locations():
-    locations = mongo.db.locations.find()
-    return locations
-
-def get_facilities():
-    facilities = mongo.db.categories.find( { 'facilities': { '$eq': ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental"] } } )
-    return facilities
-
-def get_locations_name():
-    # location_name = mongo.db.locations.find( { 'name': { '$ne': 'null' }} )
-    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
-    return location_name
+'''''''''''''''''''''''''''''''''
 
 def user_in_session():
     if 'username' in session:
@@ -37,15 +24,15 @@ def user_in_session():
         return 'Log In'
 
 
-'''
+'''''''''''''''''''''''''''''''''
 INDEX
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/')
 def index():
 
     '''
-    locations will show 3 top rated location
+    Limit operator will display 3 top rated location
     '''
 
     locations = mongo.db.locations.aggregate([
@@ -66,14 +53,14 @@ def index():
             '$limit': 3
         }
     ])
-    # print(list(locations))
+
     '''
-    Ranodm selection will display 3 random location including the top rated from above
+    Sample operator will display 3 random location including the top rated from above
     '''
 
     locations_random = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        {
+        { 
             '$group': {
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
@@ -85,18 +72,16 @@ def index():
         { 
             '$sample': { 'size': 3 }
         },
-        {
-            '$limit': 3
+        { 
+            '$limit': 3 
         }
     ])
-    facilities = get_facilities()
     user = user_in_session()
-    # random = mongo.db.locations.aggregate([{ '$sample': { 'size': 3 } }])
-    return render_template('index.html', locations=locations, facilities=facilities, user=user, locations_random=locations_random)
+    return render_template('index.html', locations=locations, user=user, locations_random=locations_random)
 
-'''
+'''''''''''''''''''''''''''''''''
 ALL LOCATIONS WITH SORT FILTER
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/locations', methods=['GET', 'POST'])
 def locations():
@@ -107,6 +92,7 @@ def locations():
             '$group': {
                 '_id': '$name',
                 'average_rating': { '$avg': '$ratings.rate'},
+                # 'average_rating': { '$cond': [ '$ratings.rate', {'$avg': '$ratings.rate' }, 'null' ] } ,
                 'country_name': { '$addToSet': '$country'},
                 'break_type_name': { '$addToSet': '$break_type'},
                 'old_id': { '$addToSet': '$_id'}
@@ -117,7 +103,7 @@ def locations():
         }
     ])
     users = mongo.db.users.find()
-    
+    # print(list(locations))
     return render_template('locations.html',user=user, locations=locations)
 
 @app.route('/locations_by_country')
@@ -160,9 +146,9 @@ def locations_by_rating():
     ])
     return render_template('locations.html',user=user, locations=locations)
 
-'''
+'''''''''''''''''''''''''''''''''
 SELECTED LOCATION
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/spot/<location_id>')
 def spot(location_id):
@@ -188,29 +174,31 @@ def spot(location_id):
     ])
     return render_template('spot.html', user=user, location=location, locations_random=locations_random)
 
-'''
+'''''''''''''''''''''''''''''''''
 RATING
-'''
+'''''''''''''''''''''''''''''''''
 
-# @app.route('/spot/<location_id>/rating')
-# def spot(location_id):
-#     user = user_in_session()
-#     if request.method == 'POST':
-#         users = mongo.db.users
-#         existing_user = users.find_one({'name' : request.form['username']})
+@app.route('/rating', methods=['POST', 'GET'])
+def rating():
+    locations = mongo.db.locations
+    if 'username' in session:
+        user = session['username']
+        return user
+    return 'Please log in to rate this location'
+    
+    if request.method == 'POST':
+        if user:
+            locations.insert({'ratings': { 
+                'user_name': user,
+                'rate': request.form['rating'] 
+                }
+            })
+            return redirect(url_for('/spot/<location_id>'))
+        return 'Please log in to rate this location'
 
-#         if existing_user is None:
-#             users.insert({'name' : { '$toLower': request.form['username'] }})
-#             session['username'] = request.form['username']
-#             return redirect(url_for('index'))
-        
-#         return 'That username already exists!'
-
-#     return render_template('register.html')
-
-'''
+'''''''''''''''''''''''''''''''''
 SEARCH
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/search')
 def search():
@@ -222,34 +210,34 @@ def search():
     bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
-
+    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
     search_name = request.form.get('search_loc_name')
 
     if request.method == 'POST':
         print(request.form)
-    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=get_locations_name())
+    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
-'''
+'''''''''''''''''''''''''''''''''
 ADD LOCATION
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/add_spot')
 def add_spot():
     user = user_in_session()
     return render_template('addSpot.html', user=user, locations=mongo.db.locations.find())
 
-'''
+'''''''''''''''''''''''''''''''''
 ABOUT
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/about')
 def about():
     user = user_in_session()
     return render_template('about.html', user=user, locations=mongo.db.locations.find())
 
-'''
+'''''''''''''''''''''''''''''''''
 LOG IN | LOG OUT and USER PAGE
-'''
+'''''''''''''''''''''''''''''''''
 
 @app.route('/user')
 def user():
@@ -279,18 +267,17 @@ def login():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
+    error = None
     if request.method == 'POST':
         users = mongo.db.users
         existing_user = users.find_one({'name' : request.form['username']})
-
         if existing_user is None:
-            users.insert({'name' : { '$toLower': request.form['username'] }})
+            users.insert({'name' : request.form['username'] })
             session['username'] = request.form['username']
+            flash('You were successfully registered ')
             return redirect(url_for('index'))
-        
-        return 'That username already exists!'
-
-    return render_template('register.html')
+        error = 'That username already exists!'
+    return render_template('register.html', error=error)
 
 
 if __name__ == '__main__':

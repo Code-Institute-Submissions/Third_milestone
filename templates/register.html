@@ -21,6 +21,10 @@
                     <button class="btn waves-effect waves-light" type="submit" name="action">Register
                     </button>
 
+                    {% if error %}
+                        <p><strong>Error:</strong> {{ error }}
+                    {% endif %}
+
                 </div>
 
                 <div>

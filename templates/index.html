@@ -14,6 +14,16 @@
 
 <div class="container">
 
+<!-- success message for new users -->
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <h6>{{ message }}{{ user | capitalize }}!</h6>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <!-- Top Rated Locations -->
 
     <h4 class="center-align">Aloha! Check the top rated locations:</h4>
