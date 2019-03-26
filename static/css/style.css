@@ -121,3 +121,14 @@ label {
     padding: 25px;
     border: none;
 }
+
+/* Font Awesome */
+
+.fab {
+    color: #263238;
+}
+
+.page-footer .fab {
+    color: white;
+    padding: 20px;
+}

@@ -1,4 +1,5 @@
 import os, random
+from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, session, Response, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -149,6 +150,10 @@ SELECTED LOCATION
 @app.route('/spot/<location_id>', methods=['POST', 'GET'])
 def spot(location_id):
     user = user_in_session()
+    if 'username' not in session:
+        flash('Please log in to rate and comment on this location')
+    else:
+        flash('Please comment and rate this location below:')
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
     locations_random = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
@@ -178,6 +183,7 @@ RATES AND COMMENTS
 @app.route('/user_input/<location_id>', methods=['POST', 'GET'])
 def user_input(location_id):
     user = user_in_session()
+    now = datetime.now().strftime('%Y-%m-%d at %H:%M:%S')
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
     if 'username' not in session:
         flash('Please log in or register to rate and comment!')
@@ -207,7 +213,7 @@ def user_input(location_id):
             {
                 '$push': {
                     'comments': {
-                        '$each': [ { 'user_name': user, 'comment': request.form['add_comment'] } ]
+                        '$each': [ { 'user_name': user, 'date_added': now, 'comment': request.form['add_comment'] } ]
                     }
                 }
             }
