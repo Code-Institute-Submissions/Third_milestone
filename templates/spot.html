@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<div class="container">
+        <div class="row">
+            <div class="col s12">
+                <!-- messages for user rate or comment interactions -->
+                {% with spot = get_flashed_messages(category_filter=['spot']) %}
+                    {% if spot %}
+                        {% for message in spot %}                            
+                            <h5>{{ message }}</h5>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+
 <div class="container">
     <div class="row">
         <div class="col s12">
@@ -68,10 +84,10 @@
 <div class="container">
     <div class="row">
         <div class="col s12">
-            <!-- messages for user interactions -->
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}                            
+            <!-- messages for user login interactions -->
+            {% with login = get_flashed_messages(category_filter=['login']) %}
+                {% if login %}
+                    {% for message in login %}                            
                         <h5>{{ message }}</h5>
                     {% endfor %}
                 {% endif %}

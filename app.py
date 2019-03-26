@@ -52,7 +52,7 @@ def index():
             '$limit': 3
         }
     ])
-
+    
     '''
     Sample operator will display 3 random location including the top rated from above
     '''
@@ -151,9 +151,9 @@ SELECTED LOCATION
 def spot(location_id):
     user = user_in_session()
     if 'username' not in session:
-        flash('Please log in to rate and comment on this location')
+        flash('Please log in to rate and comment on this location', 'login')
     else:
-        flash('Please comment and rate this location below:')
+        flash('Please comment and rate this location below:', 'login')
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
     locations_random = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
@@ -183,8 +183,47 @@ RATES AND COMMENTS
 @app.route('/user_input/<location_id>', methods=['POST', 'GET'])
 def user_input(location_id):
     user = user_in_session()
+    user_in_rating = None
+    if mongo.db.locations.find({ 'ratings.user_name': user }):
+        user_in_rating = user
+    # if user == 
+    print(user_in_rating)
     now = datetime.now().strftime('%Y-%m-%d at %H:%M:%S')
     location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
+    # db.collection.update(
+    # <query>,
+    # <update>,
+    # {
+    #     upsert: <boolean>,
+    #     multi: <boolean>,
+    #     writeConcern: <document>,
+    #     collation: <document>,
+    #     arrayFilters: [ <filterdocument1>, ... ]
+    # }
+    # )
+
+    #     '_id': ObjectId(location_id), 'ratings.user_name': user
+    # },
+    # { '$set': { 'ratings.$.rate': "XXX" } })
+    #     { '$and': [ {
+    #         'name': ('username' in session)
+    #     },
+    #     {
+    #         'user_name': user
+    #     }]}
+    # )
+        # { '_id': ObjectId(location_id) },
+        # { 'ratings': {
+        #     '$elemMatch': { 'user_name': user }
+        #     }
+        # })
+    # if request.method == 'POST':
+    #     mongo.db.locations.update(
+    #         { '_id': ObjectId(location_id), 'ratings.user_name': user },
+    #         { '$set': { 'ratings.$.rate': request.form['rating'] } },
+    #         { 'upsert': True, 'multi': True, 'arrayFilters': [{ 'rate': [1, 2, 3, 4, 5]}] }
+    #         )
+
     if 'username' not in session:
         flash('Please log in or register to rate and comment!')
         return redirect(url_for('user'))
@@ -193,18 +232,21 @@ def user_input(location_id):
         if 'rating' in request.form:
             mongo.db.locations.update(
                 {
-                    '_id': ObjectId(location_id)
+                    '_id': ObjectId(location_id), 'ratings.user_name': user
                 },
+                { '$set': { 'ratings.$.rate': request.form['rating'] } },
+                False, True )
+            mongo.db.locations.update(
                 {
-                    '$push': {
-                        'ratings': {
-                            '$each': [ { 'user_name': user, 'rate': request.form['rating'] } ]
-                        }
-                    }
-                }
-            )
-            flash('Thank you for rating the spot!')
-            return redirect(url_for('user_logged'))
+                    '_id': ObjectId(location_id), 'ratings.user_name': { '$ne': user }
+                },
+                { '$addToSet': { 
+                    'ratings': {
+                        'user_name': user, 'rate': request.form['rating']
+                }}},
+                False, True )
+            flash('Thank you for your rating!', 'spot')
+            return redirect(url_for('spot', location_id=location_id))
         else:
             mongo.db.locations.update(
             {
@@ -218,8 +260,8 @@ def user_input(location_id):
                 }
             }
         )
-        flash('Thank you for commenting on the spot!')
-        return redirect(url_for('user_logged'))
+        flash('Thank you for your comment!', 'spot')
+        return redirect(url_for('spot', location_id=location_id))
 
     return render_template('user_input.html', user=user, location=location)
 
@@ -286,7 +328,29 @@ def user():
 @app.route('/user_logged')
 def user_logged():
     user = user_in_session()
-    return render_template('user_logged.html', user=user)
+    # locations = mongo.db.locations.aggregate([
+    #     { '$unwind': '$ratings' },
+    #     {
+    #         '$group': {
+    #             '_id': '$name',
+    #             'average_rating': { '$avg': '$ratings.rate'},
+    #             'country_name': { '$addToSet': '$country'},
+    #             'break_type_name': { '$addToSet': '$break_type'},
+    #             'old_id': { '$addToSet': '$_id'}
+    #         }
+    #     },
+    #     { 
+    #         '$sort': { '_id': 1 }
+    #     }
+    # ])
+    locations_user = mongo.db.locations.find({
+        '$or': [
+            { 'ratings.user_name': user },
+            { 'comments.user_name': user }
+            ]
+        })
+
+    return render_template('user_logged.html', user=user, locations=locations, locations_user=locations_user)
 
 @app.route('/user_logout')
 def user_logout():
