@@ -71,7 +71,7 @@
             <p>{{ rate.rate }} by {{ rate.user_name }}</p>
             {% endfor %}
             <h6>Comments:</h6>
-            {% for comment in location.comments %}
+            {% for comment in location.comments | sort(reverse=True, attribute='date_added') %}
             <p>> {{ comment.user_name }} on <i>{{ comment.date_added }}</i></p>
             <p>'{{ comment.comment }}'</p>
             <p class="divider"></p>
