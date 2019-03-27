@@ -3,6 +3,25 @@
 {% block content %}
 
 <div class="container">
+        <div class="row">
+            <div class="col s12">
+                {% if test._id == locations_user._id %}
+                    <p>{{ test.id }} equal to {{ locations_user._id }}</p>
+                {% endif %}
+                <h6>TEST RESULTS:</h6>
+                {% for t in test %}
+                    {% if t.ratings %}
+                    <p>{{ t._id }} | {{ t.ratings }}</p>
+                    {% endif %}
+                    {% for rate in t.ratings %}
+                        <p>{{ rate.rate }} by {{ rate.user_name }}</p>
+                    {% endfor %}    
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+<div class="container">
     <div class="row">
         <div class="col s12">
             <h5>Aloha {{ user | capitalize }}</h5>
@@ -23,16 +42,16 @@
         <div class="col s12">
 
             {% for location in locations_user %}
-            <h5>{{ location.name }}</h5>
-            <h6>Your rating:</h6>
-                {% for rate in location.ratings %}
-                    <p>{{ rate.rate }}</p>
-                {% endfor %}
-            <h6>Your comments:</h6>
-                {% for comment in location.comments %}
-                    <p>{{ comment.date_added }}</p>
-                    <p>{{ comment.comment }}</p>
-                    <li class="divider"></li>
+                <h5>{{ location.name }}</h5>
+                <h6>Your rating:</h6>
+                    {% for rate in location.ratings %}
+                        <p>{{ rate.rate }} by {{ rate.user_name }}</p>
+                    {% endfor %}
+                <h6>Your comments:</h6>
+                    {% for comment in location.comments %}
+                        <p>{{ comment.date_added }}</p>
+                        <p>{{ comment.comment }}</p>
+                        <li class="divider"></li>
                 {% endfor %}
             {% endfor %}
 

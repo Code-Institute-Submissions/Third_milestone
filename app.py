@@ -262,11 +262,45 @@ def search():
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
     location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
-    search_name = request.form.get('search_loc_name')
 
-    if request.method == 'POST':
-        print(request.form)
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
+
+@app.route('/search_by_name', methods=['POST'])
+def search_by_name():
+    user = user_in_session()
+    categories = mongo.db.categories
+    countries = categories.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
+    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
+    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
+    error = None
+    search_name = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
+    location_name = request.form.get('search_by_name')
+    if search_name:
+        return redirect(url_for('search_results', location_name=location_name))
+    error = 'Apologies but your search did not match any of our results. If you believe we are missing one location please add it to our collection!'
+    return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
+
+@app.route('/search_results/<location_name>')
+def search_results(location_name):
+    # locations = mongo.db.locations.find( {'name' : location_name } )
+    locations = mongo.db.locations.aggregate([
+        { '$match': {'name' : location_name } },
+        { '$unwind': '$ratings' },
+        { '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { '_id': 1 } }
+    ])
+    # print(location)
+    return render_template('search_results.html', locations=locations)
 
 '''''''''''''''''''''''''''''''''
 ADD LOCATION
@@ -292,6 +326,7 @@ LOG IN | LOG OUT and USER PAGE
 
 @app.route('/login', methods=['POST'])
 def login():
+    error = None
     users = mongo.db.users
     login_user = users.find_one({'name' : request.form['username']})
 
@@ -299,8 +334,8 @@ def login():
         session['username'] = request.form['username']
         flash('Welcome back!')
         return redirect(url_for('user_logged'))
-
-    return 'Invalid username'
+    error = 'Looks like invalid username. Please try to type again or register below'
+    return render_template('user.html', error=error)
 
 @app.route('/user')
 def user():
@@ -310,29 +345,60 @@ def user():
 @app.route('/user_logged')
 def user_logged():
     user = user_in_session()
-    # locations = mongo.db.locations.aggregate([
-    #     { '$unwind': '$ratings' },
-    #     {
-    #         '$group': {
-    #             '_id': '$name',
-    #             'average_rating': { '$avg': '$ratings.rate'},
-    #             'country_name': { '$addToSet': '$country'},
-    #             'break_type_name': { '$addToSet': '$break_type'},
-    #             'old_id': { '$addToSet': '$_id'}
-    #         }
-    #     },
-    #     { 
-    #         '$sort': { '_id': 1 }
-    #     }
-    # ])
     locations_user = mongo.db.locations.find({
+        # { '$match': {
+        #     '_id': ObjectId(location_id)
+        #     }
+        # },
         '$or': [
             { 'ratings.user_name': user },
             { 'comments.user_name': user }
             ]
         })
-
-    return render_template('user_logged.html', user=user, locations=locations, locations_user=locations_user)
+    test = mongo.db.locations.aggregate([
+        # {
+        #     '$group': {
+        #         '_id': '$_id',
+        #         'name': { '$addToSet': '$name'},
+        #         'user_name': { '$addToSet': '$ratings.user_name'},
+        #         'rate': { '$addToSet': '$ratings.rate'},
+        #     }
+        # },
+        {
+            '$project': {
+                'ratings': {
+                    '$filter': {
+                        'input': '$ratings',
+                        'as': 'rate',
+                        'cond': {
+                            '$eq': [ '$$rate.user_name', user ]
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    )
+    # print(list(locations_user))
+    # loc = mongo.db.locations.aggregate([
+    #     { '$match': {
+    #         'ratings.user_name': user
+    #         }
+    #     },
+    #     { '$unwind': '$ratings' },
+    #     {
+    #         '$group': {
+    #             '_id': '$name',
+    #             'average_rating': { '$avg': '$ratings.rate'},
+    #             'user_rate': { '$addToSet': '$ratings.rate'},
+    #             'user_name': { '$addToSet': '$ratings.user_name'},
+    #             'country_name': { '$addToSet': '$country'},
+    #             'break_type_name': { '$addToSet': '$break_type'},
+    #             'old_id': { '$addToSet': '$_id'}
+    #         }
+    #     }
+    # ])
+    return render_template('user_logged.html', user=user, locations=locations, locations_user=locations_user, test=test)
 
 @app.route('/user_logout')
 def user_logout():
@@ -354,7 +420,7 @@ def register():
             session['username'] = request.form['username']
             flash('You were successfully registered!')
             return redirect(url_for('user_logged'))
-        error = 'That username already exists!'
+        error = 'That username already exists. Please choose another one.'
     return render_template('register.html', error=error)
 
 

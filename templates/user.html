@@ -37,6 +37,12 @@
                     <button class="btn waves-effect waves-light" type="submit" name="action">Log In
                     </button>
 
+                    <div class="col s12">
+                        {% if error %}
+                            <p><strong>Oups!</strong> {{ error }}
+                        {% endif %}
+                    </div>
+
                 </div>
             </form>
 
