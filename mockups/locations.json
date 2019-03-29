@@ -122,7 +122,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "This is a popular stretch of coast and it gets busy when the swell is there although if you are prepared to have a bit of a walk you can usually find a spot with minimal crowds."
@@ -142,7 +142,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "One of the high quality beach break waves found in the Hossegor area. The wave is a consistent, hollow and powerful wave that breaks and right. The exposed coast here opens the swell window up to North West, West and South West swells. The beach here can hold good size."
@@ -162,7 +162,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "An amazing powerful right hander, one of the best waves in the region. The wave peels down the point relentlessly and is a real classic in the right conditions. Exposed reef break that has fairly consistent surf and can work at any time of the year."
@@ -182,7 +182,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Quality right-hand pointbreak that holds a decent swell. It produces really long workable walls, with several surf spots along the coast."
@@ -202,7 +202,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Large beach and very nice to surf for beginners and pros."
@@ -222,7 +222,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "One of the better spots in the area with decent waves giving some power and good shape on E swells."
@@ -242,7 +242,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "The most popular surf spot in Galicia, home to an annual pro contest. Ultra consistent, Pantin hoovers up W-NW swell and can hold quite a bit of size. Both left and right peaks can line up and spitting barrels are common. Better low to mid but surfable on all tides. Strong rips with paddling channel at northern end."
@@ -262,7 +262,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Very consistent, good quality, beachbreak. Doesn’t need much swell to work. A long beach with several peaks, mostly performance orientated. Highly competitive in the water with a very high level of surfing."
@@ -302,7 +302,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Scotland’s premier righthand reefbreak and a world-class barrel on its day. In NW swells at mid tide a relatively simple drop leads into one of the longest, hollowest rides in Europe. "
@@ -322,7 +322,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Decent beachbreak peaks with some reef potential. Rippy and rocky. Park at Southerndown village and walk to Dunraven Bay."
@@ -342,7 +342,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Perranporth beach is a brillaint surfing beach when the waves are right. The waves are constant on a good day because of a rip tide. However the same rip tide can get annoying, you will find you are spending most your time walking back into the surfing flaged area."
@@ -362,7 +362,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Great beginners waves also really good longboarding or paddle boarding wave"
@@ -382,7 +382,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Beachbreak that suffers a bit of swell shadow compared to the two pointbreaks that flank it. Breaks over sand and some scattered boulders but is fine for beginners and the local surf school."
@@ -402,7 +402,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Works on W-NW swells and offers a bit of N wind protection. Classic days can hold up nicely and be more hollow than Bore, if the swell is lining up. Unfortunately this is rare and Bore is always bigger."
@@ -422,7 +422,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Premier spot closest to Amsterdam. Left and right walls in a NW swell and weaker disorganised corners in SW conditions, when the huge harbour jetty provides some wind protection."
@@ -442,7 +442,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Premier spot closest to Amsterdam. Left and right walls in a NW swell and weaker disorganised corners in SW conditions, when the huge harbour jetty provides some wind protection."
@@ -462,7 +462,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Not so popular but can also produce good fun waves.Don`t forget your longboard for the small days."
@@ -482,7 +482,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "The Eisbach was once the heart of the most surreptitious underground surfing scene in Europe, but now, it’s the centre of the most famous city river surfing site on the entire globe."
@@ -530,7 +530,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "200m long right , needs a strong S-SW onshore wind to work. Harbour breakwall provides some wind protection and easy access. Breaks over a rock ledge, with enough power to get going on a shorter board."
@@ -550,7 +550,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Average beach break that can handle some west wind."
@@ -570,7 +570,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "North of Capo Spartivento the coast is very exposed to S swells and remains surfable when other spots are flat. Left point with possible barrel sections on small SE swells, provided it’s windless or offshore."
@@ -590,7 +590,7 @@
     "ratings": [
         {
             "user_name": "admin",
-            "rate": 0
+            "rate": undefined
         }
     ],
     "description": "Varazze is one of the better waves on the Italian Coastline. It does get busy there, whether the waves are good or not."

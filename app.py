@@ -36,21 +36,15 @@ def index():
 
     locations = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        {
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        },
-        { 
-            '$sort': { 'average_rating': -1, '_id': 1 }
-        },
-        { 
-            '$limit': 3
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { 'average_rating': -1, '_id': 1 } },
+        { '$limit': 3 }
     ])
     
     '''
@@ -59,21 +53,15 @@ def index():
 
     locations_random = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        { 
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        },
-        { 
-            '$sample': { 'size': 3 }
-        },
-        { 
-            '$limit': 3 
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sample': { 'size': 3 } },
+        { '$limit': 3 }
     ])
     user = user_in_session()
     return render_template('index.html', locations=locations, user=user, locations_random=locations_random)
@@ -87,20 +75,16 @@ def locations():
     user = user_in_session()
     locations = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        {
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        },
-        { 
-            '$sort': { '_id': 1 }
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { '_id': 1 } }
     ])
-
+    # print(list(locations))
     return render_template('locations.html',user=user, locations=locations)
 
 @app.route('/locations_by_country')
@@ -108,18 +92,14 @@ def locations_by_country():
     user = user_in_session()
     locations = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        {
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        },
-        { 
-            '$sort': { 'country_name': 1, '_id': 1 }
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { 'country_name': 1, '_id': 1 } }
     ])
     return render_template('locations.html',user=user, locations=locations)
 
@@ -128,18 +108,14 @@ def locations_by_rating():
     user = user_in_session()
     locations = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        {
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        },
-        { 
-            '$sort': { 'average_rating': -1, '_id': 1 }
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { 'average_rating': -1, '_id': 1 } }
     ])
     return render_template('locations.html',user=user, locations=locations)
 
@@ -158,36 +134,27 @@ def spot(location_id):
     avg_rating = mongo.db.locations.aggregate([
         { '$match': {
             '_id': ObjectId(location_id)
-            }
-        },
+            } },
         { '$unwind': '$ratings' },
-        {
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } }
     ])
     locations_random = mongo.db.locations.aggregate([
         { '$unwind': '$ratings' },
-        {
-            '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            }
-        },
-        { 
-            '$sample': { 'size': 3 }
-        },
-        {
-            '$limit': 3
-        }
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sample': { 'size': 3 } },
+        { '$limit': 3 }
     ])
     print(list(avg_rating))
     return render_template('spot.html', user=user, location=location, avg_rating=avg_rating, locations_random=locations_random)
@@ -214,31 +181,26 @@ def user_input(location_id):
     if request.method == 'POST':
         if 'rating' in request.form:
             mongo.db.locations.update(
-                {
-                    '_id': ObjectId(location_id), 'ratings.user_name': user
-                },
+                { '_id': ObjectId(location_id), 'ratings.user_name': user },
                 { '$set': { 'ratings.$.rate': request.form.get('rating', type=int) } },
-                False, True )
+                False, True
+            )
             mongo.db.locations.update(
-                {
-                    '_id': ObjectId(location_id), 'ratings.user_name': { '$ne': user }
-                },
+                { '_id': ObjectId(location_id), 'ratings.user_name': { '$ne': user } },
                 { '$addToSet': { 
-                    'ratings': {
+                    'ratings': { 
                         'user_name': user, 'rate': request.form.get('rating', type=int) } } },
-                False, True )
+                False, True
+            )
             flash('Thank you for your rating!', 'spot')
             return redirect(url_for('spot', location_id=location_id))
         else:
             mongo.db.locations.update(
-            {
-                '_id': ObjectId(location_id)
-            },
-            {
-                '$push': {
-                    'comments': {
-                        '$each': [ { 'user_name': user, 'date_added': now, 'comment': request.form['add_comment'] } ]
-                    }
+            { '_id': ObjectId(location_id) },
+            { '$push': {
+                'comments': {
+                    '$each': [ { 
+                        'user_name': user, 'date_added': now, 'comment': request.form['add_comment'] } ] }
                 }
             }
         )
@@ -284,9 +246,40 @@ def search_by_name():
     error = 'Apologies but your search did not match any of our results. If you believe we are missing one location please add it to our collection!'
     return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
+@app.route('/advanced_search', methods=['POST'])
+def advanced_search():
+    user = user_in_session()
+    categories = mongo.db.categories
+    countries = categories.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
+    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
+    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
+    error = None
+
+    advanced_search_results = request.form.to_dict()
+    # country = advanced_search_results['countries']
+    # break_type = advanced_search_results['break_types']
+    # wave_direction = advanced_search_results['wave_directions']
+    # bottom_type = advanced_search_results['bottom']
+    # country = advanced_search_results['countries']
+    # country = advanced_search_results['countries']
+
+    # search_country = mongo.db.locations.find({'country' : request.form['countries']})
+
+    # if search_name:
+    #     return redirect(url_for('advanced_search_results', location_name=location_name))
+    # error = 'Apologies but no joy'
+    print(advanced_search_results)
+    return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
+'''
+SEARCH BY NAME RESULTS
+'''
+
 @app.route('/search_results/<location_name>')
 def search_results(location_name):
-    # locations = mongo.db.locations.find( {'name' : location_name } )
     locations = mongo.db.locations.aggregate([
         { '$match': {'name' : location_name } },
         { '$unwind': '$ratings' },
@@ -345,6 +338,10 @@ def user():
 @app.route('/user_logged')
 def user_logged():
     user = user_in_session()
+    # xxx = mongo.db.locations.aggregate([
+    #     { '$match': { 'ratings.name': user } },
+        
+    # ])
     locations_user = mongo.db.locations.find({
         # { '$match': {
         #     '_id': ObjectId(location_id)

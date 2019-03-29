@@ -12,18 +12,18 @@
         "wind_direction": ["north", "south", "west", "east", "north-west", "north-east", "south-west", "south-east"]
     },
     {
-        "swell_direction": ["north", "south", "west", "east", "north-west", "north-east", "south-west", "south-east"]
+        "swell_direction": ["north", "south", "west", "east", "north-west", "north-east", "south-west", "south-east", "n/a"]
     },
     {
         "bottom": ["sand", "rocky reef", "sand & rocks", "rocks"]
     },
     {
-        "facilities": ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental"]
+        "facilities": ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental", "none"]
     },
     {
         "surroundings": ["remote", "village", "town", "city"]
     },
     {
-        "hazards": ["rocks", "pollution", "localism", "no life guards", "urchins", "strong currents"]
+        "hazards": ["rocks", "pollution", "localism", "no life guards", "urchins", "strong currents", "none"]
     }
 ]

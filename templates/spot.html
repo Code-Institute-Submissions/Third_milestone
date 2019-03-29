@@ -121,7 +121,11 @@
                             <i class="material-icons">star</i>                            
                         </div>
                         <div class="btn-floating halfway-fab transparent center-align">
-                            <p class="rating-floating">{{ location.average_rating | round|int }}</p>
+                            {% if location.average_rating == None %}
+                                <p class="rating-floating">{{0}}</p>
+                            {% else %}
+                                <p class="rating-floating">{{ location.average_rating | round|int }}</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
