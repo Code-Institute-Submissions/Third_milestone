@@ -14,18 +14,27 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-'''''''''''''''''''''''''''''''''
+"""
 HELPER FUNCTIONS
-'''''''''''''''''''''''''''''''''
+"""
 
 def user_in_session():
     if 'username' in session:
         return session['username']
 
+def hazards_list_generator(advanced_search_results):
+    hazards_list = mongo.db.categories.find({}, {'_id': 0, 'hazards': 1})
+    selected_hazards = []
+    for hazard in hazards_list:
+        if advanced_search_results[hazard_name] == 'exclude':
+            selected_hazards.append(element)
+            print(selected_hazards)
+        
+    return selected_hazards
 
-'''''''''''''''''''''''''''''''''
+"""
 INDEX
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/')
 def index():
@@ -66,9 +75,9 @@ def index():
     user = user_in_session()
     return render_template('index.html', locations=locations, user=user, locations_random=locations_random)
 
-'''''''''''''''''''''''''''''''''
+"""
 ALL LOCATIONS WITH SORT FILTER
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/locations')
 def locations():
@@ -119,9 +128,9 @@ def locations_by_rating():
     ])
     return render_template('locations.html',user=user, locations=locations)
 
-'''''''''''''''''''''''''''''''''
+"""
 SELECTED LOCATION
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/spot/<location_id>', methods=['POST', 'GET'])
 def spot(location_id):
@@ -159,9 +168,9 @@ def spot(location_id):
     print(list(avg_rating))
     return render_template('spot.html', user=user, location=location, avg_rating=avg_rating, locations_random=locations_random)
 
-'''''''''''''''''''''''''''''''''
+"""
 RATES AND COMMENTS
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/user_input/<location_id>', methods=['POST', 'GET'])
 def user_input(location_id):
@@ -209,9 +218,9 @@ def user_input(location_id):
 
     return render_template('user_input.html', user=user, location=location)
 
-'''''''''''''''''''''''''''''''''
+"""
 SEARCH
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/search')
 def search():
@@ -224,6 +233,25 @@ def search():
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
     location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
+
+    # hazards_db_list = mongo.db.categories.find({},
+    # {'_id': 0, 'hazards': 1})
+
+    # hazardz_db_list = mongo.db.categories.aggregate([
+    #     { '$group': {
+    #         '_id': 0,
+    #         'hazards': { '$addToSet': '$hazards'}
+    #     }}])
+
+    # hazards_list = []
+    # for category in hazards_db_list:
+    #     print(category[0])
+        # hazard_name = category.hazards
+        # print(hazard_name)
+    #     hazards_list.append(hazard_name)
+
+    # print(list(hazards_db_list))
+    # print(list(hazardz_db_list))
 
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
@@ -240,7 +268,9 @@ def search_by_name():
     location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
     error = None
     search_name = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
+    print(search_name)
     location_name = request.form.get('search_by_name')
+    print(location_name)
     if search_name:
         return redirect(url_for('search_results', location_name=location_name))
     error = 'Apologies but your search did not match any of our results. If you believe we are missing one location please add it to our collection!'
@@ -260,19 +290,44 @@ def advanced_search():
     error = None
 
     advanced_search_results = request.form.to_dict()
-    # country = advanced_search_results['countries']
-    # break_type = advanced_search_results['break_types']
-    # wave_direction = advanced_search_results['wave_directions']
-    # bottom_type = advanced_search_results['bottom']
-    # country = advanced_search_results['countries']
-    # country = advanced_search_results['countries']
+    del advanced_search_results['action']
 
-    # search_country = mongo.db.locations.find({'country' : request.form['countries']})
+    country_in = request.form.get('country_selection')
+    country_out = {'$exists': 'True'}
+    break_type = request.form.get('break_type_selection')
+    wave_direction = request.form.get('wave_direction_selection')
+    bottom_type = request.form.get('bottom_selection')
+    
+    if 'country_selection' in request.form:
+        country = country_in
+        print('YESSSSS')
+    else:
+        country = country_out
+        print('NO')
+    
+    test_one = mongo.db.locations.find({ '$and': [ { 
+        'country': country,
+        'break_type': { '$eq': request.form['break_type_selection'] },
+        'wave_direction': { '$eq': request.form['wave_direction_selection'] },
+        'bottom': { '$eq': request.form['bottom_selection'] },
+        'hazards': { '$nin': ['none'] },
+        'facilities': { '$all': ['bar', 'food'] }
+        } ]
+    })
 
-    # if search_name:
-    #     return redirect(url_for('advanced_search_results', location_name=location_name))
-    # error = 'Apologies but no joy'
-    print(advanced_search_results)
+    print(country)
+    print(break_type)
+    print(wave_direction)
+    print(bottom_type)
+    
+
+    # location_name = request.form.get('search_by_name')
+
+    if test_one:
+        print(list(test_one))
+    else:
+        print('ERROR')
+
     return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 '''
 SEARCH BY NAME RESULTS
@@ -295,27 +350,27 @@ def search_results(location_name):
     # print(location)
     return render_template('search_results.html', locations=locations)
 
-'''''''''''''''''''''''''''''''''
+"""
 ADD LOCATION
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/add_spot')
 def add_spot():
     user = user_in_session()
     return render_template('addSpot.html', user=user, locations=mongo.db.locations.find())
 
-'''''''''''''''''''''''''''''''''
+"""
 ABOUT
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/about')
 def about():
     user = user_in_session()
     return render_template('about.html', user=user, locations=mongo.db.locations.find())
 
-'''''''''''''''''''''''''''''''''
+"""
 LOG IN | LOG OUT and USER PAGE
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -402,9 +457,9 @@ def user_logout():
     session.clear()
     return redirect(url_for('index'))
 
-'''''''''''''''''''''''''''''''''
+"""
 REGISTER
-'''''''''''''''''''''''''''''''''
+"""
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():

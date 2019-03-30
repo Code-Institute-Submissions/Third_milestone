@@ -47,7 +47,7 @@
             <form action="{{ url_for('advanced_search') }}" method="POST">
         
                 <div class="input-field col s12">
-                    <select id="category" name="countries">
+                    <select id="category" name="country_selection">
                         <option value="0" disabled selected>Choose your option</option>
                         {% for country in countries %}
                             {% for element in country.country %}
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="break_types">
+                    <select id="category" name="break_type_selection">
                         <option value="0" disabled selected>Choose your option</option>
                         {% for break in break_types %}
                             {% for element in break.break_type %}
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="wave_directions">
+                    <select id="category" name="wave_direction_selection">
                         <option value="0" disabled selected>Choose your option</option>
                         {% for wave in wave_directions %}
                             {% for element in wave.wave_direction %}
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="bottom">
+                    <select id="category" name="bottom_selection">
                         <option value="0" disabled selected>Choose your option</option>
                         {% for surface in bottom %}
                             {% for element in surface.bottom %}
@@ -97,11 +97,11 @@
                 <div class="col s12">
                     <p class="grey-text">Please select below the Facilities you wish to include in the search:</p>
                     {% for facility in facilities %}
-                        {% for element in facility.facilities %}
+                        {% for facility_name in facility.facilities %}
                             <div class="col s12 m6 l4">
-                                <label for="element(( loop.index }}">
-                                    <input type="checkbox" id="element" class="filled-in" name="{{ element }}"/>
-                                    <span>{{ element }}</span>
+                                <label for="facility{{ loop.index }}">
+                                    <input type="checkbox" id="facility{{ loop.index }}" class="filled-in" name="{{ facility_name }}" value="include"/>
+                                    <span>{{ facility_name }}</span>
                                 </label>
                             </div>
                         {% endfor %}
@@ -111,11 +111,11 @@
                 <div class="col s12">
                     <p class="grey-text">Please select below the Hazards you wish to exclude from the 
                     {% for hazard in hazards %}
-                        {% for element in hazard.hazards %}
+                        {% for hazard_name in hazard.hazards %}
                             <div class="col s12 m6 l4">
-                                <label>
-                                    <input type="checkbox" class="filled-in" name="hazards"/>
-                                    <span>{{ element }}</span>
+                                <label for="hazard{{ loop.index }}">
+                                    <input type="checkbox" id="hazard{{ loop.index }}" class="filled-in" name="{{ hazard_name }}" value="exclude"/>
+                                    <span>{{ hazard_name }}</span>
                                 </label>
                             </div>
                         {% endfor %}
@@ -144,11 +144,12 @@
             result.push(element[key]);
         }
     }       
-
     namesObj = {};
     for ( i in result) {
         namesObj[result[i]] = ""
     }
+
+
 
     $(document).ready(function(){
 
