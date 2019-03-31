@@ -22,15 +22,19 @@ def user_in_session():
     if 'username' in session:
         return session['username']
 
-def hazards_list_generator(advanced_search_results):
-    hazards_list = mongo.db.categories.find({}, {'_id': 0, 'hazards': 1})
-    selected_hazards = []
-    for hazard in hazards_list:
-        if advanced_search_results[hazard_name] == 'exclude':
-            selected_hazards.append(element)
-            print(selected_hazards)
-        
-    return selected_hazards
+def facilities_to_Array(advanced_search_results):
+    checkbox_results = []
+    for key, value in advanced_search_results.items():
+        if value == 'include':
+            checkbox_results.append(key)
+    return checkbox_results
+
+def hazards_to_Array(advanced_search_results):
+    checkbox_results = []
+    for key, value in advanced_search_results.items():
+        if value == 'exclude':
+            checkbox_results.append(key)
+    return checkbox_results
 
 """
 INDEX
@@ -96,6 +100,7 @@ def locations():
     # print(list(locations))
     return render_template('locations.html',user=user, locations=locations)
 
+
 @app.route('/locations_by_country')
 def locations_by_country():
     user = user_in_session()
@@ -111,6 +116,7 @@ def locations_by_country():
         { '$sort': { 'country_name': 1, '_id': 1 } }
     ])
     return render_template('locations.html',user=user, locations=locations)
+
 
 @app.route('/locations_by_rating')
 def locations_by_rating():
@@ -234,26 +240,8 @@ def search():
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
     location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
 
-    # hazards_db_list = mongo.db.categories.find({},
-    # {'_id': 0, 'hazards': 1})
-
-    # hazardz_db_list = mongo.db.categories.aggregate([
-    #     { '$group': {
-    #         '_id': 0,
-    #         'hazards': { '$addToSet': '$hazards'}
-    #     }}])
-
-    # hazards_list = []
-    # for category in hazards_db_list:
-    #     print(category[0])
-        # hazard_name = category.hazards
-        # print(hazard_name)
-    #     hazards_list.append(hazard_name)
-
-    # print(list(hazards_db_list))
-    # print(list(hazardz_db_list))
-
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
+
 
 @app.route('/search_by_name', methods=['POST'])
 def search_by_name():
@@ -276,6 +264,7 @@ def search_by_name():
     error = 'Apologies but your search did not match any of our results. If you believe we are missing one location please add it to our collection!'
     return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
+
 @app.route('/advanced_search', methods=['POST'])
 def advanced_search():
     user = user_in_session()
@@ -294,34 +283,45 @@ def advanced_search():
 
     country_in = request.form.get('country_selection')
     country_out = {'$exists': 'True'}
-    break_type = request.form.get('break_type_selection')
-    wave_direction = request.form.get('wave_direction_selection')
-    bottom_type = request.form.get('bottom_selection')
-    
+    break_type_in = request.form.get('break_type_selection')
+    break_type_out = {'$exists': 'True'}
+    wave_direction_in = request.form.get('wave_direction_selection')
+    wave_direction_out = {'$exists': 'True'}
+    bottom_type_in = request.form.get('bottom_selection')
+    bottom_type_out = {'$exists': 'True'}
+
+    print(facilities_to_Array(advanced_search_results))    
+    print(hazards_to_Array(advanced_search_results))   
+
     if 'country_selection' in request.form:
         country = country_in
-        print('YESSSSS')
     else:
         country = country_out
-        print('NO')
     
+    if 'break_type_selection' in request.form:
+        break_type = break_type_in
+    else:
+        break_type = break_type_out
+
+    if 'wave_direction_selection' in request.form:
+        wave_direction = wave_direction_in
+    else:
+        wave_direction = wave_direction_out
+
+    if 'bottom_selection' in request.form:
+        bottom_type = bottom_type_in
+    else:
+        bottom_type = bottom_type_out
+
     test_one = mongo.db.locations.find({ '$and': [ { 
         'country': country,
-        'break_type': { '$eq': request.form['break_type_selection'] },
-        'wave_direction': { '$eq': request.form['wave_direction_selection'] },
-        'bottom': { '$eq': request.form['bottom_selection'] },
-        'hazards': { '$nin': ['none'] },
-        'facilities': { '$all': ['bar', 'food'] }
+        'break_type': break_type,
+        'wave_direction': wave_direction,
+        'bottom': bottom_type,
+        'hazards': { '$nin': hazards_to_Array(advanced_search_results) },
+        'facilities': { '$all': facilities_to_Array(advanced_search_results) }
         } ]
     })
-
-    print(country)
-    print(break_type)
-    print(wave_direction)
-    print(bottom_type)
-    
-
-    # location_name = request.form.get('search_by_name')
 
     if test_one:
         print(list(test_one))
@@ -329,6 +329,7 @@ def advanced_search():
         print('ERROR')
 
     return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
+
 '''
 SEARCH BY NAME RESULTS
 '''
@@ -385,10 +386,12 @@ def login():
     error = 'Looks like invalid username. Please try to type again or register below'
     return render_template('user.html', error=error)
 
+
 @app.route('/user')
 def user():
     user = user_in_session()
     return render_template('user.html', user=user)
+
 
 @app.route('/user_logged')
 def user_logged():
@@ -451,6 +454,7 @@ def user_logged():
     #     }
     # ])
     return render_template('user_logged.html', user=user, locations=locations, locations_user=locations_user, test=test)
+
 
 @app.route('/user_logout')
 def user_logout():
