@@ -189,27 +189,26 @@
 
 <script>
 
-    var locNames = {{ location_name | safe }};
-    var result = [];
-    for (var i = 0; i < locNames.length; i++) {
-        var element = locNames[i];
+var locNames = {{ location_name | safe }};
+var result = [];
+for (var i = 0; i < locNames.length; i++) {
+    var element = locNames[i];
 
-        for (var key in element) {
-            result.push(element[key]);
-        }
-    }       
-    namesObj = {};
-    for ( i in result) {
-        namesObj[result[i]] = ""
+    for (var key in element) {
+        result.push(element[key]);
     }
+}       
+namesObj = {};
+for ( i in result) {
+    namesObj[result[i]] = ""
+}
 
-    $(document).ready(function(){
-
-        $('input.autocomplete').autocomplete({
-        data: namesObj
-        });
-
+$(document).ready(function(){
+    $('input.autocomplete').autocomplete({
+    data: namesObj
     });
+});
+
 </script>
 
 {% endblock %}

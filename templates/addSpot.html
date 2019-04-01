@@ -15,7 +15,7 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="country_input" required>
-                        <option value=" " disabled selected>Select from list</option>
+                        <option value="" disabled selected>Select from list</option>
                         {% for country in countries %}
                             {% for element in country.country %}
                                 <option>{{ element }}</option>
@@ -150,13 +150,13 @@
                         </p>
                         <p>
                             <label>
-                                <input name="add_rating" type="radio" value="1" checked />
+                                <input name="add_rating" type="radio" value="1" />
                                 <span>1 - Nah.. get me out of here!</span>
                             </label>
                         </p>
                         <p>
                             <label>
-                                <input name="add_rating" type="radio" value="2" checked />
+                                <input name="add_rating" type="radio" value="2" />
                                 <span>2</span>
                             </label>
                         </p>
@@ -168,13 +168,13 @@
                         </p>
                         <p>
                             <label>
-                                <input name="add_rating" type="radio" value="4" checked />
+                                <input name="add_rating" type="radio" value="4" />
                                 <span>4</span>
                             </label>
                         </p>
                         <p>
                             <label>
-                                <input name="add_rating" type="radio" value="5" checked />
+                                <input name="add_rating" type="radio" value="5" />
                                 <span>5 - Whoa! That's a splendid spot!</span>
                             </label>
                         </p>
@@ -194,5 +194,46 @@
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+$(document).ready(function(){
+
+    $('#facility8').prop('checked', true);
+    $('#hazard7').prop('checked', true);
+
+    var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
+
+    var $haz_boxes = $('#hazard1, #hazard2, #hazard3, #hazard4, #hazard5, #hazard6').not('#hazard7');
+
+    $('#facility8').change(function () {
+        if (this.checked) {
+            $fac_boxes.prop('checked', false)
+        }
+    });
+    $fac_boxes.change(function () {
+        if (this.checked) {
+            $('#facility8').prop('checked', false)
+        }
+    })
+
+    $('#hazard7').change(function () {
+        if (this.checked) {
+            $haz_boxes.prop('checked', false)
+        }
+    });
+    $haz_boxes.change(function () {
+        if (this.checked) {
+            $('#hazard7').prop('checked', false)
+        }
+    })
+
+});
+
+</script>
 
 {% endblock %}

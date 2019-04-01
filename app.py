@@ -277,6 +277,7 @@ def search_by_name():
 
     search_result = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
     if search_result == None:
+        flash('Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!', 'search')
         return redirect(url_for('oups'))
     name_search = mongo.db.locations.aggregate([
         { '$match': {'name' : search_result['name'] } },
@@ -364,15 +365,14 @@ def advanced_search():
     adv_search = list(adv_search)
 
     if adv_search == []:
+        flash('Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!', 'search')
         return redirect(url_for('oups'))
     
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, adv_search=adv_search)
 
 @app.route('/oups')
 def oups():
-    error = 'Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!'
-    return render_template('oups.html', error=error)
-
+    return render_template('oups.html')
 
 
 """
@@ -382,6 +382,10 @@ ADD LOCATION
 @app.route('/add_spot', methods=['GET','POST'])
 def add_spot():
     user = user_in_session()
+    if user is None:
+        flash('Please log in or register to add a new location.', 'add')
+        return redirect(url_for('oups'))
+
     categories = mongo.db.categories
     countries = categories.find( { 'country': {'$ne': 'null'} } )
     break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
@@ -393,11 +397,12 @@ def add_spot():
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
 
-    if request.method == 'POST' and user_in_session():
-        print(request.form['name_input'])
+    if request.method == 'POST':
         input_location = request.form.to_dict()
-        del input_location['action']
         print(input_location)
+        print(facilities_to_new(input_location))
+        print(hazards_to_new(input_location))
+        del input_location['action']
         add_new = mongo.db.locations.insert( { 
             'name': request.form['name_input'],
             'country': request.form['country_input'],
@@ -417,7 +422,6 @@ def add_spot():
         } )
         get_loc_id = mongo.db.locations.find_one({'name' : request.form['name_input']})
         location_id = get_loc_id['_id']
-        print(location_id)
         return redirect(url_for('spot', location_id=location_id))
 
     return render_template('addSpot.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
