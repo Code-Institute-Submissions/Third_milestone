@@ -475,7 +475,7 @@
     "wave_direction": "right & left",
     "wind_direction": "n/a",
     "swell_direction": "n/a",
-    "bottom": "sand",
+    "bottom": "rocks",
     "facilities": ["parking", "accommodation", "food", "bar"],
     "surroundings": "city",
     "hazards": ["strong currents", "no life guards","pollution","rocks"],

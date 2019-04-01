@@ -332,16 +332,16 @@ def advanced_search():
         'facilities': facilities_to_Array(advanced_search_results)
         } ]
         }
-    },
-    { '$unwind': '$ratings' },
-    { '$group': {
-        '_id': '$name',
-        'average_rating': { '$avg': '$ratings.rate'},
-        'country_name': { '$addToSet': '$country'},
-        'break_type_name': { '$addToSet': '$break_type'},
-        'old_id': { '$addToSet': '$_id'}
-        } },
-    { '$sort': { 'average_rating': -1, '_id': 1 } }
+        },
+        { '$unwind': '$ratings' },
+        { '$group': {
+            '_id': '$name',
+            'average_rating': { '$avg': '$ratings.rate'},
+            'country_name': { '$addToSet': '$country'},
+            'break_type_name': { '$addToSet': '$break_type'},
+            'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { 'average_rating': -1, '_id': 1 } }
     ])
 
     adv_search = list(adv_search)
@@ -350,7 +350,6 @@ def advanced_search():
         return redirect(url_for('oups'))
     
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, adv_search=adv_search)
-
 
 @app.route('/oups')
 def oups():

@@ -5,19 +5,21 @@
 <div class="container space">
     <div class="row">
 
-        <form action="{{ url_for('search_by_name') }}" method="POST">
+        <div id="search_name">
+            <form action="{{ url_for('search_by_name') }}" method="POST">
 
-            <div class="input-field col s12 m8">
-                <i class="material-icons prefix">search</i>
-                <input name="search_by_name" type="text" id="search_by_name" class="autocomplete">
-                <label for="search_by_name">Autocomplete</label>
-            </div>
+                <div class="input-field col s12 m8">
+                    <i class="material-icons prefix">search</i>
+                    <input name="search_by_name" type="text" id="search_by_name" class="autocomplete">
+                    <label for="search_by_name">Autocomplete</label>
+                </div>
 
-            <div class="col s12 m4 center-align">
-                <button class="btn waves-effect waves-light" type="submit" name="action">SEARCH</button>
-            </div>
+                <div class="col s12 m4 center-align">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">SEARCH</button>
+                </div>
 
-        </form>
+            </form>
+        </div>
 
         <div class="col s12">
             <a id="advanced_btn">Advanced search</a>
@@ -146,8 +148,6 @@
     </div>
 </div>
 
-
-
 <div class="container">
     <div class="row">
         {% if adv_search %}
@@ -183,12 +183,12 @@
     </div>
 </div>
 
-
 {% endblock %}
 
 {% block script %}
 
 <script>
+
     var locNames = {{ location_name | safe }};
     var result = [];
     for (var i = 0; i < locNames.length; i++) {
@@ -203,17 +203,10 @@
         namesObj[result[i]] = ""
     }
 
-
-
     $(document).ready(function(){
 
         $('input.autocomplete').autocomplete({
         data: namesObj
-        });
-
-        $('#advanced_btn').click(function(){
-            $('#advanced_form').toggleClass('hide');
-            $('#advanced_btn').toggleClass('grey-text');
         });
 
     });
