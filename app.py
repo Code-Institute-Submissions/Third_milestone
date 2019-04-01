@@ -307,16 +307,6 @@ def advanced_search():
         bottom_type = bottom_type_in
     else:
         bottom_type = bottom_type_out
-    
-    # adv_search = mongo.db.locations.find({ '$and': [ { 
-    #     'country': country,
-    #     'break_type': break_type,
-    #     'wave_direction': wave_direction,
-    #     'bottom': bottom_type,
-    #     'hazards': hazards_to_Array(advanced_search_results),
-    #     'facilities': facilities_to_Array(advanced_search_results)
-    #     } ]
-    # })
 
     adv_search = mongo.db.locations.aggregate([
         { '$match': { '$and': [ { 
@@ -341,14 +331,10 @@ def advanced_search():
     ])
 
     adv_search = list(adv_search)
-    # adv_search = adv_search.get('adv_search')
-    # return adv_search[0]['total']
 
     if adv_search == []:
         return redirect(url_for('oups'))
     
-    # print(adv_search)
-
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, adv_search=adv_search)
 
 
