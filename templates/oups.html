@@ -9,6 +9,12 @@
                 <p><strong>Oups!</strong> {{ error }}</p>
             {% endif %}
         </div>
+        <div class="col s12 m6 center-align">
+            <a href="{{ url_for('search') }}" class="waves-effect waves-teal btn-flat light-blue-text">GO BACK</a>
+        </div>
+        <div class="col s12 m6 center-align">
+                <a href="{{ url_for('add_spot') }}" class="waves-effect waves-teal btn-flat light-blue-text">ADD SPOT</a>
+            </div>
     </div>
 </div>
 
