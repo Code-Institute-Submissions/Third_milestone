@@ -27,14 +27,19 @@ def facilities_to_Array(advanced_search_results):
     for key, value in advanced_search_results.items():
         if value == 'include':
             checkbox_results.append(key)
-    return checkbox_results
+    if checkbox_results == []:
+        return {'$exists': 'True'}
+    return { '$all': checkbox_results }
 
 def hazards_to_Array(advanced_search_results):
     checkbox_results = []
     for key, value in advanced_search_results.items():
         if value == 'exclude':
             checkbox_results.append(key)
-    return checkbox_results
+    if checkbox_results == []:
+        return {'$exists': 'True'}
+    return { '$nin': checkbox_results }
+
 
 """
 INDEX
@@ -97,7 +102,6 @@ def locations():
             } },
         { '$sort': { '_id': 1 } }
     ])
-    # print(list(locations))
     return render_template('locations.html',user=user, locations=locations)
 
 
@@ -171,7 +175,7 @@ def spot(location_id):
         { '$sample': { 'size': 3 } },
         { '$limit': 3 }
     ])
-    print(list(avg_rating))
+
     return render_template('spot.html', user=user, location=location, avg_rating=avg_rating, locations_random=locations_random)
 
 """
@@ -253,17 +257,13 @@ def search_by_name():
     bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
-    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
-    error = None
-    search_name = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
-    print(search_name)
-    location_name = request.form.get('search_by_name')
-    print(location_name)
-    if search_name:
-        return redirect(url_for('search_results', location_name=location_name))
-    error = 'Apologies but your search did not match any of our results. If you believe we are missing one location please add it to our collection!'
-    return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
+    search_result = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
+
+    if search_result == None:
+        return redirect(url_for('oups'))
+
+    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, search_result=search_result)
 
 @app.route('/advanced_search', methods=['POST'])
 def advanced_search():
@@ -275,8 +275,6 @@ def advanced_search():
     bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
-    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
-    error = None
 
     advanced_search_results = request.form.to_dict()
     del advanced_search_results['action']
@@ -289,9 +287,6 @@ def advanced_search():
     wave_direction_out = {'$exists': 'True'}
     bottom_type_in = request.form.get('bottom_selection')
     bottom_type_out = {'$exists': 'True'}
-
-    print(facilities_to_Array(advanced_search_results))    
-    print(hazards_to_Array(advanced_search_results))   
 
     if 'country_selection' in request.form:
         country = country_in
@@ -312,23 +307,56 @@ def advanced_search():
         bottom_type = bottom_type_in
     else:
         bottom_type = bottom_type_out
+    
+    # adv_search = mongo.db.locations.find({ '$and': [ { 
+    #     'country': country,
+    #     'break_type': break_type,
+    #     'wave_direction': wave_direction,
+    #     'bottom': bottom_type,
+    #     'hazards': hazards_to_Array(advanced_search_results),
+    #     'facilities': facilities_to_Array(advanced_search_results)
+    #     } ]
+    # })
 
-    test_one = mongo.db.locations.find({ '$and': [ { 
+    adv_search = mongo.db.locations.aggregate([
+        { '$match': { '$and': [ { 
         'country': country,
         'break_type': break_type,
         'wave_direction': wave_direction,
         'bottom': bottom_type,
-        'hazards': { '$nin': hazards_to_Array(advanced_search_results) },
-        'facilities': { '$all': facilities_to_Array(advanced_search_results) }
+        'hazards': hazards_to_Array(advanced_search_results),
+        'facilities': facilities_to_Array(advanced_search_results)
         } ]
-    })
+        }
+    },
+    { '$unwind': '$ratings' },
+    { '$group': {
+        '_id': '$name',
+        'average_rating': { '$avg': '$ratings.rate'},
+        'country_name': { '$addToSet': '$country'},
+        'break_type_name': { '$addToSet': '$break_type'},
+        'old_id': { '$addToSet': '$_id'}
+        } },
+    { '$sort': { 'average_rating': -1, '_id': 1 } }
+    ])
 
-    if test_one:
-        print(list(test_one))
-    else:
-        print('ERROR')
+    adv_search = list(adv_search)
+    # adv_search = adv_search.get('adv_search')
+    # return adv_search[0]['total']
 
-    return render_template('search.html', error=error, user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
+    if adv_search == []:
+        return redirect(url_for('oups'))
+    
+    # print(adv_search)
+
+    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, adv_search=adv_search)
+
+
+@app.route('/oups')
+def oups():
+    error = 'Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!'
+    return render_template('oups.html', error=error)
+
 
 '''
 SEARCH BY NAME RESULTS
