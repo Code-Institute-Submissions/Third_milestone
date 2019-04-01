@@ -112,11 +112,38 @@
 </div>
 
 <div class="container">
-        <div class="row">
-            {% if search_result %}
-            <p>{{ search_result.name }}</p>
-            {% endif %}
-        </div>
+    <div class="row">
+        {% if name_search %}
+        {% for location in name_search %}
+        <a href="{{ url_for('spot', location_id=location.old_id[0]) }}">
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
+                        <span class="card-title">{{ location._id }}</span>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            <i class="material-icons">star</i>                            
+                        </div>
+                        <div class="btn-floating halfway-fab transparent center-align">
+                            {% if location.average_rating == None %}
+                                <p class="rating-floating">{{0}}</p>
+                            {% else %}
+                                <p class="rating-floating">{{ location.average_rating | round|int }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-content center-align light-blue white-text">
+                        <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
+                    </div>
+                    <div class="card-action center-align">
+                        <h6>Explore</h6>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+    </div>
 </div>
 
 

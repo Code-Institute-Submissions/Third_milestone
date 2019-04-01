@@ -259,11 +259,25 @@ def search_by_name():
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
 
     search_result = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
-
     if search_result == None:
         return redirect(url_for('oups'))
+    name_search = mongo.db.locations.aggregate([
+        { '$match': {'name' : search_result['name'] } },
+        { '$unwind': '$ratings' },
+        { '$group': {
+                '_id': '$name',
+                'average_rating': { '$avg': '$ratings.rate'},
+                'country_name': { '$addToSet': '$country'},
+                'break_type_name': { '$addToSet': '$break_type'},
+                'old_id': { '$addToSet': '$_id'}
+            } },
+        { '$sort': { '_id': 1 } }
+    ])
 
-    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, search_result=search_result)
+    name_search = list(name_search)
+    # print(name_search)
+
+    return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, name_search=name_search)
 
 @app.route('/advanced_search', methods=['POST'])
 def advanced_search():
@@ -344,26 +358,6 @@ def oups():
     return render_template('oups.html', error=error)
 
 
-'''
-SEARCH BY NAME RESULTS
-'''
-
-@app.route('/search_results/<location_name>')
-def search_results(location_name):
-    locations = mongo.db.locations.aggregate([
-        { '$match': {'name' : location_name } },
-        { '$unwind': '$ratings' },
-        { '$group': {
-                '_id': '$name',
-                'average_rating': { '$avg': '$ratings.rate'},
-                'country_name': { '$addToSet': '$country'},
-                'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
-            } },
-        { '$sort': { '_id': 1 } }
-    ])
-    # print(location)
-    return render_template('search_results.html', locations=locations)
 
 """
 ADD LOCATION
