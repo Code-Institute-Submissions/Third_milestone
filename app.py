@@ -40,12 +40,16 @@ def hazards_to_Array(advanced_search_results):
         return {'$exists': 'True'}
     return { '$nin': checkbox_results }
 
+# def exisiting_name(name_check):
+#     loc_names = mongo.db.locations.find( { 'name': {'$eq': 'name_check'} } )
+#     if loc_names:
+#         return 
+
 def facilities_to_new(input_location):
     checkbox_results = []
     for key, value in input_location.items():
         if value == 'facility':
             checkbox_results.append(key)
-    if checkbox_results == []:
         flash('Please mark at least one facility or select "none" if there are none', 'checkbox_fac')
     return checkbox_results
 
@@ -54,7 +58,6 @@ def hazards_to_new(input_location):
     for key, value in input_location.items():
         if value == 'hazard':
             checkbox_results.append(key)
-    if checkbox_results == []:
         flash('Please mark at least one hazard or select "none" if there are none', 'checkbox_haz')
     return checkbox_results
 
@@ -397,34 +400,44 @@ def add_spot():
     facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
 
+    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
+
     if request.method == 'POST':
         input_location = request.form.to_dict()
-        print(input_location)
-        print(facilities_to_new(input_location))
-        print(hazards_to_new(input_location))
         del input_location['action']
-        add_new = mongo.db.locations.insert( { 
-            'name': request.form['name_input'],
-            'country': request.form['country_input'],
-            'region': request.form['region_input'],
-            'break_type': request.form['break_type_input'],
-            'wave_direction': request.form['wave_direction_input'],
-            'wind_direction': request.form['wind_direction_input'],
-            'swell_direction': request.form['swell_direction_input'],
-            'bottom': request.form['bottom_input'],
-            'facilities': facilities_to_new(input_location),
-            'surroundings': request.form['surroundings_input'],
-            'hazards': hazards_to_new(input_location),
-            'ratings': [{
-                'user_name': session['username'],
-                'rate': int(request.form['add_rating']) }],
-            'description': request.form['add_description'],
-        } )
-        get_loc_id = mongo.db.locations.find_one({'name' : request.form['name_input']})
-        location_id = get_loc_id['_id']
-        return redirect(url_for('spot', location_id=location_id))
+    
+        print(location_name)
 
-    return render_template('addSpot.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
+        spot_name = request.form['name_input']
+
+        for key, value in input_location.items():
+            if value == spot_name:
+                print('already exist')
+                flash('The location with that name already exisit. Please choose other name or edit exisitng one', 'name_exists')
+                return redirect(url_for('add_spot'))
+            else:
+                add_new = mongo.db.locations.insert_one( { 
+                    'name': request.form['name_input'],
+                    'country': request.form['country_input'],
+                    'region': request.form['region_input'],
+                    'break_type': request.form['break_type_input'],
+                    'wave_direction': request.form['wave_direction_input'],
+                    'wind_direction': request.form['wind_direction_input'],
+                    'swell_direction': request.form['swell_direction_input'],
+                    'bottom': request.form['bottom_input'],
+                    'facilities': facilities_to_new(input_location),
+                    'surroundings': request.form['surroundings_input'],
+                    'hazards': hazards_to_new(input_location),
+                    'ratings': [{
+                        'user_name': session['username'],
+                        'rate': int(request.form['add_rating']) }],
+                    'description': request.form['add_description'],
+                } )
+                get_loc_id = mongo.db.locations.find_one({'name' : request.form['name_input']})
+                location_id = get_loc_id['_id']
+                return redirect(url_for('spot', location_id=location_id))
+
+    return render_template('addSpot.html', user=user, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
 
 """
 ABOUT

@@ -12,6 +12,9 @@ $(document).ready(function(){
     // Acivation of dropdown menu element
     $(".dropdown-trigger").dropdown();
 
+    // Character counter for text inputs
+    $('input#username, textarea#textarea2').characterCounter();
+
     $('#advanced_btn').click(function() {
         $('#advanced_form').toggleClass('hide');
         $('#advanced_btn').toggleClass('grey-text');

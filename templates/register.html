@@ -16,8 +16,9 @@
                 <div class="row">
 
                     <div class="input-field col s12">
-                        <input placeholder="Username" id="username" name="username" type="text" class="validate">
+                        <input placeholder="joebloggs" id="username" name="username" type="text" class="validate" pattern="{2,}" data-length="12">
                         <label for="username">Username</label>
+                        <span class="helper-text" data-error="Incorrect input. Please stick to the guidline!" data-success="That's a correct input">Please provide username between 2 and 10 characters without white spaces</span>
                     </div>
                     <div class="input-field col s12">
                         <input disabled value="Password not requred" id="disabled" type="text" class="validate">

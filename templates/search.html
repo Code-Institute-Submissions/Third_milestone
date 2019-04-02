@@ -207,6 +207,33 @@ $(document).ready(function(){
     $('input.autocomplete').autocomplete({
     data: namesObj
     });
+
+    var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
+
+    var $haz_boxes = $('#hazard1, #hazard2, #hazard3, #hazard4, #hazard5, #hazard6').not('#hazard7');
+
+    $('#facility8').change(function () {
+        if (this.checked) {
+            $fac_boxes.prop('checked', false)
+        }
+    });
+    $fac_boxes.change(function () {
+        if (this.checked) {
+            $('#facility8').prop('checked', false)
+        }
+    })
+
+    $('#hazard7').change(function () {
+        if (this.checked) {
+            $haz_boxes.prop('checked', false)
+        }
+    });
+    $haz_boxes.change(function () {
+        if (this.checked) {
+            $('#hazard7').prop('checked', false)
+        }
+    })
+
 });
 
 </script>
