@@ -18,6 +18,9 @@ mongo = PyMongo(app)
 HELPER FUNCTIONS
 """
 
+locations_db = mongo.db.locations
+categories_db = mongo.db.categories
+
 def user_in_session():
     if 'username' in session:
         return session['username']
@@ -40,17 +43,12 @@ def hazards_to_Array(advanced_search_results):
         return {'$exists': 'True'}
     return { '$nin': checkbox_results }
 
-# def exisiting_name(name_check):
-#     loc_names = mongo.db.locations.find( { 'name': {'$eq': 'name_check'} } )
-#     if loc_names:
-#         return 
-
 def facilities_to_new(input_location):
     checkbox_results = []
     for key, value in input_location.items():
         if value == 'facility':
             checkbox_results.append(key)
-        flash('Please mark at least one facility or select "none" if there are none', 'checkbox_fac')
+            print(checkbox_results)
     return checkbox_results
 
 def hazards_to_new(input_location):
@@ -58,7 +56,7 @@ def hazards_to_new(input_location):
     for key, value in input_location.items():
         if value == 'hazard':
             checkbox_results.append(key)
-        flash('Please mark at least one hazard or select "none" if there are none', 'checkbox_haz')
+            print(checkbox_results)
     return checkbox_results
 
 """
@@ -72,7 +70,7 @@ def index():
     Limit operator will display 3 top rated location
     '''
 
-    locations = mongo.db.locations.aggregate([
+    locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
             '_id': '$name',
@@ -89,7 +87,7 @@ def index():
     Sample operator will display 3 random location including the top rated from above
     '''
 
-    locations_random = mongo.db.locations.aggregate([
+    locations_random = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
             '_id': '$name',
@@ -111,7 +109,7 @@ ALL LOCATIONS WITH SORT FILTER
 @app.route('/locations')
 def locations():
     user = user_in_session()
-    locations = mongo.db.locations.aggregate([
+    locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
             '_id': '$name',
@@ -128,7 +126,7 @@ def locations():
 @app.route('/locations_by_country')
 def locations_by_country():
     user = user_in_session()
-    locations = mongo.db.locations.aggregate([
+    locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
             '_id': '$name',
@@ -145,7 +143,7 @@ def locations_by_country():
 @app.route('/locations_by_rating')
 def locations_by_rating():
     user = user_in_session()
-    locations = mongo.db.locations.aggregate([
+    locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
             '_id': '$name',
@@ -169,8 +167,8 @@ def spot(location_id):
         flash('Please log in to rate and comment on this location', 'login')
     else:
         flash('Please comment and rate this location below:', 'login')
-    location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
-    avg_rating = mongo.db.locations.aggregate([
+    location = locations_db.find_one({'_id': ObjectId(location_id)})
+    avg_rating = locations_db.aggregate([
         { '$match': {
             '_id': ObjectId(location_id)
             } },
@@ -183,7 +181,7 @@ def spot(location_id):
             'old_id': { '$addToSet': '$_id'}
             } }
     ])
-    locations_random = mongo.db.locations.aggregate([
+    locations_random = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
             '_id': '$name',
@@ -207,11 +205,11 @@ def user_input(location_id):
     user = user_in_session()
     user_in_rating = None
 
-    if mongo.db.locations.find({ 'ratings.user_name': user }):
+    if locations_db.find({ 'ratings.user_name': user }):
         user_in_rating = user
 
     now = datetime.now().strftime('%Y-%m-%d at %H:%M:%S')
-    location = mongo.db.locations.find_one({'_id': ObjectId(location_id)})
+    location = locations_db.find_one({'_id': ObjectId(location_id)})
     
     if 'username' not in session:
         flash('Please log in or register to rate and comment!')
@@ -219,12 +217,12 @@ def user_input(location_id):
 
     if request.method == 'POST':
         if 'rating' in request.form:
-            mongo.db.locations.update(
+            locations_db.update(
                 { '_id': ObjectId(location_id), 'ratings.user_name': user },
                 { '$set': { 'ratings.$.rate': request.form.get('rating', type=int) } },
                 False, True
             )
-            mongo.db.locations.update(
+            locations_db.update(
                 { '_id': ObjectId(location_id), 'ratings.user_name': { '$ne': user } },
                 { '$addToSet': { 
                     'ratings': { 
@@ -234,7 +232,7 @@ def user_input(location_id):
             flash('Thank you for your rating!', 'spot')
             return redirect(url_for('spot', location_id=location_id))
         else:
-            mongo.db.locations.update(
+            locations_db.update(
             { '_id': ObjectId(location_id) },
             { '$push': {
                 'comments': {
@@ -255,14 +253,13 @@ SEARCH
 @app.route('/search')
 def search():
     user = user_in_session()
-    categories = mongo.db.categories
-    countries = categories.find( { 'country': {'$ne': 'null'} } )
-    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
-    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
-    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
-    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
-    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
-    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
+    countries = categories_db.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories_db.find( { 'wave_direction': {'$ne': 'null'} } )
+    bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )
+    location_name = dumps(locations_db.find( {}, { '_id': 0, 'name': 1 } ))
 
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
@@ -270,19 +267,18 @@ def search():
 @app.route('/search_by_name', methods=['POST'])
 def search_by_name():
     user = user_in_session()
-    categories = mongo.db.categories
-    countries = categories.find( { 'country': {'$ne': 'null'} } )
-    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
-    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
-    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
-    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
-    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
+    countries = categories_db.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories_db.find( { 'wave_direction': {'$ne': 'null'} } )
+    bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )
 
-    search_result = mongo.db.locations.find_one({'name' : request.form['search_by_name']})
+    search_result = locations_db.find_one({'name' : request.form['search_by_name']})
     if search_result == None:
         flash('Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!', 'search')
         return redirect(url_for('oups'))
-    name_search = mongo.db.locations.aggregate([
+    name_search = locations_db.aggregate([
         { '$match': {'name' : search_result['name'] } },
         { '$unwind': '$ratings' },
         { '$group': {
@@ -303,13 +299,12 @@ def search_by_name():
 @app.route('/advanced_search', methods=['POST'])
 def advanced_search():
     user = user_in_session()
-    categories = mongo.db.categories
-    countries = categories.find( { 'country': {'$ne': 'null'} } )
-    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
-    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
-    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
-    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
-    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
+    countries = categories_db.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories_db.find( { 'wave_direction': {'$ne': 'null'} } )
+    bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )
 
     advanced_search_results = request.form.to_dict()
     del advanced_search_results['action']
@@ -343,7 +338,7 @@ def advanced_search():
     else:
         bottom_type = bottom_type_out
 
-    adv_search = mongo.db.locations.aggregate([
+    adv_search = locations_db.aggregate([
         { '$match': { '$and': [ { 
         'country': country,
         'break_type': break_type,
@@ -384,39 +379,46 @@ ADD LOCATION
 
 @app.route('/add_spot', methods=['GET','POST'])
 def add_spot():
+    # Tools for using Python’s json module with BSON
+    location_name = dumps(locations_db.find( {}, { '_id': 0, 'name': 1 } ))
+    
     user = user_in_session()
     if user is None:
         flash('Please log in or register to add a new location.', 'add')
         return redirect(url_for('oups'))
 
-    categories = mongo.db.categories
-    countries = categories.find( { 'country': {'$ne': 'null'} } )
-    break_types = categories.find( { 'break_type': {'$ne': 'null'} } )
-    wave_directions = categories.find( { 'wave_direction': {'$ne': 'null'} } )
-    wind_directions = categories.find( { 'wind_direction': {'$ne': 'null'} } )
-    swell_directions = categories.find( { 'swell_direction': {'$ne': 'null'} } )
-    surroundings = categories.find( { 'surroundings': {'$ne': 'null'} } )
-    bottom = categories.find( { 'bottom': {'$ne': 'null'} } )
-    facilities = categories.find( { 'facilities': {'$ne': 'null'} } )
-    hazards = categories.find( { 'hazards': {'$ne': 'null'} } )
-
-    location_name = dumps(mongo.db.locations.find( {}, { '_id': 0, 'name': 1 } ))
+    countries = categories_db.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories_db.find( { 'wave_direction': {'$ne': 'null'} } )
+    wind_directions = categories_db.find( { 'wind_direction': {'$ne': 'null'} } )
+    swell_directions = categories_db.find( { 'swell_direction': {'$ne': 'null'} } )
+    surroundings = categories_db.find( { 'surroundings': {'$ne': 'null'} } )
+    bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )    
+    
+    current_loc_names = locations_db.aggregate([
+        { '$group': {
+            '_id': '$name'
+        }}])
+    
+    current_loc_names_list = list(current_loc_names)
+    new_dict = {item['_id']:item for item in current_loc_names_list}
 
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-    
-        print(location_name)
+        print(input_location)
 
         spot_name = request.form['name_input']
 
-        for key, value in input_location.items():
-            if value == spot_name:
+        for key, value in new_dict.items():
+            if key == spot_name:
                 print('already exist')
                 flash('The location with that name already exisit. Please choose other name or edit exisitng one', 'name_exists')
                 return redirect(url_for('add_spot'))
             else:
-                add_new = mongo.db.locations.insert_one( { 
+                add_new = locations_db.insert_one( { 
                     'name': request.form['name_input'],
                     'country': request.form['country_input'],
                     'region': request.form['region_input'],
@@ -433,7 +435,7 @@ def add_spot():
                         'rate': int(request.form['add_rating']) }],
                     'description': request.form['add_description'],
                 } )
-                get_loc_id = mongo.db.locations.find_one({'name' : request.form['name_input']})
+                get_loc_id = locations_db.find_one({'name' : request.form['name_input']})
                 location_id = get_loc_id['_id']
                 return redirect(url_for('spot', location_id=location_id))
 
@@ -446,7 +448,7 @@ ABOUT
 @app.route('/about')
 def about():
     user = user_in_session()
-    return render_template('about.html', user=user, locations=mongo.db.locations.find())
+    return render_template('about.html', user=user, locations=locations_db.find())
 
 """
 LOG IN | LOG OUT and USER PAGE
@@ -475,11 +477,11 @@ def user():
 @app.route('/user_logged')
 def user_logged():
     user = user_in_session()
-    # xxx = mongo.db.locations.aggregate([
+    # xxx = locations_db.aggregate([
     #     { '$match': { 'ratings.name': user } },
         
     # ])
-    locations_user = mongo.db.locations.find({
+    locations_user = locations_db.find({
         # { '$match': {
         #     '_id': ObjectId(location_id)
         #     }
@@ -489,7 +491,7 @@ def user_logged():
             { 'comments.user_name': user }
             ]
         })
-    test = mongo.db.locations.aggregate([
+    test = locations_db.aggregate([
         # {
         #     '$group': {
         #         '_id': '$_id',
@@ -514,7 +516,7 @@ def user_logged():
     ]
     )
     # print(list(locations_user))
-    # loc = mongo.db.locations.aggregate([
+    # loc = locations_db.aggregate([
     #     { '$match': {
     #         'ratings.user_name': user
     #         }

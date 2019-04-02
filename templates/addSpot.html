@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
 
-<div class="col s12">
+<div class="test col s12">
 {% with name_exists = get_flashed_messages(category_filter=['name_exists']) %}
     {% if name_exists %}
         {% for message in name_exists %}                            
@@ -20,13 +20,14 @@
             <form action="{{ url_for('add_spot') }}" method="POST">
 
                 <div class="input-field col s12">
-                    <input name="name_input" type="text" id="name_input" pattern="[" required>
+                    <input name="name_input" type="text" id="name_input" required>
                     <label for="name_input">Type in location name</label>
+                    <span class="helper-text">Please note that this location already exists!</span>
                 </div>
 
                 <div class="input-field col s12">
                     <select id="category" name="country_input" required>
-                        <option value="" disabled selected>Select from list</option>
+                        <option id="country_input" value="" disabled selected>Select from list</option>
                         {% for country in countries %}
                             {% for element in country.country %}
                                 <option>{{ element }}</option>
@@ -199,21 +200,35 @@
 <script>
 
 var locNames = {{ location_name | safe }};
-console.log(locNames)
 var result = [];
+
 for (var i = 0; i < locNames.length; i++) {
     var element = locNames[i];
     for (var key in element) {
         result.push(element[key]);
     }
 }
-console.log(result)       
-namesObj = {};
-for ( i in result) {
-    namesObj[result[i]] = ""
-}
-console.log(namesObj)
-$(document).ready(function(){
+console.log(result)   
+
+$(document).ready(function() {
+
+    // Checks in place to make sure there are no duplications in location names
+
+    $('.helper-text').css({ 'background': 'transparent'}).hide();
+
+    var name_input = $('#name_input').val();
+
+    $('#name_input').bind('input propertychange', function() {
+        if (result.includes($(this).val())) {
+            $('.helper-text').css({ 'background': '#ffebee'}).show();
+            $('.btn').addClass('disabled');
+        } else {
+            $('.helper-text').css({ 'background': 'transparent'}).hide();
+            $('.btn').removeClass('disabled');
+        }
+    });
+
+    // Checks in place to make sure facilities and hazards are not null
 
     $('#facility8').prop('checked', true);
     $('#hazard7').prop('checked', true);
@@ -227,23 +242,48 @@ $(document).ready(function(){
             $fac_boxes.prop('checked', false)
         }
     });
+
     $fac_boxes.change(function () {
         if (this.checked) {
             $('#facility8').prop('checked', false)
         }
-    })
+    });
 
     $('#hazard7').change(function () {
         if (this.checked) {
             $haz_boxes.prop('checked', false)
         }
     });
+
     $haz_boxes.change(function () {
         if (this.checked) {
             $('#hazard7').prop('checked', false)
         }
-    })
+    });
 
+    // validate_input();
+    // $('#country_input, #break_type_input').change(validate_input);
+
+    // function validate_input() {
+    //     if ( $('#country_input').val() == 'Select from list' &&
+    //         $('#break_type_input').val() == 'Select from list') {
+    //             $('.btn').addClass('disabled');
+    //         } else {
+    //             $('.btn').removeClass('disabled');
+    //         }
+    //     };
+
+    // console.log($('#country_input').val());
+
+    // Checks in place to make sure all dropdowns are selected
+
+    // // var $input_opt = $('#country_input, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
+    //     console.log($('input.select-dropdown > ul > li').val())
+    // if ( $('input.select-dropdown > ul > li').first().hasClass('selected')) {
+    //     $('.btn').addClass('disabled');
+    // } else {
+    //     $('.btn').removeClass('disabled');
+    // }
 });
 
 </script>
