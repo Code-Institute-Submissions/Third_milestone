@@ -30,7 +30,7 @@
                 <div class="row">
 
                     <div class="input-field col s12">
-                        <input placeholder="Username" id="username" name="username" type="text" class="validate" required>
+                        <input placeholder="Username" id="username" name="username" type="text" class="validate" data-length="32" required>
                         <label for="username">Username</label>
                     </div>
 
@@ -54,5 +54,27 @@
 
     </div>
 </div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+// Checks in place to make sure that length limit is not exceeded
+
+$(document).ready(function() {
+
+    $('#username').bind('input propertychange', function() {
+        if ($(this).val().length < 3 || $(this).val().length > 32) {
+            $('.btn').addClass('disabled');
+        } else {
+            $('.btn').removeClass('disabled');
+        }
+    });
+
+});
+
+</script>
 
 {% endblock %}

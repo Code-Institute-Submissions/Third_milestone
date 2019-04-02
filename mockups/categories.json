@@ -18,12 +18,12 @@
         "bottom": ["sand", "rocky reef", "sand & rocks", "rocks"]
     },
     {
-        "facilities": ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental", "none"]
+        "facilities": ["parking", "accommodation", "food", "bar", "showers", "toilets", "school & rental", "lack of facilities"]
     },
     {
         "surroundings": ["remote", "village", "town", "city"]
     },
     {
-        "hazards": ["rocks", "pollution", "localism", "no life guards", "urchins", "strong currents", "none"]
+        "hazards": ["rocks", "pollution", "localism", "no life guards", "urchins", "strong currents", "hazards free"]
     }
 ]

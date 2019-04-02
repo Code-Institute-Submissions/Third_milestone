@@ -116,7 +116,7 @@
     "wind_direction": "north-east",
     "swell_direction": "south-west",
     "bottom": "sand",
-    "facilities": ["none"],
+    "facilities": ["lack of facilities"],
     "surroundings": "remote",
     "hazards": ["strong currents", "no life guards"],
     "ratings": [
@@ -198,7 +198,7 @@
     "bottom": "sand",
     "facilities": ["parking", "bar", "food", "toilets", "school & rental"],
     "surroundings": "remote",
-    "hazards": ["none"],
+    "hazards": ["hazards free"],
     "ratings": [
         {
             "user_name": "admin",
@@ -418,7 +418,7 @@
     "bottom": "sand",
     "facilities": ["parking", "accommodation", "food", "school & rental", "showers", "toilets"],
     "surroundings": "village",
-    "hazards": ["none"],
+    "hazards": ["hazards free"],
     "ratings": [
         {
             "user_name": "admin",

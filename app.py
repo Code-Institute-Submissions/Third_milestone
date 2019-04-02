@@ -397,47 +397,54 @@ def add_spot():
     facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )    
     
-    current_loc_names = locations_db.aggregate([
-        { '$group': {
-            '_id': '$name'
-        }}])
+    # current_loc_names = locations_db.aggregate([
+    #     { '$group': {
+    #         '_id': '$name'
+    #     }}])
     
-    current_loc_names_list = list(current_loc_names)
-    new_dict = {item['_id']:item for item in current_loc_names_list}
+    # current_loc_names_list = list(current_loc_names)
+    # new_dict = {item['_id']:item for item in current_loc_names_list}
+    # print(new_dict)
 
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-        print(input_location)
+        # print(input_location)
 
-        spot_name = request.form['name_input']
+        # spot_name = request.form['name_input']
 
-        for key, value in new_dict.items():
-            if key == spot_name:
-                print('already exist')
-                flash('The location with that name already exisit. Please choose other name or edit exisitng one', 'name_exists')
-                return redirect(url_for('add_spot'))
-            else:
-                add_new = locations_db.insert_one( { 
-                    'name': request.form['name_input'],
-                    'country': request.form['country_input'],
-                    'region': request.form['region_input'],
-                    'break_type': request.form['break_type_input'],
-                    'wave_direction': request.form['wave_direction_input'],
-                    'wind_direction': request.form['wind_direction_input'],
-                    'swell_direction': request.form['swell_direction_input'],
-                    'bottom': request.form['bottom_input'],
-                    'facilities': facilities_to_new(input_location),
-                    'surroundings': request.form['surroundings_input'],
-                    'hazards': hazards_to_new(input_location),
-                    'ratings': [{
-                        'user_name': session['username'],
-                        'rate': int(request.form['add_rating']) }],
-                    'description': request.form['add_description'],
-                } )
-                get_loc_id = locations_db.find_one({'name' : request.form['name_input']})
-                location_id = get_loc_id['_id']
-                return redirect(url_for('spot', location_id=location_id))
+        # new_dict_results = []
+        # for key, value in new_dict.items():
+        #     checkbox_results.append(key)
+
+        # print(checkbox_results)
+
+        # if key == spot_name:
+        #     print('already exist')
+        #     flash('The location with that name already exisit. Please choose other name or edit exisitng one', 'name_exists')
+        #     return redirect(url_for('add_spot'))
+        # else:
+        
+        add_new = locations_db.insert_one( { 
+            'name': request.form['name_input'],
+            'country': request.form['country_input'],
+            'region': request.form['region_input'],
+            'break_type': request.form['break_type_input'],
+            'wave_direction': request.form['wave_direction_input'],
+            'wind_direction': request.form['wind_direction_input'],
+            'swell_direction': request.form['swell_direction_input'],
+            'bottom': request.form['bottom_input'],
+            'facilities': facilities_to_new(input_location),
+            'surroundings': request.form['surroundings_input'],
+            'hazards': hazards_to_new(input_location),
+            'ratings': [{
+                'user_name': session['username'],
+                'rate': int(request.form['add_rating']) }],
+            'description': request.form['add_description'],
+        } )
+        get_loc_id = locations_db.find_one({'name' : request.form['name_input']})
+        location_id = get_loc_id['_id']
+        return redirect(url_for('spot', location_id=location_id))
 
     return render_template('addSpot.html', user=user, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
 
