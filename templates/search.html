@@ -10,7 +10,7 @@
 
                 <div class="input-field col s12 m8">
                     <i class="material-icons prefix">search</i>
-                    <input name="search_by_name" type="text" id="search_by_name" class="autocomplete">
+                    <input name="search_by_name" type="text" id="search_by_name" class="autocomplete" required>
                     <label for="search_by_name">Autocomplete</label>
                 </div>
 
@@ -34,7 +34,7 @@
                         <option value="0" disabled selected>Choose your option</option>
                         {% for country in countries %}
                             {% for element in country.country %}
-                                <option>{{ element }}</option>
+                                <option>{{ element | title }}</option>
                             {% endfor %} 
                         {% endfor %}    
                     </select>
@@ -122,7 +122,7 @@
                 <div class="card">
                     <div class="card-image">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{ location._id }}</span>
+                        <span class="card-title">{{ location._id | title }}</span>
                         <div class="btn-floating halfway-fab transparent center-align">
                             <i class="material-icons">star</i>                            
                         </div>
@@ -135,7 +135,7 @@
                         </div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
-                        <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
+                        <p>{{ location.country_name[0] | title }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
                         <h6>Explore</h6>
@@ -157,7 +157,7 @@
                 <div class="card">
                     <div class="card-image">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{ location._id }}</span>
+                        <span class="card-title">{{ location._id | title }}</span>
                         <div class="btn-floating halfway-fab transparent center-align">
                             <i class="material-icons">star</i>                            
                         </div>
@@ -170,7 +170,7 @@
                         </div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
-                        <p>{{ location.country_name[0] }} | {{ location.break_type_name[0] }}</p>
+                        <p>{{ location.country_name[0] | title }} | {{ location.break_type_name[0] }}</p>
                     </div>
                     <div class="card-action center-align">
                         <h6>Explore</h6>
@@ -205,8 +205,17 @@ for ( i in result) {
 
 $(document).ready(function(){
     $('input.autocomplete').autocomplete({
-    data: namesObj
+        data: namesObj
     });
+
+    $('input[name=search_by_name]').bind('input propertychange', function() {
+        console.log(this.value.toLowerCase())
+        return this.value.toLowerCase();
+    })
+
+    // $('input.autocomplete').bind('input propertychange', function() {
+    //     return $(this).val().toLowerCase();
+    // });
 
     var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
 

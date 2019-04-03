@@ -274,12 +274,15 @@ def search_by_name():
     facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )
 
-    search_result = locations_db.find_one({'name' : request.form['search_by_name']})
+    search_result = locations_db.find_one({'name': { '$regex': request.form['search_by_name'], '$options': 'i' }})
+
+    print(search_result)
+
     if search_result == None:
         flash('Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!', 'search')
         return redirect(url_for('oups'))
     name_search = locations_db.aggregate([
-        { '$match': {'name' : search_result['name'] } },
+        { '$match': {'name' : { '$regex': search_result['name'], '$options': 'i' } } },
         { '$unwind': '$ratings' },
         { '$group': {
                 '_id': '$name',
@@ -396,39 +399,15 @@ def add_spot():
     bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
     facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )    
-    
-    # current_loc_names = locations_db.aggregate([
-    #     { '$group': {
-    #         '_id': '$name'
-    #     }}])
-    
-    # current_loc_names_list = list(current_loc_names)
-    # new_dict = {item['_id']:item for item in current_loc_names_list}
-    # print(new_dict)
 
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-        # print(input_location)
-
-        # spot_name = request.form['name_input']
-
-        # new_dict_results = []
-        # for key, value in new_dict.items():
-        #     checkbox_results.append(key)
-
-        # print(checkbox_results)
-
-        # if key == spot_name:
-        #     print('already exist')
-        #     flash('The location with that name already exisit. Please choose other name or edit exisitng one', 'name_exists')
-        #     return redirect(url_for('add_spot'))
-        # else:
         
         add_new = locations_db.insert_one( { 
-            'name': request.form['name_input'],
-            'country': request.form['country_input'],
-            'region': request.form['region_input'],
+            'name': request.form['name_input'].lower(),
+            'country': request.form['country_input'].lower(),
+            'region': request.form['region_input'].lower(),
             'break_type': request.form['break_type_input'],
             'wave_direction': request.form['wave_direction_input'],
             'wind_direction': request.form['wind_direction_input'],
@@ -442,7 +421,7 @@ def add_spot():
                 'rate': int(request.form['add_rating']) }],
             'description': request.form['add_description'],
         } )
-        get_loc_id = locations_db.find_one({'name' : request.form['name_input']})
+        get_loc_id = locations_db.find_one({'name': { '$regex': request.form['name_input'], '$options': 'i' }})
         location_id = get_loc_id['_id']
         return redirect(url_for('spot', location_id=location_id))
 

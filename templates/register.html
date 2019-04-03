@@ -18,7 +18,7 @@
                     <div class="input-field col s12">
                         <input placeholder="joebloggs" id="username" name="username" type="text" class="validate" data-length="32" required>
                         <label for="username">Username</label>
-                        <!-- <span class="helper-text" data-error="Incorrect input. Please stick to the guidline!" data-success="That's a correct input">Please provide username between 2 and 10 characters without white spaces</span> -->
+                        <span class="helper-text">Please provide username between 3 and 32 characters</span>
                     </div>
                     <div class="input-field col s12">
                         <input disabled value="Password not requred" id="disabled" type="text" class="validate">
@@ -29,7 +29,7 @@
                     </button>
 
                     {% if error %}
-                        <p><strong>Ehm..</strong> {{ error }}
+                        <p class="oups"><strong>Ehm..</strong> {{ error }}
                     {% endif %}
 
                 </div>

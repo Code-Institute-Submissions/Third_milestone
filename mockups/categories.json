@@ -1,6 +1,6 @@
 [
     {
-        "country": ["Belgium", "Croatia", "Denmark", "England", "Estonia", "France", "Germany", "Greece", "Ireland", "Italy", "Latvia", "Lithuania", "Malta", "Montenegro", "Netherlands", "Northern Ireland", "Norway", "Poland", "Portugal", "Scotland", "Spain", "Sweden", "Turkey", "Wales"]
+        "country": ["belgium", "croatia", "denmark", "england", "estonia", "france", "germany", "greece", "ireland", "italy", "latvia", "lithuania", "malta", "montenegro", "netherlands", "northern ireland", "norway", "poland", "portugal", "scotland", "spain", "sweden", "turkey", "wales"]
     },
     {
         "break_type": ["reef break", "beach break", "river wave"]

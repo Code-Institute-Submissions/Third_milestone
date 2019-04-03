@@ -13,7 +13,7 @@ $(document).ready(function(){
     $(".dropdown-trigger").dropdown();
 
     // Character counter for text inputs
-    $('input#username, textarea#textarea, input#name_input, input#region_input').characterCounter();
+    $('input#username, textarea#textarea, input#name_input, input#region_input, textarea#textarea1').characterCounter();
 
     $('#advanced_btn').click(function() {
         $('#advanced_form').toggleClass('hide');

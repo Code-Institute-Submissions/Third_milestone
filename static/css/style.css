@@ -132,3 +132,9 @@ label {
     color: white;
     padding: 20px;
 }
+
+/* Login error */
+
+.oups {
+    color: red;
+}

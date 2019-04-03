@@ -32,6 +32,7 @@
                     <div class="input-field col s12">
                         <input placeholder="Username" id="username" name="username" type="text" class="validate" data-length="32" required>
                         <label for="username">Username</label>
+                        <span class="helper-text">Please provide username between 3 and 32 characters</span>
                     </div>
 
                     <button class="btn waves-effect waves-light" type="submit" name="action">Log In
@@ -39,7 +40,7 @@
 
                     <div class="col s12">
                         {% if error %}
-                            <p><strong>Oups!</strong> {{ error }}
+                            <p class="oups"><strong>Oups!</strong> {{ error }}
                         {% endif %}
                     </div>
 

@@ -65,7 +65,7 @@
                         <form class="col s12" action="{{ url_for('user_input', location_id=location._id) }}" method="POST" id="add_comment">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="textarea1" name="add_comment" class="materialize-textarea"></textarea>
+                                    <textarea id="textarea1" name="add_comment" class="materialize-textarea" data-length="1200" required></textarea>
                                     <label for="textarea1">Comment</label>
                                 </div>
                             </div>
@@ -88,7 +88,24 @@
     </div>
 </div>
 
+{% endblock %}
 
+{% block script %}
 
+<script>
+
+// Checks in place to make sure length limit is not exceeded
+
+$(document).ready(function() {
+    $('#textarea1').bind('input propertychange', function() {
+        if ($(this).val().length > 1200) {
+            $('.btn').addClass('disabled');
+        } else {
+            $('.btn').removeClass('disabled');
+        }
+    });
+});
+
+</script>
 
 {% endblock %}

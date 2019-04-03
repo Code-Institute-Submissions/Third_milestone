@@ -30,7 +30,7 @@
                         <option id="country_input" value="" disabled selected>Select from list</option>
                         {% for country in countries %}
                             {% for element in country.country %}
-                                <option>{{ element }}</option>
+                                <option>{{ element | title }}</option>
                             {% endfor %} 
                         {% endfor %}    
                     </select>
@@ -219,7 +219,7 @@ $(document).ready(function() {
     var name_input = $('#name_input').val();
 
     $('#name_input').bind('input propertychange', function() {
-        if (result.includes($(this).val())) {
+        if (result.includes($(this).val().toLowerCase())) {
             $('.helper-text').css({ 'background': '#ffebee'}).show();
             $('.btn').addClass('disabled');
         } else {
@@ -231,10 +231,20 @@ $(document).ready(function() {
         }
     });
 
-    // Checks in place to make sure that length limit is not exceeded
+    // Checks in place to make sure that length of region input limit is not exceeded
 
     $('#region_input').bind('input propertychange', function() {
         if ($(this).val().length > 64) {
+            $('.btn').addClass('disabled');
+        } else {
+            $('.btn').removeClass('disabled');
+        }
+    });
+
+    // Checks in place to make sure that length of description limit is not exceeded
+
+    $('#textarea').bind('input propertychange', function() {
+        if ($(this).val().length > 1200) {
             $('.btn').addClass('disabled');
         } else {
             $('.btn').removeClass('disabled');
