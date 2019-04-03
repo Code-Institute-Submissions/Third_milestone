@@ -3,31 +3,24 @@
 {% block content %}
 
 <div class="container">
-    <div class="row">
-
-<div class="test col s12">
-{% with name_exists = get_flashed_messages(category_filter=['name_exists']) %}
-    {% if name_exists %}
-        {% for message in name_exists %}                            
-            <h5>{{ message }}</h5>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-</div>
-
+    <div class="row">    
         <div class="col s12">
 
-            <form action="{{ url_for('add_spot') }}" method="POST">
+            <form action="{{ url_for('editSpot', location_id=location._id ) }}" method="POST">
 
-                <div class="input-field col s12">
-                    <input name="name_input" type="text" id="name_input" data-length="64" required>
-                    <label for="name_input">Type in location name</label>
-                    <span class="helper-text">Please note that this location already exists!</span>
+                <div class="col s12">
+                    <h5>{{ location.name | title }}</h5>
                 </div>
-
-                <div class="input-field col s12">
+                <!-- <div class="input-field col s12">
+                    <input value="{{ location.name | title }}" name="name_input" type="text" id="name_input" data-length="64" required>
+                    <label for="name_input">Type in location name</label>
+                </div> -->
+                <div class="col s12">
+                    <h6>{{ location.country | title }} | {{ location.region | title }}</h6>
+                </div>
+                <!-- <div class="input-field col s12">
                     <select id="category" name="country_input" required>
-                        <option id="country_input" value="" disabled selected>Select from list</option>
+                        <option id="country_input" value="" disabled selected>{{ location.country | title }}</option>
                         {% for country in countries %}
                             {% for element in country.country %}
                                 <option>{{ element | title }}</option>
@@ -38,13 +31,13 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <input name="region_input" type="text" id="region_input" data-length="64" required>
+                    <input value="{{ location.region | title }}" name="region_input" type="text" id="region_input" data-length="64" required>
                     <label for="region_input">Type in country region</label>
-                </div>
+                </div> -->
 
                 <div class="input-field col s12">
                     <select id="category" name="break_type_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                        <option value="0" disabled selected>{{ location.break_type }}</option>
                         {% for break in break_types %}
                             {% for element in break.break_type %}
                                 <option>{{ element }}</option>
@@ -56,7 +49,7 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="wave_direction_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                        <option value="0" disabled selected>{{ location.wave_direction }}</option>
                         {% for wave in wave_directions %}
                             {% for element in wave.wave_direction %}
                                 <option>{{ element }}</option>
@@ -68,7 +61,7 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="wind_direction_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                        <option value="0" disabled selected>{{ location.wind_direction }}</option>
                         {% for wind in wind_directions %}
                             {% for element in wind.wind_direction %}
                                 <option>{{ element }}</option>
@@ -80,7 +73,7 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="swell_direction_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                        <option value="0" disabled selected>{{ location.swell_direction }}</option>
                         {% for swell in swell_directions %}
                             {% for element in swell.swell_direction %}
                                 <option>{{ element }}</option>
@@ -92,7 +85,7 @@
                 
                 <div class="input-field col s12">
                     <select id="category" name="bottom_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                        <option value="0" disabled selected>{{ location.bottom }}</option>
                         {% for surface in bottom %}
                             {% for element in surface.bottom %}
                                 <option>{{ element }}</option>
@@ -104,7 +97,7 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="surroundings_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                        <option value="0" disabled selected>{{ location.surroundings }}</option>
                         {% for area in surroundings %}
                             {% for element in area.surroundings %}
                                 <option>{{ element }}</option>
@@ -118,76 +111,52 @@
                     <p class="grey-text">Please select below the Facilities you wish to include in the search:</p>
                     {% for facility in facilities %}
                         {% for facility_name in facility.facilities %}
-                            <div class="col s12 m6 l4">
+                            <div class="col s12 m6 l4" id="fac">
                                 <label for="facility{{ loop.index }}">
-                                    <input type="checkbox" id="facility{{ loop.index }}" class="filled-in" name="{{ facility_name }}" value="facility"/>
+                                    {% if facility_name in location.facilities %}
+                                        <input type="checkbox" id="facility{{ loop.index }}" class="filled-in" name="{{ facility_name }}" value="facility" checked/>
+                                    {% else %}
+                                        <input type="checkbox" id="facility{{ loop.index }}" class="filled-in" name="{{ facility_name }}" value="facility" />
+                                    {% endif %}
                                     <span>{{ facility_name }}</span>
                                 </label>
                             </div>
                         {% endfor %}
                     {% endfor %}
                 </div>
-                
+
                 <div class="col s12">
                     <p class="grey-text">Please select below the Hazards you wish to exclude from the 
                     {% for hazard in hazards %}
                         {% for hazard_name in hazard.hazards %}
                             <div class="col s12 m6 l4">
                                 <label for="hazard{{ loop.index }}">
-                                    <input type="checkbox" id="hazard{{ loop.index }}" class="filled-in" name="{{ hazard_name }}" value="hazard"/>
+                                    {% if hazard_name in location.hazards %}
+                                        <input type="checkbox" id="hazard{{ loop.index }}" class="filled-in" name="{{ hazard_name }}" value="hazard" checked/>
+                                    {% else %}
+                                        <input type="checkbox" id="hazard{{ loop.index }}" class="filled-in" name="{{ hazard_name }}" value="hazard" />
+                                    {% endif %}
                                     <span>{{ hazard_name }}</span>
                                 </label>
                             </div>
                         {% endfor %}
                     {% endfor %}
                 </div>
-                <div class="col s12">
-                    <div class="input-field col s12">
-                        <p>
-                            <label class="grey-text">Add Rating</label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="1" />
-                                <span>1 - Nah.. get me out of here!</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="2" />
-                                <span>2</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="3" checked />
-                                <span>3</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="4" />
-                                <span>4</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="5" />
-                                <span>5 - Whoa! That's a splendid spot!</span>
-                            </label>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="input-field col s12">
-                    <textarea id="textarea" name="add_description" class="materialize-textarea" data-length="1200" required></textarea>
+                
+                <div class="input-field col s12" id="desc">
+                    <textarea id="textarea" name="add_description" class="materialize-textarea" data-length="1200" required>{{ location.description }}</textarea>
                     <label for="textarea1">Add Description</label>
                 </div>
 
-                <div class="col s12 center-align space">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">ADD LOCATION</button>
+                <div class="col s12 m6 center-align">
+                    <button class="btn waves-effect waves-light" id="update" type="submit" name="action">SAVE CHANGES</button>
                 </div>
+                                
             </form>
+
+            <div class="col s12 m6 center-align">
+                <a href="{{ url_for('spot', location_id=location._id) }}"><button class="btn waves-effect waves-light">CANCEL</button></a>
+            </div>
 
         </div>
     </div>
@@ -199,61 +168,19 @@
 
 <script>
 
-var locNames = {{ location_name | safe }};
-var result = [];
-
-for (var i = 0; i < locNames.length; i++) {
-    var element = locNames[i];
-    for (var key in element) {
-        result.push(element[key]);
-    }
-}
-
 $(document).ready(function() {
-
-    // Checks in place to make sure there are no duplications in location names and length limit is not exceeded
-
-    $('.helper-text').css({ 'background': 'transparent'}).hide();
-
-    var name_input = $('#name_input').val();
-
-    $('#name_input').bind('input propertychange', function() {
-        if (result.includes($(this).val().toLowerCase())) {
-            $('.helper-text').css({ 'background': '#ffebee'}).show();
-            $('.btn').addClass('disabled');
-        } else {
-            $('.helper-text').css({ 'background': 'transparent'}).hide();
-            $('.btn').removeClass('disabled');
-        }
-        if ($(this).val().length > 64) {
-            $('.btn').addClass('disabled');
-        }
-    });
-
-    // Checks in place to make sure that length of region input limit is not exceeded
-
-    $('#region_input').bind('input propertychange', function() {
-        if ($(this).val().length > 64) {
-            $('.btn').addClass('disabled');
-        } else {
-            $('.btn').removeClass('disabled');
-        }
-    });
 
     // Checks in place to make sure that length of description limit is not exceeded
 
     $('#textarea').bind('input propertychange', function() {
         if ($(this).val().length > 1200) {
-            $('.btn').addClass('disabled');
+            $('#update').addClass('disabled');
         } else {
-            $('.btn').removeClass('disabled');
+            $('#update').removeClass('disabled');
         }
     });
 
-    // Checks in place to make sure facilities and hazards are not null and there is a logical selection
-
-    $('#facility8').prop('checked', true);
-    $('#hazard7').prop('checked', true);
+    // Checks in place to make sure facilities and hazards follow logical selection
 
     var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
 

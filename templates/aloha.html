@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h5>Aloha {{ user | capitalize }}</h5>
+
+            <!-- success message for user interactions -->
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <h6>{{ message }}</h6>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <p>Find below all your ratings, comments and locations that you either edited or created:</p>   
+        </div>
+        <div class="col s12">
+            {% for details in locations_user %} 
+                <a href="{{ url_for('spot', location_id=details._id) }}"><h5>{{ details.name | title }}</h5></a>
+                {% for rate in details.ratings %}
+                    {% if rate.user_name == user %}
+                        <p>Your rating: {{ rate.rate }}</p>
+                    {% endif %}
+                {% endfor %}
+                {% for comment in details.comments | sort(reverse=True, attribute='date_added') %}
+                    {% if comment.user_name == user %}
+                        <p>{{ comment.date_added }}</p>
+                        <p>{{ comment.comment }}</p>
+                    {% endif %}
+                {% endfor %}
+                <li class="divider"></li>
+            {% endfor %}
+        </div>
+
+
+        <div class="col s12">
+            <h6>Done for today? <a href="{{ url_for('user_logout') }}">Log out here</a>.</h6>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -252,6 +252,9 @@ SEARCH
 
 @app.route('/search')
 def search():
+    # Tools for using Python’s json module with BSON
+    location_name = dumps(locations_db.find( {}, { '_id': 0, 'name': 1 } ))
+
     user = user_in_session()
     countries = categories_db.find( { 'country': {'$ne': 'null'} } )
     break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
@@ -259,7 +262,6 @@ def search():
     bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
     facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
     hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )
-    location_name = dumps(locations_db.find( {}, { '_id': 0, 'name': 1 } ))
 
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, location_name=location_name)
 
@@ -428,6 +430,32 @@ def add_spot():
     return render_template('addSpot.html', user=user, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
 
 """
+EDIT LOCATION
+"""
+
+@app.route('/editSpot/<location_id>', methods=['GET','POST'])
+def editSpot(location_id):
+    user = user_in_session()
+    countries = categories_db.find( { 'country': {'$ne': 'null'} } )
+    break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
+    wave_directions = categories_db.find( { 'wave_direction': {'$ne': 'null'} } )
+    wind_directions = categories_db.find( { 'wind_direction': {'$ne': 'null'} } )
+    swell_directions = categories_db.find( { 'swell_direction': {'$ne': 'null'} } )
+    surroundings = categories_db.find( { 'surroundings': {'$ne': 'null'} } )
+    bottom = categories_db.find( { 'bottom': {'$ne': 'null'} } )
+    facilities = categories_db.find( { 'facilities': {'$ne': 'null'} } )
+    hazards = categories_db.find( { 'hazards': {'$ne': 'null'} } )
+
+    location = locations_db.find_one({'_id': ObjectId(location_id)})
+
+    if request.method == 'POST':
+        input_location = request.form.to_dict()
+        del input_location['action']
+        print(input_location)
+
+    return render_template('editSpot.html', user=user, location=location, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
+
+"""
 ABOUT
 """
 
@@ -444,12 +472,12 @@ LOG IN | LOG OUT and USER PAGE
 def login():
     error = None
     users = mongo.db.users
-    login_user = users.find_one({'name' : request.form['username']})
-
+    login_user = users.find_one({'name': { '$regex': request.form['username'], '$options': 'i' }})
+    print(request.form['username'].lower())
     if login_user:
-        session['username'] = request.form['username']
+        session['username'] = request.form['username'].lower()
         flash('Welcome back!')
-        return redirect(url_for('user_logged'))
+        return redirect(url_for('aloha', username=session['username']))
     error = 'Looks like invalid username. Please try to type again or register below'
     return render_template('user.html', error=error)
 
@@ -460,67 +488,18 @@ def user():
     return render_template('user.html', user=user)
 
 
-@app.route('/user_logged')
-def user_logged():
-    user = user_in_session()
-    # xxx = locations_db.aggregate([
-    #     { '$match': { 'ratings.name': user } },
-        
-    # ])
+@app.route('/aloha/<username>')
+def aloha(username):
+    user = username
+            
     locations_user = locations_db.find({
-        # { '$match': {
-        #     '_id': ObjectId(location_id)
-        #     }
-        # },
         '$or': [
             { 'ratings.user_name': user },
             { 'comments.user_name': user }
             ]
         })
-    test = locations_db.aggregate([
-        # {
-        #     '$group': {
-        #         '_id': '$_id',
-        #         'name': { '$addToSet': '$name'},
-        #         'user_name': { '$addToSet': '$ratings.user_name'},
-        #         'rate': { '$addToSet': '$ratings.rate'},
-        #     }
-        # },
-        {
-            '$project': {
-                'ratings': {
-                    '$filter': {
-                        'input': '$ratings',
-                        'as': 'rate',
-                        'cond': {
-                            '$eq': [ '$$rate.user_name', user ]
-                        }
-                    }
-                }
-            }
-        }
-    ]
-    )
-    # print(list(locations_user))
-    # loc = locations_db.aggregate([
-    #     { '$match': {
-    #         'ratings.user_name': user
-    #         }
-    #     },
-    #     { '$unwind': '$ratings' },
-    #     {
-    #         '$group': {
-    #             '_id': '$name',
-    #             'average_rating': { '$avg': '$ratings.rate'},
-    #             'user_rate': { '$addToSet': '$ratings.rate'},
-    #             'user_name': { '$addToSet': '$ratings.user_name'},
-    #             'country_name': { '$addToSet': '$country'},
-    #             'break_type_name': { '$addToSet': '$break_type'},
-    #             'old_id': { '$addToSet': '$_id'}
-    #         }
-    #     }
-    # ])
-    return render_template('user_logged.html', user=user, locations=locations, locations_user=locations_user, test=test)
+
+    return render_template('aloha.html', user=user, locations_user=locations_user)
 
 
 @app.route('/user_logout')
@@ -537,12 +516,12 @@ def register():
     error = None
     if request.method == 'POST':
         users = mongo.db.users
-        existing_user = users.find_one({'name' : request.form['username']})
+        existing_user = users.find_one({'name': { '$regex': request.form['username'], '$options': 'i' }})
         if existing_user is None:
             users.insert({'name' : request.form['username'] })
             session['username'] = request.form['username']
             flash('You were successfully registered!')
-            return redirect(url_for('user_logged'))
+            return redirect(url_for('aloha', username=session['username']))
         error = 'That username already exists. Please choose another one.'
     return render_template('register.html', error=error)
 

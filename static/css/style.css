@@ -138,3 +138,13 @@ label {
 .oups {
     color: red;
 }
+
+/* Forms style */
+
+#desc {
+    margin-top: 30px;
+}
+
+textarea.materialize-textarea {
+    overflow-y: scroll;
+}
