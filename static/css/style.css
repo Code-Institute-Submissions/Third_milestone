@@ -148,3 +148,9 @@ label {
 textarea.materialize-textarea {
     overflow-y: scroll;
 }
+
+/* Edit Form error */
+
+.checkbox-error {
+    color: red;
+}

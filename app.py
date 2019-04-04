@@ -48,7 +48,6 @@ def facilities_to_new(input_location):
     for key, value in input_location.items():
         if value == 'facility':
             checkbox_results.append(key)
-            print(checkbox_results)
     return checkbox_results
 
 def hazards_to_new(input_location):
@@ -56,7 +55,6 @@ def hazards_to_new(input_location):
     for key, value in input_location.items():
         if value == 'hazard':
             checkbox_results.append(key)
-            print(checkbox_results)
     return checkbox_results
 
 """
@@ -278,8 +276,6 @@ def search_by_name():
 
     search_result = locations_db.find_one({'name': { '$regex': request.form['search_by_name'], '$options': 'i' }})
 
-    print(search_result)
-
     if search_result == None:
         flash('Your search did not match any of our records. Please refine your search or if you believe we are missing this location, please add it to our collection!', 'search')
         return redirect(url_for('oups'))
@@ -297,7 +293,6 @@ def search_by_name():
     ])
 
     name_search = list(name_search)
-    # print(name_search)
 
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, name_search=name_search)
 
@@ -451,8 +446,22 @@ def editSpot(location_id):
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-        print(input_location)
 
+        add_new = locations_db.update_one( 
+            { '_id': ObjectId(location_id) },
+            { '$set': {
+                'break_type': request.form['break_type_input'],
+                'wave_direction': request.form['wave_direction_input'],
+                'wind_direction': request.form['wind_direction_input'],
+                'swell_direction': request.form['swell_direction_input'],
+                'bottom': request.form['bottom_input'],
+                'facilities': facilities_to_new(input_location),
+                'surroundings': request.form['surroundings_input'],
+                'hazards': hazards_to_new(input_location),
+                'description': request.form['add_description']
+            } } )
+        return redirect(url_for('spot', location_id=location_id))
+            
     return render_template('editSpot.html', user=user, location=location, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
 
 """
@@ -473,7 +482,7 @@ def login():
     error = None
     users = mongo.db.users
     login_user = users.find_one({'name': { '$regex': request.form['username'], '$options': 'i' }})
-    print(request.form['username'].lower())
+
     if login_user:
         session['username'] = request.form['username'].lower()
         flash('Welcome back!')

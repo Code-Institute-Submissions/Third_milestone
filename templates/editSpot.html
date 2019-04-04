@@ -37,10 +37,13 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="break_type_input" required>
-                        <option value="0" disabled selected>{{ location.break_type }}</option>
                         {% for break in break_types %}
                             {% for element in break.break_type %}
-                                <option>{{ element }}</option>
+                                {% if location.break_type == element %}
+                                    <option selected>{{ element }}</option>    
+                                {% else %}
+                                    <option>{{ element }}</option>
+                                {% endif %}
                             {% endfor %} 
                         {% endfor %}  
                     </select>
@@ -49,10 +52,13 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="wave_direction_input" required>
-                        <option value="0" disabled selected>{{ location.wave_direction }}</option>
                         {% for wave in wave_directions %}
                             {% for element in wave.wave_direction %}
-                                <option>{{ element }}</option>
+                                {% if location.wave_direction == element %}
+                                    <option selected>{{ element }}</option>    
+                                {% else %}
+                                    <option>{{ element }}</option>
+                                {% endif %}
                             {% endfor %} 
                         {% endfor %} 
                     </select>
@@ -61,10 +67,13 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="wind_direction_input" required>
-                        <option value="0" disabled selected>{{ location.wind_direction }}</option>
                         {% for wind in wind_directions %}
                             {% for element in wind.wind_direction %}
-                                <option>{{ element }}</option>
+                                {% if location.wind_direction == element %}
+                                    <option selected>{{ element }}</option>    
+                                {% else %}
+                                    <option>{{ element }}</option>
+                                {% endif %}
                             {% endfor %} 
                         {% endfor %} 
                     </select>
@@ -73,10 +82,13 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="swell_direction_input" required>
-                        <option value="0" disabled selected>{{ location.swell_direction }}</option>
                         {% for swell in swell_directions %}
                             {% for element in swell.swell_direction %}
-                                <option>{{ element }}</option>
+                                {% if location.swell_direction == element %}
+                                    <option selected>{{ element }}</option>    
+                                {% else %}
+                                    <option>{{ element }}</option>
+                                {% endif %}
                             {% endfor %} 
                         {% endfor %} 
                     </select>
@@ -85,10 +97,13 @@
                 
                 <div class="input-field col s12">
                     <select id="category" name="bottom_input" required>
-                        <option value="0" disabled selected>{{ location.bottom }}</option>
                         {% for surface in bottom %}
                             {% for element in surface.bottom %}
-                                <option>{{ element }}</option>
+                                {% if location.bottom == element %}
+                                    <option selected>{{ element }}</option>    
+                                {% else %}
+                                    <option>{{ element }}</option>
+                                {% endif %}
                             {% endfor %} 
                         {% endfor %} 
                     </select>
@@ -97,10 +112,13 @@
 
                 <div class="input-field col s12">
                     <select id="category" name="surroundings_input" required>
-                        <option value="0" disabled selected>{{ location.surroundings }}</option>
                         {% for area in surroundings %}
                             {% for element in area.surroundings %}
-                                <option>{{ element }}</option>
+                                {% if location.surroundings == element %}
+                                    <option selected>{{ element }}</option>    
+                                {% else %}
+                                    <option>{{ element }}</option>
+                                {% endif %}
                             {% endfor %} 
                         {% endfor %} 
                     </select>
@@ -148,6 +166,8 @@
                     <label for="textarea1">Add Description</label>
                 </div>
 
+                <div class="col s12 checkbox-error"></div>
+
                 <div class="col s12 m6 center-align">
                     <button class="btn waves-effect waves-light" id="update" type="submit" name="action">SAVE CHANGES</button>
                 </div>
@@ -180,7 +200,7 @@ $(document).ready(function() {
         }
     });
 
-    // Checks in place to make sure facilities and hazards follow logical selection
+    // Checks in place to make sure facilities and hazards follow logical selection and no blanks are posted to backend
 
     var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
 
@@ -214,17 +234,25 @@ $(document).ready(function() {
         }
     });
 
-    $fac_boxes_all.change(function () {
-        if (this.checked != true) {
-            $('#facility8').prop('checked', true)
-        }
-    });
+    // $fac_boxes_all.change(function () {
+    //     if (this.checked == false) {
+    //         $('#update').addClass('disabled');
+    //         $( ".checkbox-error" ).append( "<p>Please select at least one checkbox for facitilies and hazards to proceed!</p>" );
+    //     } else {
+    //         $('#update').removeClass('disabled');
+    //         $( ".checkbox-error > p" ).remove()
+    //     }
+    // });
 
-    $haz_boxes_all.change(function () {
-        if (this.checked != true) {
-            $('#hazard7').prop('checked', true)
-        }
-    });
+    // $haz_boxes_all.change(function () {
+    //     if (this.checked == false) {
+    //         $('#update').addClass('disabled');
+    //         $( ".checkbox-error" ).append( "<p>Please select at least one checkbox for facitilies and hazards to proceed!</p>" );
+    //     } else {
+    //         $('#update').removeClass('disabled');
+    //         $( ".checkbox-error > p" ).remove()
+    //     }
+    // });
 
 });
 
