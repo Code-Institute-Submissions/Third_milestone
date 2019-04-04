@@ -431,6 +431,10 @@ EDIT LOCATION
 @app.route('/editSpot/<location_id>', methods=['GET','POST'])
 def editSpot(location_id):
     user = user_in_session()
+    if user is None:
+        flash('Please log in or register to edit any location.', 'add')
+        return redirect(url_for('oups'))
+
     countries = categories_db.find( { 'country': {'$ne': 'null'} } )
     break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
     wave_directions = categories_db.find( { 'wave_direction': {'$ne': 'null'} } )
@@ -460,6 +464,7 @@ def editSpot(location_id):
                 'hazards': hazards_to_new(input_location),
                 'description': request.form['add_description']
             } } )
+        flash('Thank you for your input!', 'spot')
         return redirect(url_for('spot', location_id=location_id))
             
     return render_template('editSpot.html', user=user, location=location, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)

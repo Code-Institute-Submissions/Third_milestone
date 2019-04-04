@@ -20,7 +20,7 @@
             <p>Find below all your ratings, comments and locations that you either edited or created:</p>   
         </div>
         <div class="col s12">
-            {% for details in locations_user %} 
+            {% for details in locations_user | sort(attribute='name') %} 
                 <a href="{{ url_for('spot', location_id=details._id) }}"><h5>{{ details.name | title }}</h5></a>
                 {% for rate in details.ratings %}
                     {% if rate.user_name == user %}
