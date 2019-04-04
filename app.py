@@ -1,4 +1,4 @@
-import os
+import os, math
 from datetime import datetime
 from flask import Flask, render_template, redirect, request, url_for, session, Response, flash
 from flask_pymongo import PyMongo
@@ -107,6 +107,14 @@ ALL LOCATIONS WITH SORT FILTER
 @app.route('/locations')
 def locations():
     user = user_in_session()
+
+    current_page = int(request.args.get('current_page', 1))
+    print(current_page)
+    page_limit = 6
+    page_skip = page_limit * (current_page - 1)
+    documents_number = locations_db.count()
+    page_range = range(1, math.ceil(documents_number / page_limit) + 1)
+
     locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
@@ -116,14 +124,25 @@ def locations():
             'break_type_name': { '$addToSet': '$break_type'},
             'old_id': { '$addToSet': '$_id'}
             } },
-        { '$sort': { '_id': 1 } }
+        { '$sort': { '_id': 1 } },
+        { '$skip': page_skip },
+        { '$limit': page_limit }
     ])
-    return render_template('locations.html',user=user, locations=locations)
+    # print(locations)
+    return render_template('locations.html',user=user, locations=locations, current_page=current_page, page_range=page_range)
 
 
 @app.route('/locations_by_country')
 def locations_by_country():
     user = user_in_session()
+
+    current_page = int(request.args.get('current_page', 1))
+    print(current_page)
+    page_limit = 6
+    page_skip = page_limit * (current_page - 1)
+    documents_number = locations_db.count()
+    page_range = range(1, math.ceil(documents_number / page_limit) + 1)
+
     locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
@@ -133,14 +152,24 @@ def locations_by_country():
             'break_type_name': { '$addToSet': '$break_type'},
             'old_id': { '$addToSet': '$_id'}
             } },
-        { '$sort': { 'country_name': 1, '_id': 1 } }
+        { '$sort': { 'country_name': 1, '_id': 1 } },
+        { '$skip': page_skip },
+        { '$limit': page_limit }
     ])
-    return render_template('locations.html',user=user, locations=locations)
+    return render_template('locations.html',user=user, locations=locations, current_page=current_page, page_range=page_range)
 
 
 @app.route('/locations_by_rating')
 def locations_by_rating():
     user = user_in_session()
+
+    current_page = int(request.args.get('current_page', 1))
+    print(current_page)
+    page_limit = 6
+    page_skip = page_limit * (current_page - 1)
+    documents_number = locations_db.count()
+    page_range = range(1, math.ceil(documents_number / page_limit) + 1)
+
     locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
@@ -150,9 +179,11 @@ def locations_by_rating():
             'break_type_name': { '$addToSet': '$break_type'},
             'old_id': { '$addToSet': '$_id'}
             } },
-        { '$sort': { 'average_rating': -1, '_id': 1 } }
+        { '$sort': { 'average_rating': -1, '_id': 1 } },
+        { '$skip': page_skip },
+        { '$limit': page_limit }
     ])
-    return render_template('locations.html',user=user, locations=locations)
+    return render_template('locations.html',user=user, locations=locations, current_page=current_page, page_range=page_range)
 
 """
 SELECTED LOCATION
