@@ -57,6 +57,18 @@ def hazards_to_new(input_location):
             checkbox_results.append(key)
     return checkbox_results
 
+def sort_locations(sort_by):
+    sort_locations = ''
+    if sort_by == 'rate':
+        sort_locations = { 'average_rating': -1, '_id': 1 }
+        return sort_locations
+    elif sort_by == 'country':
+        sort_locations = { 'country_name': 1, '_id': 1 }
+        return sort_locations
+    elif sort_by == 'name':
+        sort_locations = { '_id': 1 }
+        return sort_locations
+
 """
 INDEX
 """
@@ -108,10 +120,13 @@ ALL LOCATIONS WITH SORT FILTER
 def locations():
     user = user_in_session()
 
-    current_page = int(request.args.get('current_page', 1))
-    print(current_page)
+    sort_by = request.args.get('sort_by', 'name')
+    filters = ('name', 'country', 'rate')
+
+    page = int(request.args.get('page', 1))
+    print(page)
     page_limit = 6
-    page_skip = page_limit * (current_page - 1)
+    page_skip = page_limit * (page - 1)
     documents_number = locations_db.count()
     page_range = range(1, math.ceil(documents_number / page_limit) + 1)
 
@@ -124,66 +139,13 @@ def locations():
             'break_type_name': { '$addToSet': '$break_type'},
             'old_id': { '$addToSet': '$_id'}
             } },
-        { '$sort': { '_id': 1 } },
+        { '$sort': sort_locations(sort_by) },
         { '$skip': page_skip },
         { '$limit': page_limit }
     ])
     # print(locations)
-    return render_template('locations.html',user=user, locations=locations, current_page=current_page, page_range=page_range)
+    return render_template('locations.html',user=user, locations=locations, page=page, page_range=page_range, sort_by=sort_by, filters=filters)
 
-
-@app.route('/locations_by_country')
-def locations_by_country():
-    user = user_in_session()
-
-    current_page = int(request.args.get('current_page', 1))
-    print(current_page)
-    page_limit = 6
-    page_skip = page_limit * (current_page - 1)
-    documents_number = locations_db.count()
-    page_range = range(1, math.ceil(documents_number / page_limit) + 1)
-
-    locations = locations_db.aggregate([
-        { '$unwind': '$ratings' },
-        { '$group': {
-            '_id': '$name',
-            'average_rating': { '$avg': '$ratings.rate'},
-            'country_name': { '$addToSet': '$country'},
-            'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
-            } },
-        { '$sort': { 'country_name': 1, '_id': 1 } },
-        { '$skip': page_skip },
-        { '$limit': page_limit }
-    ])
-    return render_template('locations.html',user=user, locations=locations, current_page=current_page, page_range=page_range)
-
-
-@app.route('/locations_by_rating')
-def locations_by_rating():
-    user = user_in_session()
-
-    current_page = int(request.args.get('current_page', 1))
-    print(current_page)
-    page_limit = 6
-    page_skip = page_limit * (current_page - 1)
-    documents_number = locations_db.count()
-    page_range = range(1, math.ceil(documents_number / page_limit) + 1)
-
-    locations = locations_db.aggregate([
-        { '$unwind': '$ratings' },
-        { '$group': {
-            '_id': '$name',
-            'average_rating': { '$avg': '$ratings.rate'},
-            'country_name': { '$addToSet': '$country'},
-            'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
-            } },
-        { '$sort': { 'average_rating': -1, '_id': 1 } },
-        { '$skip': page_skip },
-        { '$limit': page_limit }
-    ])
-    return render_template('locations.html',user=user, locations=locations, current_page=current_page, page_range=page_range)
 
 """
 SELECTED LOCATION

@@ -11,13 +11,13 @@
             <h6>Use the filter to sort locations by Name or Country:</h6>
         </div>
         <div class="col s12 m4 center-align">
-            <a href="{{ url_for('locations') }}" class="waves-effect btn-flat">Sort by Name</a>
+            <a href="{{ url_for('locations', sort_by=filters[0]) }}" class="waves-effect btn-flat">Sort by Name</a>
         </div>
         <div class="col s12 m4 center-align">
-            <a href="{{ url_for('locations_by_country') }}" class="waves-effect btn-flat">Sort by Country</a>
+            <a href="{{ url_for('locations', sort_by=filters[1]) }}" class="waves-effect btn-flat">Sort by Country</a>
         </div>
         <div class="col s12 m4 center-align">
-                <a href="{{ url_for('locations_by_rating') }}" class="waves-effect btn-flat">Sort by Rating</a>
+                <a href="{{ url_for('locations', sort_by=filters[2]) }}" class="waves-effect btn-flat">Sort by Rating</a>
             </div>
         <div class="col s12">
             <h6>Alternatively do the search here</h6>
@@ -65,19 +65,41 @@
     <div class="row">
         <div class="col s12 center-align">
             <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                {% for page in page_range %}
-                    {% if page == current_page %}
-                        <li class="active"><a>{{ page }}</a></li>
+                {% if page == 1 %}
+                    <li class="waves-effect"><a><i class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    {% if sort_by == filters[0] %}
+                        <li class="waves-effect"><a href="{{ url_for('locations', page=page - 1) }}"><i class="material-icons">chevron_left</i></a></li>
+                    {% elif sort_by == filters[1] %}
+                        <li class="waves-effect"><a href="{{ url_for('locations', sort_by=filters[1], page=page - 1) }}"><i class="material-icons">chevron_left</i></a></li>
+                    {% elif sort_by == filters[2] %}
+                        <li class="waves-effect"><a href="{{ url_for('locations', sort_by=filters[2], page=page - 1) }}"><i class="material-icons">chevron_left</i></a></li>
+                    {% endif %}    
+                {% endif %}
+                {% for p in page_range %}
+                    {% if p == page %}
+                        <li class="active"><a>{{ p }}</a></li>
                     {% else %}
-                        <li class="waves-effect"><a href="{{ url_for('locations', current_page=page) }}">{{ page }}</a></li>
+                        {% if sort_by == filters[0] %}
+                            <li class="waves-effect"><a href="{{ url_for('locations', page=p) }}">{{ p }}</a></li>
+                        {% elif sort_by == filters[1] %}
+                            <li class="waves-effect"><a href="{{ url_for('locations', sort_by=filters[1], page=p) }}">{{ p }}</a></li>
+                        {% elif sort_by == filters[2] %}
+                            <li class="waves-effect"><a href="{{ url_for('locations', sort_by=filters[2], page=p) }}">{{ p }}</a></li>
+                        {% endif %}    
                     {% endif %}
                 {% endfor  %}
-                <!-- <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li> -->
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                {% if page < page_range|length %}
+                    {% if sort_by == filters[0] %}
+                        <li class="waves-effect"><a href="{{ url_for('locations', page=page + 1) }}"><i class="material-icons">chevron_right</i></a></li>
+                    {% elif sort_by == filters[1] %}
+                        <li class="waves-effect"><a href="{{ url_for('locations', sort_by=filters[1], page=page + 1) }}"><i class="material-icons">chevron_right</i></a></li>
+                    {% elif sort_by == filters[2] %}
+                        <li class="waves-effect"><a href="{{ url_for('locations', sort_by=filters[2], page=page + 1) }}"><i class="material-icons">chevron_right</i></a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="waves-effect"><a><i class="material-icons">chevron_right</i></a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
