@@ -17,8 +17,8 @@ $(document).ready(function(){
 
     $('#advanced_btn').click(function() {
         $('#advanced_form').toggleClass('hide');
-        $('#advanced_btn').toggleClass('grey-text');
-        $(this).text($(this).text() == 'Advanced search' ? 'Search by name' : 'Advanced search'
+        // $('#advanced_btn').toggleClass('grey-text');
+        $(this).text($(this).text() == 'ADVANCED SEARCH' ? 'SEARCH BY NAME' : 'ADVANCED SEARCH'
         );
         $('#search_name').toggleClass('hide');
     });

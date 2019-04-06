@@ -8,16 +8,18 @@
 
             <form action="{{ url_for('editSpot', location_id=location._id ) }}" method="POST">
 
-                <div class="col s12">
-                    <h5>{{ location.name | title }}</h5>
+                <div class="col s12 space-top">
+                    <h4 class="font-oswald">{{ location.name | upper }}</h4>
                 </div>
                 <!-- <div class="input-field col s12">
                     <input value="{{ location.name | title }}" name="name_input" type="text" id="name_input" data-length="64" required>
                     <label for="name_input">Type in location name</label>
                 </div> -->
                 <div class="col s12">
-                    <h6>{{ location.country | title }} | {{ location.region | title }}</h6>
+                    <h5>{{ location.country | title }} | {{ location.region | title }}</h5>
+                    <p class="divider"></p>
                 </div>
+
                 <!-- <div class="input-field col s12">
                     <select id="category" name="country_input" required>
                         <option id="country_input" value="" disabled selected>{{ location.country | title }}</option>
@@ -168,16 +170,16 @@
 
                 <div class="col s12 checkbox-error"></div>
 
-                <div class="col s12 m6 center-align">
-                    <button class="btn waves-effect waves-light" id="update" type="submit" name="action">SAVE CHANGES</button>
+                <div class="col s12 m6 center-align space-bottom">
+                    <button class="btn waves-effect waves-yellow" id="update" type="submit" name="action">SAVE CHANGES</button>
                 </div>
                                 
             </form>
 
-            <div class="col s12 m6 center-align">
-                <a href="{{ url_for('spot', location_id=location._id) }}"><button class="btn waves-effect waves-light">CANCEL</button></a>
+            <div class="col s12 m6 center-align space-bottom">
+                <a href="{{ url_for('spot', location_id=location._id) }}"><button class="btn red waves-effect waves-yellow">CANCEL</button></a>
             </div>
-
+            
         </div>
     </div>
 </div>

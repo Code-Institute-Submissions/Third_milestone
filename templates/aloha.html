@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container space">
     <div class="row">
         <div class="col s12">
-            <h5>Aloha {{ user | capitalize }}</h5>
+            <h5 class="font-oswald">Aloha {{ user | capitalize }}</h5>
 
             <!-- success message for user interactions -->
 
@@ -21,7 +21,7 @@
         </div>
         <div class="col s12">
             {% for details in locations_user | sort(attribute='name') %} 
-                <a href="{{ url_for('spot', location_id=details._id) }}"><h5>{{ details.name | title }}</h5></a>
+                <a href="{{ url_for('spot', location_id=details._id) }}"><h5 class="font-oswald">{{ details.name | upper }}</h5></a>
                 {% for rate in details.ratings %}
                     {% if rate.user_name == user %}
                         <p>Your rating: {{ rate.rate }}</p>
@@ -29,17 +29,17 @@
                 {% endfor %}
                 {% for comment in details.comments | sort(reverse=True, attribute='date_added') %}
                     {% if comment.user_name == user %}
-                        <p>{{ comment.date_added }}</p>
+                        <p>Comment added on {{ comment.date_added }}</p>
                         <p>{{ comment.comment }}</p>
                     {% endif %}
                 {% endfor %}
-                <li class="divider"></li>
+                <p class="divider"></p>
             {% endfor %}
         </div>
 
 
         <div class="col s12">
-            <h6>Done for today? <a href="{{ url_for('user_logout') }}">Log out here</a>.</h6>
+            <p>Done for today? <a href="{{ url_for('user_logout') }}">Log out here</a></p>
         </div>
 
     </div>

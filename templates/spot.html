@@ -9,7 +9,7 @@
                 {% with spot = get_flashed_messages(category_filter=['spot']) %}
                     {% if spot %}
                         {% for message in spot %}                            
-                            <h5>{{ message }}</h5>
+                            <h5 class="teal-text">{{ message }}</h5>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
@@ -21,9 +21,10 @@
     <div class="row">
         <div class="col s12">
             <div class="col s12 m6">
-                <h4>{{ location.name | title }}</h4>
+                <h4 class="font-oswald">{{ location.name | upper }}</h4>
                 <h5>{{ location.country | title }} | {{ location.region | title }}</h5>
-                <h6>Details:</h6>
+                <p class="divider"></p>
+                <h6 class="font-oswald">DETAILS</h6>
                 <ul>
                     <li>Break Type: {{ location.break_type }}</li>
                     <li>Wave Direction: {{ location.wave_direction }}</li>
@@ -52,7 +53,7 @@
             <div class="col s12 m6">
                 <ul>
                     <li>
-                        <ul>Facilities:
+                        <ul><h6 class="font-oswald">FACILITIES</h6>
                             {% for value in location.facilities %}
                             <li>- {{ value }}</li>
                             {% endfor %}
@@ -63,7 +64,7 @@
             <div class="col s12 m6">
                 <ul>
                     <li>
-                        <ul>Hazards:
+                        <ul><h6 class="font-oswald">HAZARDS</h6>
                             {% for value in location.hazards %}
                             <li>- {{ value }}</li>
                             {% endfor %}
@@ -73,18 +74,20 @@
             </div>
         </div>
 
+        <div class="col s12 border"></div>
+        
         <div class="col s12">
-            <h6>Description:</h6>
+            <h6 class="font-oswald">DESCRIPTION</h6>
             <p>{{ location.description }}</p>
-            <h6>Rating:</h6>
+            <p class="divider"></p>
+            <h6 class="font-oswald">RATINGS</h6>
             {% for rate in location.ratings %}
                 {% if rate.rate is defined and rate.rate != None %}
                     <p>{{ rate.rate }} by {{ rate.user_name }}</p>
-                {% else %}
-                    <p>Not yet rated</p>
                 {% endif %}
             {% endfor %}
-            <h6>Comments:</h6>
+            <p class="divider"></p>
+            <h6 class="font-oswald">COMMENTS</h6>
             {% for comment in location.comments | sort(reverse=True, attribute='date_added') %}
             <p>> {{ comment.user_name }} on <i>{{ comment.date_added }}</i></p>
             <p>'{{ comment.comment }}'</p>
@@ -103,32 +106,29 @@
             {% with login = get_flashed_messages(category_filter=['login']) %}
                 {% if login %}
                     {% for message in login %}                            
-                        <h5>{{ message }}</h5>
+                        <h6>{{ message }}</h6>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+        </div>
+        <div class="col s12 space-top">
+            <div class="col s12 m4 center-align">
+                <a href="{{ url_for('user_input', location_id=location._id) }}" class="waves-effect waves-yellow btn-small btn-space">Rate and Comment</a>
+            </div>
+
+            <div class="col s12 m4 center-align">
+                <a href="{{ url_for('editSpot', location_id=location._id) }}" class="waves-effect waves-yellow btn-small btn-space">EDIT LOCATION</a>
+            </div>
+
+            <div class="col s12 m4 center-align">
+                <a href="{{ url_for('locations') }}" class="waves-effect waves-yellow btn-small btn-space">EXPLORE ALL</a>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="container">
- 
-        <div class="col s12 m4 center-align">
-                <a href="{{ url_for('user_input', location_id=location._id) }}" class="waves-effect btn-flat" id="explore">Rate and Comment</a>
-        </div>
-
-        <div class="col s12 m4 center-align">
-                <a href="{{ url_for('editSpot', location_id=location._id) }}" class="waves-effect btn-flat" id="explore">EDIT LOCATION</a>
-        </div>
-
-
-        <div class="col s12 m4 center-align">
-            <a href="{{ url_for('locations') }}" class="waves-effect btn-flat" id="explore">EXPLORE ALL</a>
-        </div>
-</div>
-
-<div class="container">
-    <h4 class="center-align">Check some other locations on our list:</h4>
+    <h5 class="center-align">Alternatively explore some other locations on our list:</h5>
     <div class="row">
         {% for location in locations_random %}
         <a href="{{ url_for('spot', location_id=location.old_id[0]) }}">

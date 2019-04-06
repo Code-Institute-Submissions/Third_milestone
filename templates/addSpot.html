@@ -2,18 +2,12 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container space">
     <div class="row">
-
-<div class="test col s12">
-{% with name_exists = get_flashed_messages(category_filter=['name_exists']) %}
-    {% if name_exists %}
-        {% for message in name_exists %}                            
-            <h5>{{ message }}</h5>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-</div>
+        <div class="col s12">
+            <h6>Please fill all of the below fields to add new location to the site. Thank you!</h6>
+            <p class="divider"></p>
+        </div>
 
         <div class="col s12">
 
@@ -184,10 +178,14 @@
                     <label for="textarea1">Add Description</label>
                 </div>
 
-                <div class="col s12 center-align space">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">ADD LOCATION</button>
+                <div class="col s12 m6 center-align">
+                    <button class="btn waves-effect waves-yellow space-top" type="submit" name="action">ADD LOCATION</button>
                 </div>
             </form>
+
+            <div class="col s12 m6 center-align">
+                <a href="{{ url_for('index') }}"><button class="btn red waves-effect waves-yellow space-top">CANCEL</button></a>
+            </div>
 
         </div>
     </div>

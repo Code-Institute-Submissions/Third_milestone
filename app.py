@@ -158,9 +158,9 @@ SELECTED LOCATION
 def spot(location_id):
     user = user_in_session()
     if 'username' not in session:
-        flash('Please log in to rate and comment on this location', 'login')
+        flash('Please log in to rate, comment ore edit this location', 'login')
     else:
-        flash('Please comment and rate this location below:', 'login')
+        flash('Please leave your comment and rate this location. If you believe it needs to be updated please use the edit button. Thanks!', 'login')
     location = locations_db.find_one({'_id': ObjectId(location_id)})
     avg_rating = locations_db.aggregate([
         { '$match': {

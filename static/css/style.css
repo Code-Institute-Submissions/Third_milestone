@@ -13,13 +13,19 @@ main {
 /* border divider */
 
 .border {
-    border-bottom: 1px solid grey;
+    height: 1px;
+    overflow: hidden;
+    background-color: #e0e0e0;
 }
 
 /* base.html style changes */
 
 nav .brand-logo, nav ul a, nav a {
     color: #263238;
+}
+
+nav ul a:hover, .sidenav li>a:hover {
+    background-color: rgba( 0, 150, 136, .2)
 }
 
 @media only screen and (min-width: 993px) {
@@ -174,6 +180,12 @@ nav .brand-logo, nav ul a, nav a {
     opacity: .8;
 }
 
+.page-footer .footer-copyright {
+    display: block;
+    margin: 0 auto;
+    padding: 5px 0px;
+}
+
 /* Buttons style */
 
 .row .col a.btn-space {
@@ -205,9 +217,10 @@ label {
 }
 
 #advanced_btn {
-    font-size: 12px;
+    font-size: 16px;
     cursor: pointer;
     color: #263238;
+    text-decoration: underline;
 }
 
 #advanced_form {
@@ -267,4 +280,29 @@ textarea.materialize-textarea {
 
 .pagination li.active {
     background-color: #03a9f4;
+}
+
+/* about */
+
+.about {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    width: 400px;
+    overflow: hidden;
+}
+
+.about img {
+    object-fit: cover;
+    object-position: 50% 50%;
+    max-width: 100%;
+}
+
+#quote {
+    width: 200px;
+    position: absolute;
+    color: white;
+    line-height: 50px;
 }

@@ -11,18 +11,18 @@
                 <div class="input-field col s12 m8">
                     <i class="material-icons prefix">search</i>
                     <input name="search_by_name" type="text" id="search_by_name" class="autocomplete" required>
-                    <label for="search_by_name">Autocomplete</label>
+                    <label for="search_by_name">Type location name</label>
                 </div>
 
                 <div class="col s12 m4 center-align">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">SEARCH</button>
+                    <button class="btn waves-effect waves-yellow" type="submit" name="action">SEARCH</button>
                 </div>
 
             </form>
         </div>
 
         <div class="col s12">
-            <a id="advanced_btn">Advanced search</a>
+            <a id="advanced_btn" class="font-oswald">ADVANCED SEARCH</a>
         </div>
 
         <div class="hide" id="advanced_form">
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="col s12 center-align space">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">SEARCH</button>
+                    <button class="btn waves-effect waves-yellow" type="submit" name="action">SEARCH</button>
                 </div>
             </form>
         </div>
@@ -220,10 +220,6 @@ $(document).ready(function(){
         console.log(this.value.toLowerCase())
         return this.value.toLowerCase();
     })
-
-    // $('input.autocomplete').bind('input propertychange', function() {
-    //     return $(this).val().toLowerCase();
-    // });
 
     var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
 
