@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Compiled and minified Google Icons and Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Oswald" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -18,9 +18,9 @@
 
     <nav class="transparent">
         <div class="nav-wrapper">
-            <a href="{{ url_for('index') }}" class="brand-logo">SurfingEurope</a>
+            <a href="{{ url_for('index') }}" class="brand-logo font-script">SurfingEurope</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <ul id="nav-mobile" class="right hide-on-med-and-down font-oswald">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="{{ url_for('locations') }}">All Locations</a></li>
                 <li><a href="{{ url_for('search') }}">Search</a></li>
@@ -36,7 +36,7 @@
 
     <!-- Mobile menu side navigation sctructure -->
 
-    <ul class="sidenav" id="mobile-demo">
+    <ul class="sidenav font-oswald center-align" id="mobile-demo">
         <li><a href="{{ url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('locations') }}">All Locations</a></li>
         <li><a href="{{ url_for('search') }}">Search</a></li>
@@ -76,31 +76,32 @@
     <footer class="page-footer light-blue">
         <div class="container">
             <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            <div class="col s12 l6">
+                <h5 class="white-text">Aloha!</h5>
+                <p class="grey-text text-lighten-4">Don't be a stranger and visit our social pages below while you wait for the perfect conditions!</p>
                 <div class="col s12 center-align">
-                    <i class="fab fa-facebook-square fa-2x"></i>
-                    <i class="fab fa-twitter-square fa-2x"></i>
-                    <i class="fab fa-instagram fa-2x"></i>
-                    <i class="fab fa-google-plus-g fa-2x"></i>
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-square fa-2x"></i></a>
+                    <a href="https://twitter.com/?lang=en" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a>
+                    <a href="https://www.instagram.com/?hl=en" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
                 </div>
             </div>
-            <div class="col l4 offset-l2 s12">
+            <div class="col s6 l3 font-oswald center-align">
                 <h5 class="white-text">Links</h5>
                 <ul>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('index') }}">Home</a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('locations') }}">All Locations</a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('search') }}">Search</a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('add_spot') }}">Add Spot</a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('about') }}">About</a></li>
                 </ul>
             </div>
+            <div class="col s6 l3 logo center-align">
+                <img src="../static/assets/logo.png">
             </div>
         </div>
         <div class="footer-copyright transparent">
             <div class="container">
             © 2019 SurfingEurope
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
             </div>
         </div>
     </footer>

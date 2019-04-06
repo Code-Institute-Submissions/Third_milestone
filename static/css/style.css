@@ -10,6 +10,12 @@ main {
     flex: 1 0 auto;
 }
 
+/* border divider */
+
+.border {
+    border-bottom: 1px solid grey;
+}
+
 /* base.html style changes */
 
 nav .brand-logo, nav ul a, nav a {
@@ -24,8 +30,12 @@ nav .brand-logo, nav ul a, nav a {
 
 /* Custom typography */
 
-nav .brand-logo {
+.font-script {
     font-family: 'Kaushan Script', cursive;
+}
+
+.font-oswald {
+    font-family: 'Oswald', sans-serif;
 }
 
 /* card style */
@@ -37,7 +47,7 @@ nav .brand-logo {
 .card.small .card-image {
     min-height: 80%;
     max-height: 80%;
-} 
+}
 
 .card.small .card-image.spot {
     min-height: 100%;
@@ -64,15 +74,16 @@ nav .brand-logo {
     top: 0;
     height: 100%;
     width: 100%;
-    /* background-color: rgba( 255, 213, 79, .2); */
-    /* background-color: rgba( 100, 255, 218, .2); */
-    /* background-color: rgba( 255, 145, 0, .2); */
     background: #32ffcf;
     background: -moz-linear-gradient(45deg, #32ffcf 0%, #fff189 100%);
     background: -webkit-linear-gradient(45deg, #32ffcf 0%,#fff189 100%);
     background: linear-gradient(45deg, #32ffcf 0%,#fff189 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#32ffcf', endColorstr='#fff189',GradientType=1 );
     opacity: .15;
+}
+
+.card:hover .card-image .overlay {
+    opacity: .4;
 }
 
 /* rating button */
@@ -113,13 +124,6 @@ nav .brand-logo {
     margin-top: 22px;
 }
 
-/* .card .card-title span {
-    background-color: rgba(38, 50, 56, .5);
-    padding: 2px 24px;
-    padding-left: 24px;
-    padding-right: 24px;
-} */
-
 /* index.html style changes */
 
 .hero-img {
@@ -158,8 +162,23 @@ nav .brand-logo {
     transform: scale(1.1);
 }
 
+/* footer */
+
 .page-footer {
     background-image: url("../assets/footer.jpg");
+    overflow: hidden;
+}
+
+.logo img {
+    padding-top: 25px;
+    opacity: .8;
+}
+
+/* Buttons style */
+
+.row .col a.btn-space {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* Search */
@@ -172,9 +191,17 @@ label {
     color: #263238;
 }
 
+.space-top {
+    margin-top: 25px;
+}
+
+.space-bottom {
+    margin-bottom: 25px;
+}
+
 .space {
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 50px;    
 }
 
 #advanced_btn {
@@ -234,4 +261,10 @@ textarea.materialize-textarea {
 
 .checkbox-error {
     color: red;
+}
+
+/* pagination */
+
+.pagination li.active {
+    background-color: #03a9f4;
 }
