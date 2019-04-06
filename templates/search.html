@@ -119,12 +119,18 @@
         {% for location in name_search %}
         <a href="{{ url_for('spot', location_id=location.old_id[0]) }}">
             <div class="col s12 m6 l4">
-                <div class="card">
+                <div class="card small">
                     <div class="card-image">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{ location._id | title }}</span>
+                        {% if 'admin' in location.img_url %}
+                            <img src="../static/assets/dummy_cover.jpg">
+                        {% else %}
+                            <img src="{{ location.img_url[0] }}" onError="this.onError=null;this.src='../static/assets/dummy_cover.jpg'">
+                        {% endif %}
+                        <div class="card-title">
+                            <span>{{ location._id | title }}</span>
+                        </div>
                         <div class="btn-floating halfway-fab transparent center-align">
-                            <i class="material-icons">star</i>                            
+                            <i class="material-icons">star</i>
                         </div>
                         <div class="btn-floating halfway-fab transparent center-align">
                             {% if location.average_rating == None %}
@@ -133,12 +139,10 @@
                                 <p class="rating-floating">{{ location.average_rating | round|int }}</p>
                             {% endif %}
                         </div>
+                        <div class="overlay"></div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
                         <p>{{ location.country_name[0] | title }} | {{ location.break_type_name[0] }}</p>
-                    </div>
-                    <div class="card-action center-align">
-                        <h6>Explore</h6>
                     </div>
                 </div>
             </div>
@@ -154,12 +158,18 @@
         {% for location in adv_search %}
         <a href="{{ url_for('spot', location_id=location.old_id[0]) }}">
             <div class="col s12 m6 l4">
-                <div class="card">
+                <div class="card small">
                     <div class="card-image">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9mc03R0DpiqAoT63-c7Ap5A8cl1b5f7UKKxhCI62alUOwuHWB">
-                        <span class="card-title">{{ location._id | title }}</span>
+                        {% if 'admin' in location.img_url %}
+                            <img src="../static/assets/dummy_cover.jpg">
+                        {% else %}
+                            <img src="{{ location.img_url[0] }}" onError="this.onError=null;this.src='../static/assets/dummy_cover.jpg'">
+                        {% endif %}
+                        <div class="card-title">
+                            <span>{{ location._id | title }}</span>
+                        </div>
                         <div class="btn-floating halfway-fab transparent center-align">
-                            <i class="material-icons">star</i>                            
+                            <i class="material-icons">star</i>
                         </div>
                         <div class="btn-floating halfway-fab transparent center-align">
                             {% if location.average_rating == None %}
@@ -168,12 +178,10 @@
                                 <p class="rating-floating">{{ location.average_rating | round|int }}</p>
                             {% endif %}
                         </div>
+                        <div class="overlay"></div>
                     </div>
                     <div class="card-content center-align light-blue white-text">
                         <p>{{ location.country_name[0] | title }} | {{ location.break_type_name[0] }}</p>
-                    </div>
-                    <div class="card-action center-align">
-                        <h6>Explore</h6>
                     </div>
                 </div>
             </div>

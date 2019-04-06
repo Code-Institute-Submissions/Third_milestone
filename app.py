@@ -87,7 +87,8 @@ def index():
             'average_rating': { '$avg': '$ratings.rate'},
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
+            'old_id': { '$addToSet': '$_id'},
+            'img_url': { '$addToSet': '$img_url'}
             } },
         { '$sort': { 'average_rating': -1, '_id': 1 } },
         { '$limit': 3 }
@@ -104,7 +105,8 @@ def index():
             'average_rating': { '$avg': '$ratings.rate'},
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
+            'old_id': { '$addToSet': '$_id'},
+            'img_url': { '$addToSet': '$img_url'}
             } },
         { '$sample': { 'size': 3 } },
         { '$limit': 3 }
@@ -137,7 +139,8 @@ def locations():
             'average_rating': { '$avg': '$ratings.rate'},
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
+            'old_id': { '$addToSet': '$_id'},
+            'img_url': { '$addToSet': '$img_url'}
             } },
         { '$sort': sort_locations(sort_by) },
         { '$skip': page_skip },
@@ -169,7 +172,8 @@ def spot(location_id):
             'average_rating': { '$avg': '$ratings.rate'},
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
+            'old_id': { '$addToSet': '$_id'},
+            'img_url': { '$addToSet': '$img_url'}
             } }
     ])
     locations_random = locations_db.aggregate([
@@ -179,7 +183,8 @@ def spot(location_id):
             'average_rating': { '$avg': '$ratings.rate'},
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
+            'old_id': { '$addToSet': '$_id'},
+            'img_url': { '$addToSet': '$img_url'}
             } },
         { '$sample': { 'size': 3 } },
         { '$limit': 3 }
@@ -280,7 +285,8 @@ def search_by_name():
                 'average_rating': { '$avg': '$ratings.rate'},
                 'country_name': { '$addToSet': '$country'},
                 'break_type_name': { '$addToSet': '$break_type'},
-                'old_id': { '$addToSet': '$_id'}
+                'old_id': { '$addToSet': '$_id'},
+                'img_url': { '$addToSet': '$img_url'}
             } },
         { '$sort': { '_id': 1 } }
     ])
@@ -348,7 +354,8 @@ def advanced_search():
             'average_rating': { '$avg': '$ratings.rate'},
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
-            'old_id': { '$addToSet': '$_id'}
+            'old_id': { '$addToSet': '$_id'},
+            'img_url': { '$addToSet': '$img_url'}
             } },
         { '$sort': { 'average_rating': -1, '_id': 1 } }
     ])

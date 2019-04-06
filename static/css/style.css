@@ -16,11 +16,111 @@ nav .brand-logo, nav ul a, nav a {
     color: #263238;
 }
 
-/* index.html style changes */
+@media only screen and (min-width: 993px) {
+    nav .brand-logo {
+        padding-left: 25px;
+    }
+}
+
+/* Custom typography */
+
+nav .brand-logo {
+    font-family: 'Kaushan Script', cursive;
+}
+
+/* card style */
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
     margin-right: 0;
 }
+
+.card.small .card-image {
+    min-height: 80%;
+    max-height: 80%;
+} 
+
+.card.small .card-image.spot {
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.card.small .card-image+.card-content {
+    min-height: 20%;
+    max-height: 20%;
+}
+
+.card .card-image img {
+    height: 300px;
+    object-fit: cover;
+    object-position: 50% 50%;
+}
+
+.card .card-content {
+    padding: 20px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    /* background-color: rgba( 255, 213, 79, .2); */
+    /* background-color: rgba( 100, 255, 218, .2); */
+    /* background-color: rgba( 255, 145, 0, .2); */
+    background: #32ffcf;
+    background: -moz-linear-gradient(45deg, #32ffcf 0%, #fff189 100%);
+    background: -webkit-linear-gradient(45deg, #32ffcf 0%,#fff189 100%);
+    background: linear-gradient(45deg, #32ffcf 0%,#fff189 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#32ffcf', endColorstr='#fff189',GradientType=1 );
+    opacity: .15;
+}
+
+/* rating button */
+
+.btn-floating, .btn-floating:hover, .btn-floating:active, .btn-floating:visited, .btn-floating:focus {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    box-shadow: none;
+    cursor: default;
+    color: blue;
+}
+
+.btn-floating.halfway-fab {
+    top: 5px;
+    right: 0;
+}
+
+.card .card-image .btn-floating i {
+    color: rgba(38, 50, 56, .5);
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.card .card-image .btn-floating .rating-floating {
+    color: white;
+    font-size: 18px;
+    line-height: 18px;
+} 
+
+.card .card-image .card-title {
+    background-color: rgba(38, 50, 56, .5);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 24px;
+    padding-right: 6px;
+    margin-bottom: 22px;
+    margin-top: 22px;
+}
+
+/* .card .card-title span {
+    background-color: rgba(38, 50, 56, .5);
+    padding: 2px 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+} */
+
+/* index.html style changes */
 
 .hero-img {
     height: 500px;
@@ -85,25 +185,6 @@ label {
 
 #advanced_form {
     padding-top: 25px;
-}
-
-/* star button */
-
-.btn-floating, .btn-floating:hover, .btn-floating:active, .btn-floating:visited, .btn-floating:focus {
-    width: 50px;
-    box-shadow: none;
-    cursor: default;
-    color: blue;
-}
-
-.btn-floating i {
-    font-size: 3rem;
-    margin: 0 auto;
-}
-
-.rating-floating {
-    font-size: 1.2rem;
-    margin: 0 auto;
 }
 
 /* Login form layout */
