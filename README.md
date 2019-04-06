@@ -11,6 +11,9 @@ Photo by Cristian Palmer on Unsplash (footer.jpg)
 [article on conditional aggregation](http://davenewson.com/posts/2013/conditional-aggregation-on-arrays-of-objects-in-mongodb.html)
 Photo by Jeremy Bishop on Unsplash (background image for loc if no img provided)
 (gradient)[http://www.colorzilla.com/gradient-editor/]
+Photo by Jeremy Bishop on Unsplash (error)
+Photo by Tyler Nix (campervan)
+
 
 # Project Scope
 

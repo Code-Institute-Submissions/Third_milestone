@@ -158,7 +158,7 @@ SELECTED LOCATION
 def spot(location_id):
     user = user_in_session()
     if 'username' not in session:
-        flash('Please log in to rate, comment ore edit this location', 'login')
+        flash('Please log in to rate, comment or edit this location', 'login')
     else:
         flash('Please leave your comment and rate this location. If you believe it needs to be updated please use the edit button. Thanks!', 'login')
     location = locations_db.find_one({'_id': ObjectId(location_id)})

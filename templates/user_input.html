@@ -8,7 +8,7 @@
     <ul class="collapsible">
         <li>
             <div class="collapsible-header">
-                <i class="material-icons right">thumb_up</i>Rate {{ location.name }}
+                <i class="material-icons right">thumb_up</i>Rate {{ location.name | title }}
             </div>
             <div class="collapsible-body">
 
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col s12 m4 center-align">
-                        <button class="btn waves-effect waves-light" type="submit" name="rating" value="user_rate">SUBMIT</button>
+                        <button class="btn waves-effect waves-yellow" type="submit" name="rating" value="user_rate">SUBMIT</button>
                     </div>
 
                 </form>
@@ -57,7 +57,7 @@
         </li>
 
         <li>
-            <div class="collapsible-header"><i class="material-icons right">add_comment</i>Comment on {{ location.name }}</div>
+            <div class="collapsible-header"><i class="material-icons right">add_comment</i>Comment on {{ location.name | title }}</div>
 
             <div class="collapsible-body">
 
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="col s12 center-align">
-                                <button class="btn waves-effect waves-light" type="submit" name="add_comment">SUBMIT</button>
+                                <button class="btn waves-effect waves-yellow" type="submit" name="add_comment">SUBMIT</button>
                             </div>
                         </form>
                     </div>
@@ -83,7 +83,7 @@
 <div class="container">
     <div class="row">
         <div class="col s12 center-align">
-            <a href="{{ url_for('spot', location_id=location._id) }}">GO BACK</a>
+            <a href="{{ url_for('spot', location_id=location._id) }}" class="waves-effect waves-yellow btn-small btn-space">GO BACK</a>
         </div>
     </div>
 </div>

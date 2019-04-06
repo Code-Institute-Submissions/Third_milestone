@@ -306,3 +306,27 @@ textarea.materialize-textarea {
     color: white;
     line-height: 50px;
 }
+
+/* ouch page */
+
+.error {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 600px;
+    overflow: hidden;
+}
+
+.error img {
+    object-fit: cover;
+    object-position: 50% 50%;
+    max-width: 100%;
+}
+
+#error {
+    position: absolute;
+    /* color: white; */
+    width: 300px;
+}
