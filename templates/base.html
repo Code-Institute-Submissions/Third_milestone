@@ -37,18 +37,18 @@
     <!-- Mobile menu side navigation sctructure -->
 
     <ul class="sidenav font-oswald center-align" id="mobile-demo">
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('locations') }}">All Locations</a></li>
-        <li><a href="{{ url_for('search') }}">Search</a></li>
-        <li><a href="{{ url_for('add_spot') }}">Add Spot</a></li>
-        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('index') }}"><h5>Home</h5></a></li>
+        <li><a href="{{ url_for('locations') }}"><h5>All Locations</h5></a></li>
+        <li><a href="{{ url_for('search') }}"><h5>Search</h5></a></li>
+        <li><a href="{{ url_for('add_spot') }}"><h5>Add Spot</h5></a></li>
+        <li><a href="{{ url_for('about') }}"><h5>About</h5></a></li>
         <li class="divider"></li>
         {% if user %}
-        <li><a href="{{ url_for('aloha', username=user) }}">{{ user | capitalize }}</a></li>
-        <li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
+        <li><a href="{{ url_for('aloha', username=user) }}"><h5>{{ user | capitalize }}</h5></a></li>
+        <li><a href="{{ url_for('user_logout') }}"><h5>Log Out</h5></a></li>
         {% else %}
-        <li><a href="{{ url_for('user') }}">Log In</a></li>
-        <li><a href="{{ url_for('register') }}">Register</a></li>
+        <li><a href="{{ url_for('user') }}"><h5>Log In</h5></a></li>
+        <li><a href="{{ url_for('register') }}"><h5>Register</h5></a></li>
         {% endif %}
     </ul>
 
@@ -86,13 +86,13 @@
                 </div>
             </div>
             <div class="col s6 l3 font-oswald center-align">
-                <h5 class="white-text">Links</h5>
+                <!-- <h5 class="white-text">Links</h5> -->
                 <ul>
-                <li><a class="grey-text text-lighten-3" href="{{ url_for('index') }}">Home</a></li>
-                <li><a class="grey-text text-lighten-3" href="{{ url_for('locations') }}">All Locations</a></li>
-                <li><a class="grey-text text-lighten-3" href="{{ url_for('search') }}">Search</a></li>
-                <li><a class="grey-text text-lighten-3" href="{{ url_for('add_spot') }}">Add Spot</a></li>
-                <li><a class="grey-text text-lighten-3" href="{{ url_for('about') }}">About</a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('index') }}"><h6>Home</h6></a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('locations') }}"><h6>All Locations</h6></a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('search') }}"><h6>Search</h6></a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('add_spot') }}"><h6>Add Spot</h6></a></li>
+                <li><a class="grey-text text-lighten-3" href="{{ url_for('about') }}"><h6>About</h6></a></li>
                 </ul>
             </div>
             <div class="col s6 l3 logo center-align">
