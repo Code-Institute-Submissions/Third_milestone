@@ -6,26 +6,38 @@
     <div class="row">    
         <div class="col s12">
 
-            <form action="{{ url_for('editSpot', location_id=location._id ) }}" method="POST">
-
                 <div class="col s12 space-top">
                     <h4 class="font-oswald">{{ location.name | upper }}</h4>
                 </div>
-                <!-- <div class="input-field col s12">
-                    <input value="{{ location.name | title }}" name="name_input" type="text" id="name_input" data-length="64" required>
-                    <label for="name_input">Type in location name</label>
-                </div> -->
+
                 <div class="col s12">
                     <h5>{{ location.country | title }} | {{ location.region | title }}</h5>
                     <p class="divider"></p>
                 </div>
 
-                <!-- <div class="input-field col s12">
+        </div>
+    </div>
+          
+    <div class="row">    
+        <div class="col s12">
+
+            <form action="{{ url_for('editSpot', location_id=location._id ) }}" method="POST">
+                
+                <div class="input-field col s12">
+                    <input value="{{ location.name | title }}" name="name_input" type="text" id="name_input" data-length="64" required>
+                    <label for="name_input">Type in location name</label>
+                </div>
+
+                <div class="input-field col s12">
                     <select id="category" name="country_input" required>
-                        <option id="country_input" value="" disabled selected>{{ location.country | title }}</option>
                         {% for country in countries %}
                             {% for element in country.country %}
-                                <option>{{ element | title }}</option>
+                                {% if location.country == element %}
+                                    <option selected>{{ element | title }}</option>    
+                                {% else %}
+                                    <option>{{ element | title }}</option>
+                                {% endif %}
+                                
                             {% endfor %} 
                         {% endfor %}    
                     </select>
@@ -35,7 +47,7 @@
                 <div class="input-field col s12">
                     <input value="{{ location.region | title }}" name="region_input" type="text" id="region_input" data-length="64" required>
                     <label for="region_input">Type in country region</label>
-                </div> -->
+                </div>
 
                 <div class="input-field col s12">
                     <select id="category" name="break_type_input" required>
@@ -125,6 +137,11 @@
                         {% endfor %} 
                     </select>
                     <label>Surroundings</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input name="img_url_input" type="text" id="img_url_input" pattern="https://.*" value="{{ location.img_url }}">
+                    <label for="img_url_input">Include image url address starting with https://</label>
                 </div>
 
                 <div class="col s12">

@@ -108,6 +108,11 @@
                     <label>Surroundings</label>
                 </div>
 
+                <div class="input-field col s12">
+                    <input name="img_url_input" type="text" id="img_url_input" pattern="https://.*">
+                    <label for="img_url_input">Include image url address starting with https://</label>
+                </div>
+
                 <div class="col s12">
                     <p class="grey-text">Please select below the Facilities you wish to include in the search:</p>
                     {% for facility in facilities %}

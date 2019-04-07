@@ -10,6 +10,10 @@ main {
     flex: 1 0 auto;
 }
 
+ul {
+    list-style-type: circle;
+}
+
 /* border divider */
 
 .border {
@@ -329,4 +333,25 @@ textarea.materialize-textarea {
     position: absolute;
     /* color: white; */
     width: 300px;
+}
+
+/* spot */
+
+.scroll {
+    max-height: 150px;
+    overflow: auto;
+}
+
+.small-text {
+    font-size: 12px;
+}
+
+.small-text ul {
+    line-height: 6px;
+}
+
+/* aloha */
+
+.padding-left {
+    padding-left: 10px;
 }

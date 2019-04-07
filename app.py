@@ -173,7 +173,9 @@ def spot(location_id):
             'country_name': { '$addToSet': '$country'},
             'break_type_name': { '$addToSet': '$break_type'},
             'old_id': { '$addToSet': '$_id'},
-            'img_url': { '$addToSet': '$img_url'}
+            'img_url': { '$addToSet': '$img_url'},
+            'created_by': { '$addToSet': '$created_by'},
+            'edited_by': { '$addToSet': '$edited_by'}
             } }
     ])
     locations_random = locations_db.aggregate([
@@ -384,8 +386,8 @@ def add_spot():
     
     user = user_in_session()
     if user is None:
-        flash('Please log in or register to add a new location.', 'add')
-        return redirect(url_for('oups'))
+        flash('Please log in or register to add a new location.')
+        return redirect(url_for('user'))
 
     countries = categories_db.find( { 'country': {'$ne': 'null'} } )
     break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
@@ -412,11 +414,13 @@ def add_spot():
             'bottom': request.form['bottom_input'],
             'facilities': facilities_to_new(input_location),
             'surroundings': request.form['surroundings_input'],
+            'img_url': request.form['img_url_input'],
             'hazards': hazards_to_new(input_location),
             'ratings': [{
                 'user_name': session['username'],
                 'rate': int(request.form['add_rating']) }],
             'description': request.form['add_description'],
+            'created_by': session['username']
         } )
         get_loc_id = locations_db.find_one({'name': { '$regex': request.form['name_input'], '$options': 'i' }})
         location_id = get_loc_id['_id']
@@ -432,8 +436,8 @@ EDIT LOCATION
 def editSpot(location_id):
     user = user_in_session()
     if user is None:
-        flash('Please log in or register to edit any location.', 'add')
-        return redirect(url_for('oups'))
+        flash('Please log in or register to edit any location.')
+        return redirect(url_for('user'))
 
     countries = categories_db.find( { 'country': {'$ne': 'null'} } )
     break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
@@ -447,6 +451,8 @@ def editSpot(location_id):
 
     location = locations_db.find_one({'_id': ObjectId(location_id)})
 
+    now = datetime.now().strftime('%Y-%m-%d at %H:%M:%S')
+
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
@@ -454,6 +460,9 @@ def editSpot(location_id):
         add_new = locations_db.update_one( 
             { '_id': ObjectId(location_id) },
             { '$set': {
+                'name': request.form['name_input'].lower(),
+                'country': request.form['country_input'].lower(),
+                'region': request.form['region_input'].lower(),
                 'break_type': request.form['break_type_input'],
                 'wave_direction': request.form['wave_direction_input'],
                 'wind_direction': request.form['wind_direction_input'],
@@ -461,8 +470,16 @@ def editSpot(location_id):
                 'bottom': request.form['bottom_input'],
                 'facilities': facilities_to_new(input_location),
                 'surroundings': request.form['surroundings_input'],
+                'img_url': request.form['img_url_input'],
                 'hazards': hazards_to_new(input_location),
                 'description': request.form['add_description']
+            } } )
+        add_user = locations_db.update_one(
+            { '_id': ObjectId(location_id) },
+            { '$push': { 
+                'edited_by': {
+                    'user_name': session['username'],
+                    'date_added': now }
             } } )
         flash('Thank you for your input!', 'spot')
         return redirect(url_for('spot', location_id=location_id))
@@ -509,7 +526,9 @@ def aloha(username):
     locations_user = locations_db.find({
         '$or': [
             { 'ratings.user_name': user },
-            { 'comments.user_name': user }
+            { 'comments.user_name': user },
+            { 'edited_by.user_name': user },
+            { 'created_by': user }
             ]
         })
 

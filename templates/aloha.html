@@ -22,6 +22,9 @@
         <div class="col s12">
             {% for details in locations_user | sort(attribute='name') %} 
                 <a href="{{ url_for('spot', location_id=details._id) }}"><h5 class="font-oswald">{{ details.name | upper }}</h5></a>
+                {% if details.created_by == user %}
+                    <p class="grey-text">You are the author of this location!</p>
+                {% endif %}
                 {% for rate in details.ratings %}
                     {% if rate.user_name == user %}
                         <p>Your rating: {{ rate.rate }}</p>
@@ -29,8 +32,13 @@
                 {% endfor %}
                 {% for comment in details.comments | sort(reverse=True, attribute='date_added') %}
                     {% if comment.user_name == user %}
-                        <p>Comment added on {{ comment.date_added }}</p>
-                        <p>{{ comment.comment }}</p>
+                        <p>Your comment on {{ comment.date_added }}</p>
+                        <p class="padding-left"><i>{{ comment.comment }}</i></p>
+                    {% endif %}
+                {% endfor %}
+                {% for update in details.edited_by | sort(reverse=True, attribute='date_added') %}
+                    {% if update.user_name == user %}
+                        <p>Your update on {{ update.date_added }}</p>
                     {% endif %}
                 {% endfor %}
                 <p class="divider"></p>

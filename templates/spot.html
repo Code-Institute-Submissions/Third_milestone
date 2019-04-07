@@ -55,7 +55,7 @@
                     <li>
                         <ul><h6 class="font-oswald">FACILITIES</h6>
                             {% for value in location.facilities %}
-                            <li>- {{ value }}</li>
+                            <li>{{ value }}</li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -66,7 +66,7 @@
                     <li>
                         <ul><h6 class="font-oswald">HAZARDS</h6>
                             {% for value in location.hazards %}
-                            <li>- {{ value }}</li>
+                            <li>{{ value }}</li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -75,24 +75,52 @@
         </div>
 
         <div class="col s12 border"></div>
+
+        <div class="col s12 small-text">
+            <p>Created by: {{ location.created_by | title }}</p>
+            <div class="scroll">
+                {% if location.edited_by %}
+                    <p>Updated by:</p>
+                    {% for edits in location.edited_by | sort(reverse=True, attribute='date_added') %}
+                        <ul>
+                            <li>{{ edits.user_name | title }} on <i>{{ edits.date_added }}</i></li>
+                        </ul>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col s12 border"></div>
         
         <div class="col s12">
             <h6 class="font-oswald">DESCRIPTION</h6>
             <p>{{ location.description }}</p>
-            <p class="divider"></p>
+        </div>
+
+        <div class="col s12 border"></div>
+
+        <div class="col s12">
             <h6 class="font-oswald">RATINGS</h6>
-            {% for rate in location.ratings %}
-                {% if rate.rate is defined and rate.rate != None %}
-                    <p>{{ rate.rate }} by {{ rate.user_name }}</p>
-                {% endif %}
-            {% endfor %}
-            <p class="divider"></p>
+            <div class="scroll">
+                {% for rate in location.ratings %}
+                    {% if rate.rate is defined and rate.rate != None %}
+                        <p>{{ rate.rate }} by {{ rate.user_name }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+            
+        <div class="col s12 border"></div>
+
+        <div class="col s12">
             <h6 class="font-oswald">COMMENTS</h6>
-            {% for comment in location.comments | sort(reverse=True, attribute='date_added') %}
-            <p>> {{ comment.user_name }} on <i>{{ comment.date_added }}</i></p>
-            <p>'{{ comment.comment }}'</p>
-            <p class="divider"></p>
-            {% endfor %}
+            <div class="scroll">
+                {% for comment in location.comments | sort(reverse=True, attribute='date_added') %}
+                    <p>> {{ comment.user_name }} on <i>{{ comment.date_added }}</i></p>
+                    <p>'{{ comment.comment }}'</p>
+                    <p class="divider"></p>
+                {% endfor %}
+            </div>
         </div>
  
     </div>
