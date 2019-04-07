@@ -160,7 +160,7 @@ def spot(location_id):
     if 'username' not in session:
         flash('Please log in to rate, comment or edit this location', 'login')
     else:
-        flash('Please leave your comment and rate this location. If you believe it needs to be updated please use the edit button. Thanks!', 'login')
+        flash('Please leave your comment and rate this location. If you believe it needs to be updated please use the edit button. If you are the creator of that spot you can as well remove it from our list. Thanks!', 'login')
     location = locations_db.find_one({'_id': ObjectId(location_id)})
     avg_rating = locations_db.aggregate([
         { '$match': {
@@ -485,6 +485,29 @@ def editSpot(location_id):
         return redirect(url_for('spot', location_id=location_id))
             
     return render_template('editSpot.html', user=user, location=location, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
+
+
+"""
+DELETE
+"""
+
+@app.route('/delete/<location_id>', methods=['POST', 'GET'])
+def delete(location_id):
+    user = user_in_session()
+    location = locations_db.find_one({'_id': ObjectId(location_id)})
+    if user is None:
+        flash('Please log in or register to delete any location.')
+        return redirect(url_for('user'))
+    elif user != location['created_by']:
+        flash('Please note that only the creator of this spot can delete it!', 'delete')
+        return redirect(url_for('spot', location_id=location_id))
+
+    if request.method == 'POST':
+        delete_one = locations_db.delete_one({'_id': ObjectId(location_id)})
+        flash('The '+location['name'].upper()+' has been deleted from our list!')
+        return redirect(url_for('aloha', username=session['username']))
+
+    return render_template('delete.html', user=user, location=location)
 
 """
 ABOUT

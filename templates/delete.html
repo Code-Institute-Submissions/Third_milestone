@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container space">
+    <div class="row">
+        
+        <div class="col s12">
+            <h5>Hey {{ user | title }},</h5>
+            <h6>Are you sure, really really sure you want to remove this location from the list?</h6>
+        </div>
+        
+        <div class="col s12">
+            <form action="{{ url_for('delete', location_id=location._id) }}" method="POST">
+                <p>
+                    <label for="delete_loc">
+                        <input type="checkbox" id="delete_loc" name="delete_loc" required/>
+                        <span>I understand that I won't be able to retrieve that location once deleted</span>
+                    </label>
+                </p>
+
+                <div class="col s12 m6 center-align space-top">
+                        <button class="btn waves-effect waves-yellow space-top" type="submit" name="action">Yep! 100% sure</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col s12 m6 center-align space-top">
+            <a href="{{ url_for('spot', location_id=location._id) }}" class="red waves-effect waves-yellow btn-small btn-space">I changed my mind</a>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

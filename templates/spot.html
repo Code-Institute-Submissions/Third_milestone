@@ -2,6 +2,20 @@
 
 {% block content %}
 
+<!-- failure message for user interactions -->
+
+{% with delete = get_flashed_messages(category_filter=['delete']) %}
+{% if delete %}
+    {% for message in delete %}
+        <div class="container space-top">
+            <div class="col s12">
+                <h6 class="red-text">{{ message }}</h6>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="container">
         <div class="row">
             <div class="col s12">
@@ -78,9 +92,9 @@
 
         <div class="col s12 small-text">
             <p>Created by: {{ location.created_by | title }}</p>
+            <p>Updated by:</p>
             <div class="scroll">
                 {% if location.edited_by %}
-                    <p>Updated by:</p>
                     {% for edits in location.edited_by | sort(reverse=True, attribute='date_added') %}
                         <ul>
                             <li>{{ edits.user_name | title }} on <i>{{ edits.date_added }}</i></li>
@@ -149,7 +163,7 @@
             </div>
 
             <div class="col s12 m4 center-align">
-                <a href="{{ url_for('locations') }}" class="waves-effect waves-yellow btn-small btn-space">EXPLORE ALL</a>
+                <a href="{{ url_for('delete', location_id=location._id) }}" class="waves-effect waves-yellow btn-small btn-space">REMOVE</a>
             </div>
         </div>
     </div>
@@ -191,5 +205,11 @@
         </a>
         {% endfor %}
     </div>
+    <h5 class="center-align">or</h5>
+    <div class="col s12 center-align space-bottom">
+        <a href="{{ url_for('locations') }}" class="waves-effect waves-yellow btn-small btn-space">EXPLORE ALL</a>
+    </div>
 </div>
+
+
 {% endblock %}

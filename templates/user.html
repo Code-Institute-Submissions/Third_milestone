@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<!-- success message for user interactions -->
+<!-- failure message for user interactions -->
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
     {% for message in messages %}
         <div class="container space-top">
             <div class="col s12">
-                <h6>{{ message }}</h6>
+                <h6 class="red-text">{{ message }}</h6>
             </div>
         </div>
     {% endfor %}
