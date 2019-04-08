@@ -75,7 +75,12 @@ INDEX
 
 @app.route('/')
 def index():
-
+    locations_imgs = locations_db.find({},
+        {   '_id': 0,
+            'img_url': 1
+        }
+    )
+    img_all = dumps(locations_imgs)
     '''
     Limit operator will display 3 top rated location
     '''
@@ -112,6 +117,7 @@ def index():
         { '$limit': 3 }
     ])
     user = user_in_session()
+
     return render_template('index.html', locations=locations, user=user, locations_random=locations_random)
 
 """

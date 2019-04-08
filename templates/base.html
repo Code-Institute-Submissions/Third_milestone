@@ -42,18 +42,18 @@
     <!-- Mobile menu side navigation sctructure -->
 
     <ul class="sidenav font-oswald center-align" id="mobile-demo">
-        <li><a href="{{ url_for('index') }}"><h5>Home</h5></a></li>
-        <li><a href="{{ url_for('locations') }}"><h5>All Locations</h5></a></li>
-        <li><a href="{{ url_for('search') }}"><h5>Search</h5></a></li>
-        <li><a href="{{ url_for('add_spot') }}"><h5>Add Spot</h5></a></li>
-        <li><a href="{{ url_for('about') }}"><h5>About</h5></a></li>
+        <li><a href="{{ url_for('index') }}"><h5 class="mobile-align">Home</h5></a></li>
+        <li><a href="{{ url_for('locations') }}"><h5 class="mobile-align">All Locations</h5></a></li>
+        <li><a href="{{ url_for('search') }}"><h5 class="mobile-align">Search</h5></a></li>
+        <li><a href="{{ url_for('add_spot') }}"><h5 class="mobile-align">Add Spot</h5></a></li>
+        <li><a href="{{ url_for('about') }}"><h5 class="mobile-align">About</h5></a></li>
         <li class="divider"></li>
         {% if user %}
-        <li><a href="{{ url_for('aloha', username=user) }}"><h5>{{ user | capitalize }}</h5></a></li>
-        <li><a href="{{ url_for('user_logout') }}"><h5>Log Out</h5></a></li>
+        <li><a href="{{ url_for('aloha', username=user) }}"><h5 class="mobile-align">{{ user | capitalize }}</h5></a></li>
+        <li><a href="{{ url_for('user_logout') }}"><h5 class="mobile-align">Log Out</h5></a></li>
         {% else %}
-        <li><a href="{{ url_for('user') }}"><h5>Log In</h5></a></li>
-        <li><a href="{{ url_for('register') }}"><h5>Register</h5></a></li>
+        <li><a href="{{ url_for('user') }}"><h5 class="mobile-align">Log In</h5></a></li>
+        <li><a href="{{ url_for('register') }}"><h5 class="mobile-align">Register</h5></a></li>
         {% endif %}
     </ul>
 
