@@ -516,7 +516,29 @@ ABOUT
 @app.route('/about')
 def about():
     user = user_in_session()
-    return render_template('about.html', user=user, locations=locations_db.find())
+
+    locations_data = locations_db.find({},
+        {   '_id': 0,
+            'break_type': 1,
+            'bottom': 1,
+            'facilities': 1,
+            'hazards': 1
+        }
+    )
+    chart_data = dumps(locations_data)
+
+    locations_data_fac = locations_db.aggregate([{
+        '$unwind': '$facilities'
+    }])
+    chart_data_fac = dumps(locations_data_fac)
+
+    locations_data_haz = locations_db.aggregate([{
+        '$unwind': '$hazards'
+    }])
+    chart_data_haz = dumps(locations_data_haz)
+
+    return render_template('about.html', user=user, locations=locations, locations_data=locations_data, chart_data=chart_data, chart_data_fac=chart_data_fac, chart_data_haz=chart_data_haz)
+
 
 """
 LOG IN | LOG OUT and USER PAGE
@@ -545,7 +567,7 @@ def user():
 @app.route('/aloha/<username>')
 def aloha(username):
     user = username
-            
+
     locations_user = locations_db.find({
         '$or': [
             { 'ratings.user_name': user },
@@ -554,7 +576,7 @@ def aloha(username):
             { 'created_by': user }
             ]
         })
-
+    
     return render_template('aloha.html', user=user, locations_user=locations_user)
 
 
