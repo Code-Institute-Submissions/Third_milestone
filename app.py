@@ -20,6 +20,7 @@ HELPER FUNCTIONS
 
 locations_db = mongo.db.locations
 categories_db = mongo.db.categories
+users = mongo.db.users
 
 def user_in_session():
     if 'username' in session:
@@ -132,7 +133,6 @@ def locations():
     filters = ('name', 'country', 'rate')
 
     page = int(request.args.get('page', 1))
-    print(page)
     page_limit = 6
     page_skip = page_limit * (page - 1)
     documents_number = locations_db.count()
@@ -152,7 +152,7 @@ def locations():
         { '$skip': page_skip },
         { '$limit': page_limit }
     ])
-    # print(locations)
+    
     return render_template('locations.html',user=user, locations=locations, page=page, page_range=page_range, sort_by=sort_by, filters=filters)
 
 
@@ -217,7 +217,7 @@ def user_input(location_id):
     
     if 'username' not in session:
         flash('Please log in or register to rate and comment!')
-        return redirect(url_for('user'))
+        return redirect(url_for('login'))
 
     if request.method == 'POST':
         if 'rating' in request.form:
@@ -393,7 +393,7 @@ def add_spot():
     user = user_in_session()
     if user is None:
         flash('Please log in or register to add a new location.')
-        return redirect(url_for('user'))
+        return redirect(url_for('login'))
 
     countries = categories_db.find( { 'country': {'$ne': 'null'} } )
     break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
@@ -408,11 +408,10 @@ def add_spot():
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-        
         add_new = locations_db.insert_one( { 
-            'name': request.form['name_input'].lower(),
-            'country': request.form['country_input'].lower(),
-            'region': request.form['region_input'].lower(),
+            'name': request.form['name_input'].strip().lower(),
+            'country': request.form['country_input'].strip().lower(),
+            'region': request.form['region_input'].strip().lower(),
             'break_type': request.form['break_type_input'],
             'wave_direction': request.form['wave_direction_input'],
             'wind_direction': request.form['wind_direction_input'],
@@ -420,16 +419,17 @@ def add_spot():
             'bottom': request.form['bottom_input'],
             'facilities': facilities_to_new(input_location),
             'surroundings': request.form['surroundings_input'],
-            'img_url': request.form['img_url_input'],
+            'img_url': request.form['img_url_input'].strip(),
             'hazards': hazards_to_new(input_location),
             'ratings': [{
                 'user_name': session['username'],
                 'rate': int(request.form['add_rating']) }],
-            'description': request.form['add_description'],
+            'description': request.form['add_description'].strip(),
             'created_by': session['username']
         } )
-        get_loc_id = locations_db.find_one({'name': { '$regex': request.form['name_input'], '$options': 'i' }})
-        location_id = get_loc_id['_id']
+        new_location = locations_db.find_one({'name': { '$eq': request.form['name_input'].strip().lower() }})
+        location_id = new_location['_id']
+        print(location_id)
         return redirect(url_for('spot', location_id=location_id))
 
     return render_template('addSpot.html', user=user, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
@@ -440,10 +440,13 @@ EDIT LOCATION
 
 @app.route('/editSpot/<location_id>', methods=['GET','POST'])
 def editSpot(location_id):
+    # Tools for using Python’s json module with BSON
+    location_name = dumps(locations_db.find({ '_id': { '$nin': [ObjectId(location_id)] } }, { '_id': 0, 'name': 1 } ))
+
     user = user_in_session()
     if user is None:
         flash('Please log in or register to edit any location.')
-        return redirect(url_for('user'))
+        return redirect(url_for('login'))
 
     countries = categories_db.find( { 'country': {'$ne': 'null'} } )
     break_types = categories_db.find( { 'break_type': {'$ne': 'null'} } )
@@ -466,9 +469,9 @@ def editSpot(location_id):
         add_new = locations_db.update_one( 
             { '_id': ObjectId(location_id) },
             { '$set': {
-                'name': request.form['name_input'].lower(),
-                'country': request.form['country_input'].lower(),
-                'region': request.form['region_input'].lower(),
+                'name': request.form['name_input'].strip().lower(),
+                'country': request.form['country_input'].strip().lower(),
+                'region': request.form['region_input'].strip().lower(),
                 'break_type': request.form['break_type_input'],
                 'wave_direction': request.form['wave_direction_input'],
                 'wind_direction': request.form['wind_direction_input'],
@@ -478,7 +481,7 @@ def editSpot(location_id):
                 'surroundings': request.form['surroundings_input'],
                 'img_url': request.form['img_url_input'],
                 'hazards': hazards_to_new(input_location),
-                'description': request.form['add_description']
+                'description': request.form['add_description'].strip()
             } } )
         add_user = locations_db.update_one(
             { '_id': ObjectId(location_id) },
@@ -490,7 +493,7 @@ def editSpot(location_id):
         flash('Thank you for your input!', 'spot')
         return redirect(url_for('spot', location_id=location_id))
             
-    return render_template('editSpot.html', user=user, location=location, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
+    return render_template('editSpot.html', user=user, location=location, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
 
 
 """
@@ -503,7 +506,7 @@ def delete(location_id):
     location = locations_db.find_one({'_id': ObjectId(location_id)})
     if user is None:
         flash('Please log in or register to delete any location.')
-        return redirect(url_for('user'))
+        return redirect(url_for('login'))
     elif user != location['created_by']:
         flash('Please note that only the creator of this spot can delete it!', 'delete')
         return redirect(url_for('spot', location_id=location_id))
@@ -550,24 +553,18 @@ def about():
 LOG IN | LOG OUT and USER PAGE
 """
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
-    users = mongo.db.users
-    login_user = users.find_one({'name': { '$regex': request.form['username'], '$options': 'i' }})
-
-    if login_user:
-        session['username'] = request.form['username'].lower()
-        flash('Welcome back!')
-        return redirect(url_for('aloha', username=session['username']))
-    error = 'Looks like invalid username. Please try to type again or register below'
-    return render_template('user.html', error=error)
-
-
-@app.route('/user')
-def user():
-    user = user_in_session()
-    return render_template('user.html', user=user)
+    if request.method == 'POST':
+        existing_user = users.find_one({'name': { '$eq': request.form['username'].strip().lower() }})
+        print(existing_user)
+        if existing_user != None:
+            session['username'] = request.form['username'].strip().lower()
+            flash('Welcome back!')
+            return redirect(url_for('aloha', username=session['username']))
+        error = 'Looks like invalid username. Please try to type again or register below'
+    return render_template('login.html', error=error)
 
 
 @app.route('/aloha/<username>')
@@ -599,11 +596,10 @@ REGISTER
 def register():
     error = None
     if request.method == 'POST':
-        users = mongo.db.users
-        existing_user = users.find_one({'name': { '$regex': request.form['username'], '$options': 'i' }})
+        existing_user = users.find_one({'name': { '$eq': request.form['username'].strip().lower() }})
         if existing_user is None:
-            users.insert({'name' : request.form['username'] })
-            session['username'] = request.form['username']
+            users.insert({'name' : request.form['username'].strip().lower() })
+            session['username'] = request.form['username'].strip().lower()
             flash('You were successfully registered!')
             return redirect(url_for('aloha', username=session['username']))
         error = 'That username already exists. Please choose another one.'

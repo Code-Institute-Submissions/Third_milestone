@@ -26,6 +26,8 @@
                 <div class="input-field col s12">
                     <input value="{{ location.name | title }}" name="name_input" type="text" id="name_input" data-length="64" required>
                     <label for="name_input">Type in location name</label>
+                    <span class="helper-text">Please note that the name length must be between 1 and 64 characters!</span>
+                    <span class="helper-text1">Please note that this name is already taken</span>
                 </div>
 
                 <div class="input-field col s12">
@@ -145,7 +147,7 @@
                 </div>
 
                 <div class="col s12">
-                    <p class="grey-text">Please select below the Facilities you wish to include in the search:</p>
+                    <p class="grey-text">Please select all available facilities at this location:</p>
                     {% for facility in facilities %}
                         {% for facility_name in facility.facilities %}
                             <div class="col s12 m6 l4" id="fac">
@@ -163,7 +165,7 @@
                 </div>
 
                 <div class="col s12">
-                    <p class="grey-text">Please select below the Hazards you wish to exclude from the 
+                    <p class="grey-text">Please select all hazards that occurs at this location:</p>
                     {% for hazard in hazards %}
                         {% for hazard_name in hazard.hazards %}
                             <div class="col s12 m6 l4">
@@ -209,13 +211,31 @@
 
 $(document).ready(function() {
 
-    // Checks in place to make sure that length of description limit is not exceeded
+    var locNames = {{ location_name | safe }};
+    var result = [];
 
-    $('#textarea').bind('input propertychange', function() {
-        if ($(this).val().length > 1200) {
-            $('#update').addClass('disabled');
+    for (var i = 0; i < locNames.length; i++) {
+        var element = locNames[i];
+        for (var key in element) {
+            result.push(element[key]);
+        }
+    }
+
+    $('.helper-text1').css({ 'background': 'transparent'}).hide();
+
+    $('#name_input').change(function() {
+        if ($('#name_input').val().trim().length <= 64 && $('#name_input').val().trim().length > 0 ) {
+            $('.helper-text').css({ 'background': 'transparent'}).hide();
+            if (result.includes($(this).val().trim().toLowerCase())) {
+                $('.helper-text1').css({ 'background': '#ffebee'}).show();
+                $('#update').addClass('disabled');
+            } else {
+                $('.helper-text1').css({ 'background': 'transparent'}).hide();
+                $('#update').removeClass('disabled');
+            }
         } else {
-            $('#update').removeClass('disabled');
+            $('.helper-text').css({ 'background': '#ffebee'}).show();
+            $('#update').addClass('disabled');
         }
     });
 
@@ -253,25 +273,6 @@ $(document).ready(function() {
         }
     });
 
-    // $fac_boxes_all.change(function () {
-    //     if (this.checked == false) {
-    //         $('#update').addClass('disabled');
-    //         $( ".checkbox-error" ).append( "<p>Please select at least one checkbox for facitilies and hazards to proceed!</p>" );
-    //     } else {
-    //         $('#update').removeClass('disabled');
-    //         $( ".checkbox-error > p" ).remove()
-    //     }
-    // });
-
-    // $haz_boxes_all.change(function () {
-    //     if (this.checked == false) {
-    //         $('#update').addClass('disabled');
-    //         $( ".checkbox-error" ).append( "<p>Please select at least one checkbox for facitilies and hazards to proceed!</p>" );
-    //     } else {
-    //         $('#update').removeClass('disabled');
-    //         $( ".checkbox-error > p" ).remove()
-    //     }
-    // });
 
 });
 

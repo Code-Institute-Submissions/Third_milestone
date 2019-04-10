@@ -52,7 +52,7 @@
         <li><a href="{{ url_for('aloha', username=user) }}"><h5 class="mobile-align">{{ user | capitalize }}</h5></a></li>
         <li><a href="{{ url_for('user_logout') }}"><h5 class="mobile-align">Log Out</h5></a></li>
         {% else %}
-        <li><a href="{{ url_for('user') }}"><h5 class="mobile-align">Log In</h5></a></li>
+        <li><a href="{{ url_for('login') }}"><h5 class="mobile-align">Log In</h5></a></li>
         <li><a href="{{ url_for('register') }}"><h5 class="mobile-align">Register</h5></a></li>
         {% endif %}
     </ul>
@@ -65,7 +65,7 @@
         <li class="divider"></li>
         <li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
         {% else %}
-        <li><a href="{{ url_for('user') }}">Log In</a></li>
+        <li><a href="{{ url_for('login') }}">Log In</a></li>
         <li class="divider"></li>
         <li><a href="{{ url_for('register') }}">Register</a></li>
         {% endif %}

@@ -16,15 +16,15 @@
                 <div class="input-field col s12">
                     <input name="name_input" type="text" id="name_input" data-length="64" required>
                     <label for="name_input">Type in location name</label>
-                    <span class="helper-text">Please note that this location already exists!</span>
+                    <span class="helper-text">Please note that location with that name already exists!</span>
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="country_input" required>
-                        <option id="country_input" value="" disabled selected>Select from list</option>
+                    <select id="country_input" name="country_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for country in countries %}
                             {% for element in country.country %}
-                                <option>{{ element | title }}</option>
+                                <option value="{{ loop.index }}">{{ element | title }}</option>
                             {% endfor %} 
                         {% endfor %}    
                     </select>
@@ -32,13 +32,13 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <input name="region_input" type="text" id="region_input" data-length="64" required>
+                    <input name="region_input" type="text" id="region_input" required>
                     <label for="region_input">Type in country region</label>
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="break_type_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                    <select id="break_type_input" name="break_type_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for break in break_types %}
                             {% for element in break.break_type %}
                                 <option>{{ element }}</option>
@@ -49,8 +49,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="wave_direction_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                    <select id="wave_direction_input" name="wave_direction_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for wave in wave_directions %}
                             {% for element in wave.wave_direction %}
                                 <option>{{ element }}</option>
@@ -61,8 +61,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="wind_direction_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                    <select id="wind_direction_input" name="wind_direction_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for wind in wind_directions %}
                             {% for element in wind.wind_direction %}
                                 <option>{{ element }}</option>
@@ -73,8 +73,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="swell_direction_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                    <select id="swell_direction_input" name="swell_direction_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for swell in swell_directions %}
                             {% for element in swell.swell_direction %}
                                 <option>{{ element }}</option>
@@ -85,8 +85,8 @@
                 </div>
                 
                 <div class="input-field col s12">
-                    <select id="category" name="bottom_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                    <select id="bottom_input" name="bottom_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for surface in bottom %}
                             {% for element in surface.bottom %}
                                 <option>{{ element }}</option>
@@ -97,8 +97,8 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <select id="category" name="surroundings_input" required>
-                        <option value="0" disabled selected>Select from list</option>
+                    <select id="surroundings_input" name="surroundings_input" required>
+                        <option value="" disabled selected>Select from list</option>
                         {% for area in surroundings %}
                             {% for element in area.surroundings %}
                                 <option>{{ element }}</option>
@@ -114,7 +114,7 @@
                 </div>
 
                 <div class="col s12">
-                    <p class="grey-text">Please select below the Facilities you wish to include in the search:</p>
+                    <p class="grey-text">Please select all available facilities at this location:</p>
                     {% for facility in facilities %}
                         {% for facility_name in facility.facilities %}
                             <div class="col s12 m6 l4">
@@ -128,7 +128,7 @@
                 </div>
                 
                 <div class="col s12">
-                    <p class="grey-text">Please select below the Hazards you wish to exclude from the 
+                    <p class="grey-text">Please select all hazards that occurs at this location:</p> 
                     {% for hazard in hazards %}
                         {% for hazard_name in hazard.hazards %}
                             <div class="col s12 m6 l4">
@@ -179,12 +179,12 @@
                 </div>
 
                 <div class="input-field col s12">
-                    <textarea id="textarea" name="add_description" class="materialize-textarea" data-length="1200" required></textarea>
+                    <textarea id="textarea" name="add_description" class="materialize-textarea" required></textarea>
                     <label for="textarea1">Add Description</label>
                 </div>
 
                 <div class="col s12 m6 center-align">
-                    <button class="btn waves-effect waves-yellow space-top" type="submit" name="action">ADD LOCATION</button>
+                    <button id="form_submit" class="btn waves-effect waves-yellow space-top disabled" type="submit" name="action">ADD LOCATION</button>
                 </div>
             </form>
 
@@ -202,54 +202,56 @@
 
 <script>
 
-var locNames = {{ location_name | safe }};
-var result = [];
-
-for (var i = 0; i < locNames.length; i++) {
-    var element = locNames[i];
-    for (var key in element) {
-        result.push(element[key]);
-    }
-}
-
 $(document).ready(function() {
 
-    // Checks in place to make sure there are no duplications in location names and length limit is not exceeded
+    var locNames = {{ location_name | safe }};
+    var result = [];
 
+    for (var i = 0; i < locNames.length; i++) {
+        var element = locNames[i];
+        for (var key in element) {
+            result.push(element[key]);
+        }
+    }
+
+    // Checks in place to make sure that all options are selected before submitting the form
+    // Checks in place to make sure there are no duplications in location names and length limit is not exceeded
+    
     $('.helper-text').css({ 'background': 'transparent'}).hide();
 
-    var name_input = $('#name_input').val();
+    $('form').change(function() {
+        if ($('#country_input').val() &&
+            $('#break_type_input').val() &&
+            $('#wave_direction_input').val() &&
+            $('#wind_direction_input').val() &&
+            $('#swell_direction_input').val() &&
+            $('#bottom_input').val() &&
+            $('#surroundings_input').val()) {
+                $('#name_input').change(function() {
+                    if ($('#name_input').val().trim().length <= 64 && $('#name_input').val().trim().length > 0 ) {
+                        console.log('It is > 0 and < 64')
+                        if (result.includes($('#name_input').val().trim().toLowerCase())) {
+                            $('.helper-text').css({ 'background': '#ffebee'}).show();
+                            $('#form_submit').addClass('disabled');
+                            console.log('Name exists')
+                        } else {
+                            $('.helper-text').css({ 'background': 'transparent'}).hide();
+                            console.log('Name ok to use!')
+                            $('#form_submit').removeClass('disabled');
+                            console.log('Button enabled!')
+                        }
+                    } else {
+                        $('#form_submit').addClass('disabled');
+                    }
+                })   
+            }    
+    });
 
-    $('#name_input').bind('input propertychange', function() {
-        if (result.includes($(this).val().toLowerCase())) {
+    $('#name_input').change(function() {
+        if (result.includes($(this).val().trim().toLowerCase())) {
             $('.helper-text').css({ 'background': '#ffebee'}).show();
-            $('.btn').addClass('disabled');
         } else {
             $('.helper-text').css({ 'background': 'transparent'}).hide();
-            $('.btn').removeClass('disabled');
-        }
-        if ($(this).val().length > 64) {
-            $('.btn').addClass('disabled');
-        }
-    });
-
-    // Checks in place to make sure that length of region input limit is not exceeded
-
-    $('#region_input').bind('input propertychange', function() {
-        if ($(this).val().length > 64) {
-            $('.btn').addClass('disabled');
-        } else {
-            $('.btn').removeClass('disabled');
-        }
-    });
-
-    // Checks in place to make sure that length of description limit is not exceeded
-
-    $('#textarea').bind('input propertychange', function() {
-        if ($(this).val().length > 1200) {
-            $('.btn').addClass('disabled');
-        } else {
-            $('.btn').removeClass('disabled');
         }
     });
 
@@ -257,6 +259,8 @@ $(document).ready(function() {
 
     $('#facility8').prop('checked', true);
     $('#hazard7').prop('checked', true);
+
+    // Checks in place to make sure facilities and hazards follow logical selection and no blanks are posted to backend
 
     var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
 
@@ -287,18 +291,6 @@ $(document).ready(function() {
     $haz_boxes.change(function () {
         if (this.checked) {
             $('#hazard7').prop('checked', false)
-        }
-    });
-
-    $fac_boxes_all.change(function () {
-        if (this.checked != true) {
-            $('#facility8').prop('checked', true)
-        }
-    });
-
-    $haz_boxes_all.change(function () {
-        if (this.checked != true) {
-            $('#hazard7').prop('checked', true)
         }
     });
 

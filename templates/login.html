@@ -35,7 +35,7 @@
                         <span class="helper-text">Please provide username between 3 and 32 characters</span>
                     </div>
 
-                    <button class="btn waves-effect waves-yellow" type="submit" name="action">Log In
+                    <button class="btn waves-effect waves-yellow disabled" type="submit" name="action">Log In
                     </button>
 
                     <div class="col s12">
@@ -67,12 +67,12 @@
 $(document).ready(function() {
 
     $('#username').bind('input propertychange', function() {
-        if ($(this).val().length < 3 || $(this).val().length > 32) {
-            $('.btn').addClass('disabled');
-        } else {
+        if ($('#username').val().trim().length > 2 && $('#username').val().trim().length < 33) {
             $('.btn').removeClass('disabled');
+        } else {
+            $('.btn').addClass('disabled');
         }
-    });
+}) 
 
 });
 

@@ -388,3 +388,10 @@ textarea.materialize-textarea {
     top: 50%;
     transform: translateY(-50%); 
 }
+
+/* edit form */
+
+.input-field .helper-text, .input-field .helper-text1 {
+    font-size: 12px;
+    color: rgba(0,0,0,0.54);
+}
