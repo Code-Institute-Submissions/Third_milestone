@@ -74,21 +74,13 @@ def sort_locations(sort_by):
         sort_locations = { '_id': 1 }
         return sort_locations
 
+
 """
 INDEX
 """
 
 @app.route('/')
 def index():
-    locations_imgs = locations_db.find({},
-        {   '_id': 0,
-            'img_url': 1
-        }
-    )
-    img_all = dumps(locations_imgs)
-    '''
-    Limit operator will display 3 top rated location
-    '''
 
     locations = locations_db.aggregate([
         { '$unwind': '$ratings' },
@@ -104,10 +96,6 @@ def index():
         { '$limit': 3 }
     ])
     
-    '''
-    Sample operator will display 3 random location including the top rated from above
-    '''
-
     locations_random = locations_db.aggregate([
         { '$unwind': '$ratings' },
         { '$group': {
@@ -124,6 +112,7 @@ def index():
     user = user_in_session()
 
     return render_template('index.html', locations=locations, user=user, locations_random=locations_random)
+
 
 """
 ALL LOCATIONS WITH SORT FILTER
@@ -204,6 +193,7 @@ def spot(location_id):
 
     return render_template('spot.html', user=user, location=location, avg_rating=avg_rating, locations_random=locations_random)
 
+
 """
 RATES AND COMMENTS
 """
@@ -253,6 +243,7 @@ def user_input(location_id):
         return redirect(url_for('spot', location_id=location_id))
 
     return render_template('user_input.html', user=user, location=location)
+
 
 """
 SEARCH
@@ -306,6 +297,7 @@ def search_by_name():
     name_search = list(name_search)
 
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, name_search=name_search)
+
 
 @app.route('/advanced_search', methods=['POST'])
 def advanced_search():
@@ -380,6 +372,7 @@ def advanced_search():
     
     return render_template('search.html', user=user, countries=countries, break_types=break_types, wave_directions=wave_directions, bottom=bottom, facilities=facilities, hazards=hazards, adv_search=adv_search)
 
+
 @app.route('/oups')
 def oups():
     return render_template('oups.html')
@@ -440,6 +433,7 @@ def add_spot():
         return redirect(url_for('spot', location_id=location_id))
 
     return render_template('addSpot.html', user=user, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
+
 
 """
 EDIT LOCATION
@@ -527,6 +521,7 @@ def delete(location_id):
 
     return render_template('delete.html', user=user, location=location)
 
+
 """
 ABOUT
 """
@@ -596,6 +591,7 @@ def aloha(username):
 def user_logout():
     session.clear()
     return redirect(url_for('index'))
+
 
 """
 REGISTER

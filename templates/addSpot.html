@@ -231,7 +231,6 @@ $(document).ready(function() {
         }
     }
 
-    // Checks in place to make sure that all options are selected before submitting the form
     // Checks in place to make sure there are no duplications in location names and length limit is not exceeded
     
     $('#form_validation').hide();
@@ -254,6 +253,8 @@ $(document).ready(function() {
             $('.existing_name').css({ 'background': '#ffebee'}).hide();
         }
     });
+
+    // Checks in place to make sure that all options are selected before submitting the form
 
     $('form').change(function() {
         if ($('#country_input').val() &&

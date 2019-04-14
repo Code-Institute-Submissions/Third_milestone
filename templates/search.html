@@ -197,21 +197,23 @@
 
 <script>
 
-var locNames = {{ location_name | safe }};
-var result = [];
-for (var i = 0; i < locNames.length; i++) {
-    var element = locNames[i];
-
-    for (var key in element) {
-        result.push(element[key]);
-    }
-}       
-namesObj = {};
-for ( i in result) {
-    namesObj[result[i]] = ""
-}
-
 $(document).ready(function(){
+
+    var locNames = {{ location_name | safe }};
+    var result = [];
+    for (var i = 0; i < locNames.length; i++) {
+        var element = locNames[i];
+
+        for (var key in element) {
+            result.push(element[key]);
+        }
+    }
+
+    namesObj = {};
+    for ( i in result) {
+        namesObj[result[i]] = ""
+    }
+
     $('input.autocomplete').autocomplete({
         data: namesObj
     });

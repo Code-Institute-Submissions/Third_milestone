@@ -1,3 +1,5 @@
+/* Main Style */
+
 /* Sticky Footer */
 
 body {
@@ -14,30 +16,6 @@ ul {
     list-style-type: circle;
 }
 
-/* border divider */
-
-.border {
-    height: 1px;
-    overflow: hidden;
-    background-color: #e0e0e0;
-}
-
-/* base.html style changes */
-
-nav .brand-logo, nav ul a, nav a {
-    color: #263238;
-}
-
-nav ul a:hover, .sidenav li>a:hover {
-    background-color: rgba( 0, 150, 136, .2)
-}
-
-@media only screen and (min-width: 993px) {
-    nav .brand-logo {
-        padding-left: 25px;
-    }
-}
-
 /* Custom typography */
 
 .font-script {
@@ -48,7 +26,33 @@ nav ul a:hover, .sidenav li>a:hover {
     font-family: 'Oswald', sans-serif;
 }
 
-/* card style */
+/* footer */
+
+.page-footer {
+    background-image: url("../assets/footer.jpg");
+    overflow: hidden;
+}
+
+.logo img {
+    padding-top: 25px;
+    opacity: .8;
+}
+
+.page-footer .footer-copyright {
+    display: block;
+    margin: 0 auto;
+    padding: 5px 0px;
+}
+
+/* border divider */
+
+.border {
+    height: 1px;
+    overflow: hidden;
+    background-color: #e0e0e0;
+}
+
+/* card style changes */
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
     margin-right: 0;
@@ -134,6 +138,29 @@ nav ul a:hover, .sidenav li>a:hover {
     margin-top: 22px;
 }
 
+/* Buttons style */
+
+.row .col a.btn-space {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* base.html style changes */
+
+nav .brand-logo, nav ul a, nav a {
+    color: #263238;
+}
+
+nav ul a:hover, .sidenav li>a:hover {
+    background-color: rgba( 0, 150, 136, .2)
+}
+
+@media only screen and (min-width: 993px) {
+    nav .brand-logo {
+        padding-left: 25px;
+    }
+}
+
 /* index.html style changes */
 
 .hero-img {
@@ -170,31 +197,6 @@ nav ul a:hover, .sidenav li>a:hover {
 
 #explore:hover {
     transform: scale(1.1);
-}
-
-/* footer */
-
-.page-footer {
-    background-image: url("../assets/footer.jpg");
-    overflow: hidden;
-}
-
-.logo img {
-    padding-top: 25px;
-    opacity: .8;
-}
-
-.page-footer .footer-copyright {
-    display: block;
-    margin: 0 auto;
-    padding: 5px 0px;
-}
-
-/* Buttons style */
-
-.row .col a.btn-space {
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 /* Search */
@@ -331,7 +333,6 @@ textarea.materialize-textarea {
 
 #error {
     position: absolute;
-    /* color: white; */
     width: 300px;
 }
 
@@ -374,12 +375,7 @@ textarea.materialize-textarea {
     fill: #263238 !important;
     font-size: 14px !important;
     font-family: 'Oswald', sans-serif;
-    /* transition: transform .3s ease-in-out;  */
 }
-
-/* .dc-chart .pie-slice :hover {
-    transform: scale(1.1);
-} */
 
 /* mobile nav menu*/
 

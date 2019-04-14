@@ -11,13 +11,13 @@
             <h6>Use the filters to help you sort locations by name, country or rating</h6>
         </div>
         <div class="col s12 m6 space-top">
-            <div class="col s12 center-align">
+            <div class="col s12 center-align filter">
                 <a href="{{ url_for('locations', sort_by=filters[0]) }}" class="waves-effect waves-yellow btn-small btn-space">Sort by Name</a>
             </div>
-            <div class="col s12 center-align">
+            <div class="col s12 center-align filter">
                 <a href="{{ url_for('locations', sort_by=filters[1]) }}" class="waves-effect waves-yellow btn-small btn-space">Sort by Country</a>
             </div>
-            <div class="col s12 center-align">
+            <div class="col s12 center-align filter">
                 <a href="{{ url_for('locations', sort_by=filters[2]) }}" class="waves-effect waves-yellow btn-small btn-space">Sort by Rating</a>
             </div>
         </div>
@@ -40,7 +40,7 @@
 
 <!-- Location cards -->
 
-<div class="container space">
+<div class="container space" id="search_results">
     <div class="row">
         {% for location in locations %}
         <a href="{{ url_for('spot', location_id=location.old_id[0]) }}">

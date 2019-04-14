@@ -19,7 +19,9 @@
 <div class="container">
         <div class="row">
             <div class="col s12">
+
                 <!-- messages for user rate or comment interactions -->
+                
                 {% with spot = get_flashed_messages(category_filter=['spot']) %}
                     {% if spot %}
                         {% for message in spot %}                            
@@ -136,6 +138,8 @@
                 {% endfor %}
             </div>
         </div>
+
+        <div class="col s12 border"></div>
  
     </div>
 </div>
