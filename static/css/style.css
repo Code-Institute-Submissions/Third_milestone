@@ -199,6 +199,12 @@ nav ul a:hover, .sidenav li>a:hover {
     transform: scale(1.1);
 }
 
+@media only screen and (max-width: 360px) {
+    .welcome-txt h3 {
+        font-size: 2.5rem;
+    }
+}
+
 /* Search */
 
 input {
@@ -390,4 +396,17 @@ textarea.materialize-textarea {
 .input-field .helper-text, .input-field .helper-text1 {
     font-size: 12px;
     color: rgba(0,0,0,0.54);
+}
+
+/* add spot */
+
+.step {
+    color: #263238;
+    text-decoration: underline;
+}
+
+.step-back {
+    color: grey;
+    font-size: 12px;
+    cursor: pointer;
 }

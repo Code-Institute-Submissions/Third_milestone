@@ -134,7 +134,6 @@
                 {% for comment in location.comments | sort(reverse=True, attribute='date_added') %}
                     <p>> {{ comment.user_name }} on <i>{{ comment.date_added }}</i></p>
                     <p>{{ comment.comment }}</p>
-                    <p class="divider"></p>
                 {% endfor %}
             </div>
         </div>

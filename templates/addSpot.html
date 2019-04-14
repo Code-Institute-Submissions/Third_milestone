@@ -14,7 +14,7 @@
             <form action="{{ url_for('add_spot') }}" method="POST">
 
                 <div class="col s12" id="name_validation">
-                    <h6 class="space"><b>STEP 1/2</b></h6>
+                    <h6 class="space font-oswald step"><b>STEP 1/2</b></h6>
                     <div class="input-field col s12">
                         <input name="name_input" type="text" id="name_input" data-length="64" required>
                         <label for="name_input">Type in location name</label>
@@ -28,8 +28,9 @@
 
                 <div id="form_validation">
                     
-                    <div class="col s12">
-                        <h6 class="space"><b>STEP 2/2</b></h6>
+                    <div class="col s12 space font-oswald">
+                        <h6 class="step"><b>STEP 2/2</b></h6>
+                        <a class="step-back">BACK TO STEP 1/2</a>
                     </div>
                     
                     <div class="input-field col s12">
@@ -252,6 +253,12 @@ $(document).ready(function() {
             $('.length_name').css({ 'background': '#ffebee'}).show();
             $('.existing_name').css({ 'background': '#ffebee'}).hide();
         }
+    });
+
+    $('.step-back').click(function() {
+        $('#form_validation').hide();
+        $('#name_validation').show();
+        $('#cancel').hide();
     });
 
     // Checks in place to make sure that all options are selected before submitting the form
