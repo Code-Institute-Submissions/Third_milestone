@@ -5,7 +5,7 @@
 <div class="container space">
     <div class="row">
         <div class="col s12">
-            <h6>Please fill all of the below fields to add new location to the site. Thank you!</h6>
+            <h6>Please fill the below form to add new location to the site. Thank you!</h6>
             <p class="divider"></p>
         </div>
 
@@ -13,185 +13,202 @@
 
             <form action="{{ url_for('add_spot') }}" method="POST">
 
-                <div class="input-field col s12">
-                    <input name="name_input" type="text" id="name_input" data-length="64" required>
-                    <label for="name_input">Type in location name</label>
-                    <span class="helper-text">Please note that location with that name already exists!</span>
-                </div>
-
-                <div class="input-field col s12">
-                    <select id="country_input" name="country_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for country in countries %}
-                            {% for element in country.country %}
-                                <option value="{{ loop.index }}">{{ element | title }}</option>
-                            {% endfor %} 
-                        {% endfor %}    
-                    </select>
-                    <label>Country Name</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <input name="region_input" type="text" id="region_input" required>
-                    <label for="region_input">Type in country region</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <select id="break_type_input" name="break_type_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for break in break_types %}
-                            {% for element in break.break_type %}
-                                <option>{{ element }}</option>
-                            {% endfor %} 
-                        {% endfor %}  
-                    </select>
-                    <label>Break Type</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <select id="wave_direction_input" name="wave_direction_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for wave in wave_directions %}
-                            {% for element in wave.wave_direction %}
-                                <option>{{ element }}</option>
-                            {% endfor %} 
-                        {% endfor %} 
-                    </select>
-                    <label>Wave Direction</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <select id="wind_direction_input" name="wind_direction_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for wind in wind_directions %}
-                            {% for element in wind.wind_direction %}
-                                <option>{{ element }}</option>
-                            {% endfor %} 
-                        {% endfor %} 
-                    </select>
-                    <label>Wind Direction</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <select id="swell_direction_input" name="swell_direction_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for swell in swell_directions %}
-                            {% for element in swell.swell_direction %}
-                                <option>{{ element }}</option>
-                            {% endfor %} 
-                        {% endfor %} 
-                    </select>
-                    <label>Swell Direction</label>
-                </div>
-                
-                <div class="input-field col s12">
-                    <select id="bottom_input" name="bottom_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for surface in bottom %}
-                            {% for element in surface.bottom %}
-                                <option>{{ element }}</option>
-                            {% endfor %} 
-                        {% endfor %} 
-                    </select>
-                    <label>Bottom</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <select id="surroundings_input" name="surroundings_input" required>
-                        <option value="" disabled selected>Select from list</option>
-                        {% for area in surroundings %}
-                            {% for element in area.surroundings %}
-                                <option>{{ element }}</option>
-                            {% endfor %} 
-                        {% endfor %} 
-                    </select>
-                    <label>Surroundings</label>
-                </div>
-
-                <div class="input-field col s12">
-                    <input name="img_url_input" type="text" id="img_url_input" pattern="https://.*">
-                    <label for="img_url_input">Include image url address starting with https://</label>
-                </div>
-
-                <div class="col s12">
-                    <p class="grey-text">Please select all available facilities at this location:</p>
-                    {% for facility in facilities %}
-                        {% for facility_name in facility.facilities %}
-                            <div class="col s12 m6 l4">
-                                <label for="facility{{ loop.index }}">
-                                    <input type="checkbox" id="facility{{ loop.index }}" class="filled-in" name="{{ facility_name }}" value="facility"/>
-                                    <span>{{ facility_name }}</span>
-                                </label>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-                
-                <div class="col s12">
-                    <p class="grey-text">Please select all hazards that occurs at this location:</p> 
-                    {% for hazard in hazards %}
-                        {% for hazard_name in hazard.hazards %}
-                            <div class="col s12 m6 l4">
-                                <label for="hazard{{ loop.index }}">
-                                    <input type="checkbox" id="hazard{{ loop.index }}" class="filled-in" name="{{ hazard_name }}" value="hazard"/>
-                                    <span>{{ hazard_name }}</span>
-                                </label>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-                <div class="col s12">
+                <div class="col s12" id="name_validation">
+                    <h6 class="space"><b>STEP 1/2</b></h6>
                     <div class="input-field col s12">
-                        <p>
-                            <label class="grey-text">Add Rating</label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="1" />
-                                <span>1 - Nah.. get me out of here!</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="2" />
-                                <span>2</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="3" checked />
-                                <span>3</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="4" />
-                                <span>4</span>
-                            </label>
-                        </p>
-                        <p>
-                            <label>
-                                <input name="add_rating" type="radio" value="5" />
-                                <span>5 - Whoa! That's a splendid spot!</span>
-                            </label>
-                        </p>
+                        <input name="name_input" type="text" id="name_input" data-length="64" required>
+                        <label for="name_input">Type in location name</label>
+                        <span class="existing_name">Please note that location with that name already exists!</span>
+                        <span class="length_name">Please note that location name is either too short or too long!</span>
+                        <div class="col s12">
+                            <button class="btn waves-effect waves-yellow space-top" id="validation" type="button">VALIDATE</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="input-field col s12">
-                    <textarea id="textarea" name="add_description" class="materialize-textarea" required></textarea>
-                    <label for="textarea1">Add Description</label>
-                </div>
+                <div id="form_validation">
+                    
+                    <div class="col s12">
+                        <h6 class="space"><b>STEP 2/2</b></h6>
+                    </div>
+                    
+                    <div class="input-field col s12">
+                        <select id="country_input" name="country_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for country in countries %}
+                                {% for element in country.country %}
+                                    <option>{{ element | title }}</option>
+                                {% endfor %} 
+                            {% endfor %}    
+                        </select>
+                        <label>Country Name</label>
+                    </div>
 
-                <div class="col s12 m6 center-align">
-                    <button id="form_submit" class="btn waves-effect waves-yellow space-top disabled" type="submit" name="action">ADD LOCATION</button>
+                    <div class="input-field col s12">
+                        <input name="region_input" type="text" id="region_input" required>
+                        <label for="region_input">Type in country region</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <select id="break_type_input" name="break_type_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for break in break_types %}
+                                {% for element in break.break_type %}
+                                    <option>{{ element }}</option>
+                                {% endfor %} 
+                            {% endfor %}  
+                        </select>
+                        <label>Break Type</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <select id="wave_direction_input" name="wave_direction_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for wave in wave_directions %}
+                                {% for element in wave.wave_direction %}
+                                    <option>{{ element }}</option>
+                                {% endfor %} 
+                            {% endfor %} 
+                        </select>
+                        <label>Wave Direction</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <select id="wind_direction_input" name="wind_direction_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for wind in wind_directions %}
+                                {% for element in wind.wind_direction %}
+                                    <option>{{ element }}</option>
+                                {% endfor %} 
+                            {% endfor %} 
+                        </select>
+                        <label>Wind Direction</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <select id="swell_direction_input" name="swell_direction_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for swell in swell_directions %}
+                                {% for element in swell.swell_direction %}
+                                    <option>{{ element }}</option>
+                                {% endfor %} 
+                            {% endfor %} 
+                        </select>
+                        <label>Swell Direction</label>
+                    </div>
+                    
+                    <div class="input-field col s12">
+                        <select id="bottom_input" name="bottom_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for surface in bottom %}
+                                {% for element in surface.bottom %}
+                                    <option>{{ element }}</option>
+                                {% endfor %} 
+                            {% endfor %} 
+                        </select>
+                        <label>Bottom</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <select id="surroundings_input" name="surroundings_input" required>
+                            <option value="" disabled selected>Select from list</option>
+                            {% for area in surroundings %}
+                                {% for element in area.surroundings %}
+                                    <option>{{ element }}</option>
+                                {% endfor %} 
+                            {% endfor %} 
+                        </select>
+                        <label>Surroundings</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input name="img_url_input" type="text" id="img_url_input" pattern="https://.*">
+                        <label for="img_url_input">Include image url address starting with https://</label>
+                    </div>
+
+                    <div class="col s12">
+                        <p class="grey-text">Please select all available facilities at this location:</p>
+                        {% for facility in facilities %}
+                            {% for facility_name in facility.facilities %}
+                                {% if facility_name != 'lack of facilities' %}
+                                    <div class="col s12 m6 l4">
+                                        <label for="facility{{ loop.index }}">
+                                            <input type="checkbox" id="facility{{ loop.index }}" class="filled-in" name="{{ facility_name }}" value="facility"/>
+                                            <span>{{ facility_name }}</span>
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="col s12">
+                        <p class="grey-text">Please select all hazards that occurs at this location:</p> 
+                        {% for hazard in hazards %}
+                            {% for hazard_name in hazard.hazards %}
+                                {% if hazard_name != 'hazards free' %}
+                                    <div class="col s12 m6 l4">
+                                        <label for="hazard{{ loop.index }}">
+                                            <input type="checkbox" id="hazard{{ loop.index }}" class="filled-in" name="{{ hazard_name }}" value="hazard"/>
+                                            <span>{{ hazard_name }}</span>
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field col s12">
+                            <p>
+                                <label class="grey-text">Add Rating</label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="add_rating" type="radio" value="1" />
+                                    <span>1 - Nah.. get me out of here!</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="add_rating" type="radio" value="2" />
+                                    <span>2</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="add_rating" type="radio" value="3" checked />
+                                    <span>3</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="add_rating" type="radio" value="4" />
+                                    <span>4</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="add_rating" type="radio" value="5" />
+                                    <span>5 - Whoa! That's a splendid spot!</span>
+                                </label>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <textarea id="textarea" name="add_description" class="materialize-textarea" required></textarea>
+                        <label for="textarea1">Add Description</label>
+                    </div>
+
+                    <div class="col s12 m6 center-align">
+                        <button id="form_submit" class="btn waves-effect waves-yellow space-top disabled" type="submit" name="action">ADD LOCATION</button>
+                    </div>
                 </div>
             </form>
 
-            <div class="col s12 m6 center-align">
+            <div class="col s12 m6 center-align" id="cancel">
                 <a href="{{ url_for('index') }}"><button class="btn red waves-effect waves-yellow space-top">CANCEL</button></a>
             </div>
-
         </div>
     </div>
 </div>
@@ -217,7 +234,26 @@ $(document).ready(function() {
     // Checks in place to make sure that all options are selected before submitting the form
     // Checks in place to make sure there are no duplications in location names and length limit is not exceeded
     
-    $('.helper-text').css({ 'background': 'transparent'}).hide();
+    $('#form_validation').hide();
+    $('#cancel').hide();
+    $('.existing_name').css({ 'background': 'transparent'}).hide();
+    $('.length_name').css({ 'background': 'transparent'}).hide();
+    
+    $('#validation').click(function() {
+        if ($('#name_input').val().trim().length <= 64 && $('#name_input').val().trim().length > 0 ) {
+            if (result.includes($('#name_input').val().trim().toLowerCase())) {
+                $('.length_name').css({ 'background': '#ffebee'}).hide();
+                $('.existing_name').css({ 'background': '#ffebee'}).show();
+            } else {
+                $('#form_validation').show();
+                $('#cancel').show();
+                $('#name_validation').hide();
+            }
+        } else {
+            $('.length_name').css({ 'background': '#ffebee'}).show();
+            $('.existing_name').css({ 'background': '#ffebee'}).hide();
+        }
+    });
 
     $('form').change(function() {
         if ($('#country_input').val() &&
@@ -227,70 +263,9 @@ $(document).ready(function() {
             $('#swell_direction_input').val() &&
             $('#bottom_input').val() &&
             $('#surroundings_input').val()) {
-                $('#name_input').change(function() {
-                    if ($('#name_input').val().trim().length <= 64 && $('#name_input').val().trim().length > 0 ) {
-                        console.log('It is > 0 and < 64')
-                        if (result.includes($('#name_input').val().trim().toLowerCase())) {
-                            $('.helper-text').css({ 'background': '#ffebee'}).show();
-                            $('#form_submit').addClass('disabled');
-                            console.log('Name exists')
-                        } else {
-                            $('.helper-text').css({ 'background': 'transparent'}).hide();
-                            console.log('Name ok to use!')
-                            $('#form_submit').removeClass('disabled');
-                            console.log('Button enabled!')
-                        }
-                    } else {
-                        $('#form_submit').addClass('disabled');
-                    }
-                })   
-            }    
-    });
-
-    $('#name_input').change(function() {
-        if (result.includes($(this).val().trim().toLowerCase())) {
-            $('.helper-text').css({ 'background': '#ffebee'}).show();
+                $('#form_submit').removeClass('disabled');
         } else {
-            $('.helper-text').css({ 'background': 'transparent'}).hide();
-        }
-    });
-
-    // Checks in place to make sure facilities and hazards are not null and there is a logical selection
-
-    $('#facility8').prop('checked', true);
-    $('#hazard7').prop('checked', true);
-
-    // Checks in place to make sure facilities and hazards follow logical selection and no blanks are posted to backend
-
-    var $fac_boxes = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7').not('#facility8');
-
-    var $fac_boxes_all = $('#facility1, #facility2, #facility3, #facility4, #facility5, #facility6, #facility7, #facility8');
-
-    var $haz_boxes = $('#hazard1, #hazard2, #hazard3, #hazard4, #hazard5, #hazard6').not('#hazard7');
-
-    var $haz_boxes_all = $('#hazard1, #hazard2, #hazard3, #hazard4, #hazard5, #hazard6, #hazard7');
-
-    $('#facility8').change(function () {
-        if (this.checked) {
-            $fac_boxes.prop('checked', false)
-        }
-    });
-
-    $fac_boxes.change(function () {
-        if (this.checked) {
-            $('#facility8').prop('checked', false)
-        }
-    });
-
-    $('#hazard7').change(function () {
-        if (this.checked) {
-            $haz_boxes.prop('checked', false)
-        }
-    });
-
-    $haz_boxes.change(function () {
-        if (this.checked) {
-            $('#hazard7').prop('checked', false)
+            $('#form_submit').addClass('disabled');
         }
     });
 

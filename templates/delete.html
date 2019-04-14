@@ -11,6 +11,7 @@
         </div>
         
         <div class="col s12">
+
             <form action="{{ url_for('delete', location_id=location._id) }}" method="POST">
                 <p>
                     <label for="delete_loc">
@@ -20,14 +21,15 @@
                 </p>
 
                 <div class="col s12 m6 center-align space-top">
-                        <button class="btn waves-effect waves-yellow space-top" type="submit" name="action">Yep! 100% sure</button>
+                    <button class="btn waves-effect waves-yellow" type="submit" name="action">Yep! 100% sure</button>
                 </div>
 
             </form>
-        </div>
 
-        <div class="col s12 m6 center-align space-top">
-            <a href="{{ url_for('spot', location_id=location._id) }}" class="red waves-effect waves-yellow btn-small btn-space">I changed my mind</a>
+            <div class="col s12 m6 center-align space-top">
+                <a href="{{ url_for('spot', location_id=location._id) }}" class="btn red waves-effect waves-yellow">I changed my mind</a>
+            </div>
+
         </div>
 
     </div>

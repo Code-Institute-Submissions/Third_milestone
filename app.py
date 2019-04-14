@@ -49,6 +49,8 @@ def facilities_to_new(input_location):
     for key, value in input_location.items():
         if value == 'facility':
             checkbox_results.append(key)
+    if checkbox_results == []:
+       checkbox_results = ['lack of facilities']
     return checkbox_results
 
 def hazards_to_new(input_location):
@@ -56,6 +58,8 @@ def hazards_to_new(input_location):
     for key, value in input_location.items():
         if value == 'hazard':
             checkbox_results.append(key)
+    if checkbox_results == []:
+        checkbox_results = ['hazards free']
     return checkbox_results
 
 def sort_locations(sort_by):
@@ -408,6 +412,9 @@ def add_spot():
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
+        print(input_location)
+        print(facilities_to_new(input_location))
+        print(hazards_to_new(input_location))
         add_new = locations_db.insert_one( { 
             'name': request.form['name_input'].strip().lower(),
             'country': request.form['country_input'].strip().lower(),
@@ -465,7 +472,9 @@ def editSpot(location_id):
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-
+        print(input_location)
+        print(facilities_to_new(input_location))
+        print(hazards_to_new(input_location))
         add_new = locations_db.update_one( 
             { '_id': ObjectId(location_id) },
             { '$set': {
