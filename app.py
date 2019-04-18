@@ -367,9 +367,6 @@ def add_spot():
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-        print(input_location)
-        print(facilities_to_new(input_location))
-        print(hazards_to_new(input_location))
         add_new = locations_db.insert_one({ 
             'name': request.form['name_input'].strip().lower(),
             'country': request.form['country_input'].strip().lower(),
@@ -391,7 +388,6 @@ def add_spot():
         })
         new_location = locations_db.find_one({'name': {'$eq': request.form['name_input'].strip().lower()}})
         location_id = new_location['_id']
-        print(location_id)
         return redirect(url_for('spot', location_id=location_id))
 
     return render_template('addSpot.html', user=user, location_name=location_name, countries=countries, break_types=break_types, wave_directions=wave_directions, wind_directions=wind_directions, swell_directions=swell_directions, surroundings=surroundings, bottom=bottom, facilities=facilities, hazards=hazards)
@@ -421,9 +417,6 @@ def editSpot(location_id):
     if request.method == 'POST':
         input_location = request.form.to_dict()
         del input_location['action']
-        print(input_location)
-        print(facilities_to_new(input_location))
-        print(hazards_to_new(input_location))
         add_new = locations_db.update_one( 
             {'_id': ObjectId(location_id)},
             {'$set': {
@@ -506,7 +499,6 @@ def login():
     error = None
     if request.method == 'POST':
         existing_user = users.find_one({'name': {'$eq': request.form['username'].strip().lower()}})
-        print(existing_user)
         if existing_user is not None:
             session['username'] = request.form['username'].strip().lower()
             flash('Welcome back!')
