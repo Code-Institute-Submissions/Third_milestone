@@ -77,8 +77,71 @@ The main idea behind the Surfingeurope application is to help users in finding l
 - Ability to edit existing or add a new location.
 - Chart visualization.
 - User personal space.
+- Navigation and Menu.
+
+### Home Page
+
+The landing page consists of a large image with a button that leads users to page listning all of the locations and a welcome text. The remaining content consists of three top rated locations cards promoting the best spots in Europe and three randomly selected locations allowing users to explore some other spots.
+
+### All Locations Page
+
+There are two main elements of that page. The top element allow users to sort the list of locations by name being the default view, country and rating. There is a search button underneath the filters that allows quick transition to the search page for a more tailored results.
+
+The bottom element display list of locations cards based on the selected filter. The amount of location cards is limited to 6 per page to avoid clutter and intensive scrolling. At the bottom of the list, there is a pagination range displed making navigation between spots quick and easy.
+
+### Location Detailed View
+
+The user can access details of any of the surfing locations at any time by selecting the card that represents particular spot. Once the card is trigged it will open a page with location details and available interaction. The details page consists of the following fields:
+
+- location name
+- country name
+- region name
+- spot features including:
+    - break type
+    - wave direction
+    - wind direction
+    - swell direction
+    - bottom
+    - surroundings
+- facilities
+- hazards
+- description
+- ratings
+- comments
+- author/editor
+
+The user has an option to rate or comment on the location and edit it content. Furthermore, if the user is an author of that record, he/she can remove it from the application. All of these choices are clearly visible and assigned to buttons.
+
+At the bottom of the page, the user has recommendation for three randomly selected locations awaiting for exploration.
+
+### Search functionality
+
+The search page consists of two search options. The initial one, which is being displayed by default is the search by location name. This search has an autocomplete feature making it easier to find a spot in the database.
+
+The second option is revealed once the user selects the "advanced search" text. Once engaged, the initial search will be replaced by a form giving user much wider selection of options to narrow the search. The user can go back to name search by selecting "search by name" text. The advanced search selection include:
+
+- country name
+- break type
+- wave direction
+- bottom
+- facilities to include in the search
+- hazards to exclude from the search
+
+The user has freedom to specify only the options that he believe are necessery for his query. If there are no results matching either of the searches, the user will be redirected to error page and notified about lack of results.
+
+### Add or Edit Location
 
 
+
+### Chart visualization
+
+
+
+### User personal space
+
+
+
+### Navigation and Menu
 
 # Credits
 
