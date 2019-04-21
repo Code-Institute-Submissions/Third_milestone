@@ -1,8 +1,47 @@
 # Test vs PROD
 
-**change the IP to local in MongoDB once lives
-&
-Turn OFF BEGUN in profuction**
+<u>change the IP to local in MongoDB once live & Turn OFF DEBUG in production</u>
+
+# Surfingeurope
+
+The [surfingeurope](https://surfingeurope.herokuapp.com/) is a Data Centric Development Milestone Project build for [Code Institute's](https://www.codeinstitute.net/) Full Stack Web Developer Course.
+
+The Surfingeurope website is a surfing locations guide that allows surfers to expolore various types of spots in Europe. The site has a social aspect by allowing users to add new locations, edit current spots and rate or comment on the existing ones based on their personal experience and knowledge.
+
+## The Brief
+
+The project brief required to build a data-driven web application using technologies learned throughout Data Centric Development module. The core technologies for this particular project include Python and Flask framework being the logic and Html, Css, Javascript and D3js library as a structure and visualization. The CRUD operations were carried out using NoSQL MongoDB database. 
+
+## UX
+
+The UX process played a major role in the design of the Surfingeurope application with all of its components playing equally important role.
+
+### Strategy and Scope
+
+The Surfingeurope website was created for surfers to allow them to explore spots all over Europe. The website focus on user engagements by allowing users to create new locations and edit existing spots if they believe that provided data is incorrect. The users can as well rate and comment on the spots to help other fellow surfers in making their future choices. To help making that decision, each of the surfing locations has a spot characteristics which include but is not lomited to break type, bottom type, facilities and hazards which allows surfers to find one that is matching their surfing style and abilities.
+
+Based on the above description the following user stories were identified:
+
+- As a user A, I want to see the top rated locations.
+- As a user B, I want to see list of all locations.
+- As a user C, I want to filter the locations by spot name, country and rating.
+- As a user D, I want to be able to search a location by name.
+- As a user E, I want to be able to tailored search by selecting specific location characteristic like break type or wave direction.
+- As a user F, I want to be able to search locations by a specific facility type.
+- As a user G, I want to be able to exclude certain hazards from a location search.
+- As a user H, I want to be able to explore location in detail.
+- As a user I, I want to edit an existing location which I believe has a mistake.
+- As a user J, I want to be able to create a new location.
+- As a user K, I want to be able to delete a location which I believe was added by mistake.
+- As a user L, I want to rate a location based on my preference.
+- As a user M, I want to be able to comment on a location of my choice.
+- As a user N, I want to see all my rates and comments under my personal page so I can easily access my spots.
+- As a user O, I want to be able to track all the spots I created or edited under my personal page.
+- As a user P, I want to see some data showing number of locations per break type and bottom type.
+- As a user R, I want to see some data showing the most popular facilities for all of the locations.
+- As a user S, I want to see some data showing the most common hazards for all of the locations.
+
+### Structure and Skeleton
 
 # Credits
 
@@ -13,44 +52,3 @@ Photo by Jeremy Bishop on Unsplash (background image for loc if no img provided)
 (gradient)[http://www.colorzilla.com/gradient-editor/]
 Photo by Jeremy Bishop on Unsplash (error)
 Photo by Tyler Nix (campervan)
-
-
-# Project Scope
-
-1. Create a web application that allows users to **store** and easily **access** <del>cooking recipes</del> Surfing Locations
-2. Design a **database schema** based on <del>recipes</del> Surfing Locations, and any other related properties and entities (e.g. views, upvotes, <del>ingredients, recipe authors, allergens, author’s country of origin, cuisine</del>surfing locations related information etc…). Make sure to put some thought into the relationships between them, and use either **foreign keys** (in the case of a **relational database**) <del>or nesting (in the case of a document store) to connect these pieces of data</del>
-
-    Design a DB:
-    -   What is it for?
-        >   'we help customers find surfing locations, discover what other thought about them, contribute their own reviews and opinions, and learn about other locations they might like based on surfers with similar habits and surfing needs'
-
-    -   What tables do you need?
-        >   employee -> comment
-        customer -> event
-        product -> blog
-
-3. Create the **backend code and frontend form** to allow users to **add new** <del>recipes</del> Surfing Locations to the site
-4. Create the **backend code** to **group and summarise** the <del>recipes</del>Surfing Locations on the site, based on their attributes such as <del>cuisine, country of origin, allergens, ingredients</del>break type, direction of wave, bottom, etc. and a **frontend** page to **show this summary**, and make the **categories clickable** to drill down into a **filtered view based on that category**. This frontend page can be as simple or as complex as you’d like; you can use a Python library such as matplotlib, or a JS library such as d3/dc (that you learned about if you took the frontend modules) for visualisation
-5. Create the **backend** code to **retrieve a list** of <del>recipes</del> Surfing Locations, filtered based on various criteria <del>(e.g. allergens, cuisine, etc…)</del> and **order them based on some reasonable aspect** (e.g. number of views or upvotes). Create a **frontend** page to **display** these, and to **show some summary statistics around the list** (e.g. number of matching <del>recipes</del> Surf Locations, number of new <del>recipes</del> Surf Locations. Optionally, add support for **pagination**, when the number of results is large
-6. Create a detailed view for each <del>recipes</del> Surfing Location, that would just show all attributes for that <del>recipe, and the full preparation instructions</del>
-7. Allow for **editing and deleting** of the <del>recipe</del> records, either on separate pages, or built into the list/detail pages
-8. Optionally, you may choose to add basic user registration and authentication to the site. This can as simple as adding a username field to the recipe creation form, without a password (for this project only, this is not expected to be secure)
-
-# Project guidelines
-
-- **Logic must be written in Python**. HTML, CSS, and JavaScript can be used to enhance the look and feel of the cookbook.
-- Whenever possible, strive to use semantic HTML5 elements to structure your HTML code better.
-- The website **must be data-driven** and can rely on structured data, unstructured data or a mix of structured and unstructured data. 
-- **CRUD (create read update delete) operations** can be carried out using either SQL (e.g. MySQL/SQLite/Postgres) or NoSQL (e.g. MongoDB).
-- **Use Flask**, a micro-framework, to run your application. **Provide instructions on how to run your project locally in your README**.
-- Make sure your site is as **responsive** as possible. You can test this by checking the site on different screen sizes and browsers.
-- **Share details of how you created your database schema in your README**. Consider sharing working drafts or finalised versions of your database schema in a 'Database Schema' folder in your repo. Provide a link to this folder in your README.
-- We advise that you write down **user stories** and **create wireframes/mockups** before embarking on full-blown development.
-- The site can also make use of CSS frameworks such as **Bootstrap**, just make sure you maintain a clear separation between the library code and your code.
-- Write a **README.md** file for your project that explains what the project does and the need that it fulfills. It should also describe the functionality of the project, as well as the technologies used. If some of the work was based on other code, explain what was kept and how it was changed to fit your need. A project submitted without a README.md file will FAIL.
-- Use **Git** & GitHub for version control. Each new piece of functionality should be in a separate commit.
-- **Deploy** the final version of your code to a hosting platform such as Heroku.
-
-
-Error message for incomplete input fields, do one with JS, secondone with Python
-
