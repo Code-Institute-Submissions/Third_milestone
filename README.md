@@ -75,9 +75,8 @@ The main idea behind the Surfingeurope application is to help users in finding l
 - Detailed view of the selected spot.
 - Locations search functionality.
 - Ability to edit existing or add a new location.
-- Chart visualization.
+- Data Charts.
 - User personal space.
-- Navigation and Menu.
 
 ### Home Page
 
@@ -114,7 +113,7 @@ The user has an option to rate or comment on the location and edit it content. F
 
 At the bottom of the page, the user has recommendation for three randomly selected locations awaiting for exploration.
 
-### Search functionality
+### Search Functionality
 
 The search page consists of two search options. The initial one, which is being displayed by default is the search by location name. This search has an autocomplete feature making it easier to find a spot in the database.
 
@@ -131,17 +130,44 @@ The user has freedom to specify only the options that he believe are necessery f
 
 ### Add or Edit Location
 
+The main concept of the application is to engage users to share their local knowledge by adding new spots to the site. In order to add a new location user needs to provide a unique spot name. Once the name is validated in order to ensure no duplications are created, the user is provided with a form containing all of the spot features. The user is again required to fill all the fields beside facilities and hazards, which can remain unchecked if none of the options match the spot characteristics. Once all data is provided user is able to add new location to the site.
+
+Similar appraoch exists for the ability to edit existing location. The user is provided with all existing details of the spot but is given choice to change only the features he/she wants to overwrite, add or remove.
+
+The name of the user whether creator or editor of the spot will be saved and displayed in the location detailed view.
+
+### Data Charts
+
+In order to give users and visitors some overview of the growing list of locations, a data charts are provided in the about page. The data is broken into two parts. Part one is showing two bar charts giving overview of number of locations per break type and bottom type. The second part display two pie chart showing the most common facilities and hazards for all locations.
+
+### User Personal Space
+
+The user personal space page contain all of the user interactions with the application. The personal space page can only be access by login into the site. The user will find all of the locations he/she created, edited, commented on and rated. All of the edits and comments will include the exact time and date of the input. The user will be able to view details of the spots he/she interacted with by selecting the name of the spot.
+
+### Other Features
+
+The other features of the Surfingeurope are as follows:
+
+- Responsive layout that allows users to preview website on all devices.
+- Simple and clean design with intuitive navigation and simplified data.
+- Custom button styles which adds meaning and visual indication.
+- Hover effect on clickable content to help users navigate and interact with the application.
+- Notifications and personalised messages for visitors and logged users that either greets them, notify about user valid changes or display errors if needed, makes the connection more user friendly.
+
+### Features Left to Implement
+
+- Password imput requirements to be added.
+- Pagination to have limit of displayed page numbers with hidden excess of pages beyond the limit.
+- Add Google Map API to show locations on the map.
+- Add a image gallery for each location.
+- Prevent showing a spot in the random locations display if the spot is already display on the page.
+- Provide users with list of similar locations that match their preference based on the user ratings of other spots.
 
 
-### Chart visualization
+## Technologies Used
 
 
 
-### User personal space
-
-
-
-### Navigation and Menu
 
 # Credits
 
