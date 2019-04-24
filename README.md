@@ -229,7 +229,22 @@ I run a manual testing on few types of devices whenever I had a chance but mainl
 
 The following user stories from the UX section were tested to make sure everything works as intended:
 
-1. User "A"
+1. User "A" wants to see the top rated locations. In order to satisfied that need, vistors are provided with a list of 3 top rated spots at the landing page. It is possible as well to filter all of the available location by rate by visiting the "All Locations" page.
+
+2. User "B" wants to see list of all locations and user "C" wants the possibility to filter them by name, country and rating. The following steps needs to be conduct in that case:
+
+    1. Navigate to the "All Locations" page where all of the spots are displayed showing 6 location cards by page. By default they are sorted alphabetically by location name.
+    2. Select one of available buttons at the top of the page to sort locations by either country, rating or spot name.
+
+3. Users "D", "E", "F" and "G" wants to search for location based on various search criterias. The following steps needs to be conduct in that case:
+
+    1. Navigate to the "Search" page where users are provided with a basic search by location name and an option for advanced search if required.
+    2. In order to search locations by name, user is required to type spot name in the provided input form. The form has a autocomplete functionality in order to help with that search and a "Search" button which once clicked will either display search result or a lack of results message.
+    3. The visitors have option to tailor their search results by selecting the "Advanced search". Once that option is selected a new form will be displayed showing dropdown lists and checkboxes.
+    4. Users can select any given vlue from the dropdown lists, e.g. "reef break" from break type, "right" from wave direction, etc.
+    5. Users have option to include in the search any of the listed facility types by clicking on the checkbox beside facility type.
+    6. Users have option to exclude in the search any of the listed hazard types by clicking on the checkbox beside hazard type.
+    7. Once the selection is made, users should click the "Search" button which will either display search results or a lack of results message.
 
 # Credits
 
