@@ -34,8 +34,8 @@ Based on the above description and the research process the following user stori
 - As a user N, I want to see all my rates and comments under my personal page so I can easily access my spots.
 - As a user O, I want to be able to track all the spots I created or edited under my personal page.
 - As a user P, I want to see some data showing number of locations per break type and bottom type.
-- As a user R, I want to see some data showing the most popular facilities for all of the locations.
-- As a user S, I want to see some data showing the most common hazards for all of the locations.
+- As a user Q, I want to see some data showing the most popular facilities for all of the locations.
+- As a user R, I want to see some data showing the most common hazards for all of the locations.
 
 ### Scope
 
@@ -245,6 +245,28 @@ The following user stories from the UX section were tested to make sure everythi
     5. Users have option to include in the search any of the listed facility types by clicking on the checkbox beside facility type.
     6. Users have option to exclude in the search any of the listed hazard types by clicking on the checkbox beside hazard type.
     7. Once the selection is made, users should click the "Search" button which will either display search results or a lack of results message.
+
+4. User "H" wants to explore a location of choice in detail. There are various ways to do so. User can access any location details by clicking on location card with the location image, name, country and region. The location cards can be found on the "Home", "All Locations" and "Search" pages. If the user is registered, the locations name that he/she either created, edited, rated or commented on, will be listed under his/hers name page with a direct link to detailed spot view.
+
+5. Users "I", "K", "L" and "M" wants a possibility to either edit, delete, rate or comment on a location of their choice. All of these actions required user to be registered with an exception to removing a spot, where the user needs to be the author of that location as well. The following steps needs to be conduct in that case:
+
+    1. Users should find a location of choice either by going through the list of available locations, searching location by name or by browsing through list of advanced search results. If the location of interest was created by the user, or previously edited, rated or commented, it can be found as well under user's personal page.
+    2. Once the spot is located, users should select it in order to be redirected to detailed view.
+    3. Once in detailed view, users can either "rate and comment", "edit location" or "remove" it by clicking on the related button that can be found underneath the comments section of the page.
+    4. If the user selects "rate and comment", he/she will be redirected to a new page that has a collapsible rate and comment elements. User then needs to select the action he wish to undertake and submit it, whether it is rating the spot or adding a comment about it. 
+    5. If the user selects "edit location", he/she will be redirected to a new page that contain an editable form for each of the spot details. User can edit one or all of the features and save changes.
+    6. If the user selects "remove", he/she will be redirected to a page which acts as a safe guard in case user clicked on the button by mistake. The user will be asked to tick a checkbox in order to acknowledge the deletion request and only then he/she will be able to remove the spot from the site.
+
+6. User "J" wants to add a new location. The following steps needs to be conduct in that case:
+
+    1. Navigate to the "Add Spot" page where user is provided with a two step process of creating new location.
+    2. First step require to input a location name in order to verify if it is not a duplication of already exisiting spot. 
+    3. Step two contain a form with all of the location features that user can select from. All of the selection fields require user input beside facilities and hazards checkboxes.
+
+7. Users "N" and "O" wants to track theirs interaction with the application by having their inputs stored on their personal page. Registered and logged users can access these pages by navigating to the nav bar at the top of the page on desktop and selecting their username that will be revealed once clicked on the "person" icon. Mobile version required users to click on the "hamburger" menu icon in order to access menu list where they will find their username. The personal page display all user interactions including list of created, edited, rated and commented locations.
+
+8. Users "P" ,"Q" and "R" wants to see a data showing breakdown of locations per break type and bottom type, as well as the most popular facilities and most common hazards for all available locations. The data charts for each can be found by navigating to "about" page.
+
 
 # Credits
 
