@@ -2,7 +2,7 @@
 
 The [surfingeurope](https://surfingeurope.herokuapp.com/) is a Data Centric Development Milestone Project build for [Code Institute's](https://www.codeinstitute.net/) Full Stack Web Developer Course.
 
-The Surfingeurope website is a surfing locations guide that allows surfers to expolore various types of spots in Europe. The site has a social aspect by allowing users to add new locations, edit current spots and rate or comment on the existing ones based on their personal experience and knowledge.
+The Surfingeurope website is a surfing locations guide that allows surfers to explore various types of spots in Europe. The site has a social aspect by allowing users to add new locations, edit current spots and rate or comment on the existing ones based on their personal experience and knowledge.
 
 ## The Brief
 
@@ -39,7 +39,7 @@ Based on the above description and the research process the following user stori
 
 ### Scope
 
-The Surfingeurope website should focus on user engagement by allowing users to create new locations and to edit existing spots in order to correct incorrect data. The users should be able as well to rate and comment on the spots to help other fellow surfers in making their future surf travel choices. In order to help in making that decision, each of the surfing locations should have spot features including but not limited to break type, bottom type, wind direction, type of available facilities and occuring hazards. These features together with location description would allow surfers to find at least one spot that is matching their surfing style and abilities.
+The Surfingeurope website should focus on user engagement by allowing users to create new locations and to edit existing spots in order to correct incorrect data. The users should be able as well to rate and comment on the spots to help other fellow surfers in making their future surf travel choices. In order to help in making that decision, each of the surfing locations should have spot features including but not limited to break type, bottom type, wind direction, type of available facilities and occurring hazards. These features together with location description would allow surfers to find at least one spot that is matching their surfing style and abilities.
 
 ### Structure
 
@@ -47,7 +47,7 @@ Based on the strategy and scope, the website structure should have clearly organ
 
 ### Skeleton
 
-The following wireframes were created to determine the visual form and arrangment of the application elements:
+The following wireframes were created to determine the visual form and arrangement of the application elements:
 
 - <a href="mockups/Small_device.png" target="_blank">Small device.</a>
 - <a href="mockups/Medium_device.png" target="_blank">Medium device.</a>
@@ -59,7 +59,7 @@ Once the wireframes were in place, the following visuals were introduced:
 
 - The base colors for the site are green and blue with its different shades and white as the main background color. These colors were selected to match with the surfing theme i.e. colors of the ocean.
 - Typography is limited to three Google typefaces with "Roboto" being the default one. It's a clean and modern sans serif typeface makes the site readable on both small and large devices. The other two are "Kaushan Script" and "Oswald". The first one was used as a base for Surfingeurope logotype and occasionally on the website to give the content some vibrant feel. The later, being a reworking of the classic gothic typeface style is used to put an emphasis on text content due to its better fit to the pixel grid of a standard digital screens.
-- The website logotype and its shorcut are custom made making the site more stylish and memorable.
+- The website logotype and its shortcut are custom made making the site more stylish and memorable.
 - The website assets include photographs, either taken from stock photography or provided by users as a surfing location image. They photographs that are used to style the application were carefully selected and edited to create a consistent overall design.
 
 ## Features
@@ -76,13 +76,13 @@ The main idea behind the Surfingeurope application is to help users in finding l
 
 ### Home Page
 
-The landing page consists of a large image with a button that leads users to page listning all of the locations and a welcome text. The remaining content consists of three top rated locations cards promoting the best spots in Europe and three randomly selected locations allowing users to explore some other spots.
+The landing page consists of a large image with a button that leads users to page listing all of the locations and a welcome text. The remaining content consists of three top rated locations cards promoting the best spots in Europe and three randomly selected locations allowing users to explore some other spots.
 
 ### All Locations Page
 
 There are two main elements of that page. The top element allow users to sort the list of locations by name being the default view, country and rating. There is a search button underneath the filters that allows quick transition to the search page for a more tailored results.
 
-The bottom element display list of locations cards based on the selected filter. The amount of location cards is limited to 6 per page to avoid clutter and intensive scrolling. At the bottom of the list, there is a pagination range displed making navigation between spots quick and easy.
+The bottom element display list of locations cards based on the selected filter. The amount of location cards is limited to 6 per page to avoid clutter and intensive scrolling. At the bottom of the list, there is a pagination range display making navigation between spots quick and easy.
 
 ### Location Detailed View
 
@@ -122,13 +122,13 @@ The second option is revealed once the user selects the "advanced search" text. 
 - facilities to include in the search
 - hazards to exclude from the search
 
-The user has freedom to specify only the options that he believe are necessery for his query. If there are no results matching either of the searches, the user will be redirected to error page and notified about lack of results.
+The user has freedom to specify only the options that he believe are necessary for his query. If there are no results matching either of the searches, the user will be redirected to error page and notified about lack of results.
 
 ### Add or Edit Location
 
 The main concept of the application is to engage users to share their local knowledge by adding new spots to the site. In order to add a new location user needs to provide a unique spot name. Once the name is validated in order to ensure no duplications are created, the user is provided with a form containing all of the spot features. The user is again required to fill all the fields beside facilities and hazards, which can remain unchecked if none of the options match the spot characteristics. Once all data is provided user is able to add new location to the site.
 
-Similar appraoch exists for the ability to edit existing location. The user is provided with all existing details of the spot but is given choice to change only the features he/she wants to overwrite, add or remove.
+Similar approach exists for the ability to edit existing location. The user is provided with all existing details of the spot but is given choice to change only the features he/she wants to overwrite, add or remove.
 
 The name of the user whether creator or editor of the spot will be saved and displayed in the location detailed view.
 
@@ -152,13 +152,27 @@ The other features of the Surfingeurope are as follows:
 
 ### Features Left to Implement
 
-- Password imput requirements to be added.
+- Password input requirements to be added.
 - Pagination to have limit of displayed page numbers with hidden excess of pages beyond the limit.
 - Add Google Map API to show locations on the map.
 - Add a image gallery for each location.
 - Prevent showing a spot in the random locations display if the spot is already display on the page.
 - Provide users with list of similar locations that match their preference based on the user ratings of other spots.
 
+## Database Schema
+
+The NoSQL MongoDB database was used to store the application data. Initially, the database contain 10 collections with "locations.json" being the main one as it contain all of the surfing spots details nested within. All of the other 9 collections were later on merged into one nested collection of documents called "categories.json" in order to reduce the number of collections and to efficiently use the MongoDB features.
+
+These two main collections were updated multiple times during the development of the application. The main adjustments were the addition of rating, image url and author for each of the surfing location documents.
+
+Each time the collections were updated and stored in JSON format, they were imported into MongoDB Shell via `mongoimport` tool.
+
+These two collections are as follows:
+
+- <a href="db_schema/locations.json" target="_blank">Locations collection.</a>
+- <a href="db_schema/categories.json" target="_blank">Categories collection.</a>
+
+The other collection called "users" were added to the database once the registration and rating were introduced. It stores users names for verification and personal page purposes.
 
 ## Technologies Used
 
@@ -230,19 +244,19 @@ I run a manual testing on few types of devices whenever I had a chance but mainl
 
 The following user stories from the UX section were tested to make sure everything works as intended:
 
-1. User "A" wants to see the top rated locations. In order to satisfied that need, vistors are provided with a list of 3 top rated spots at the landing page. It is possible as well to filter all of the available location by rate by visiting the "All Locations" page.
+1. User "A" wants to see the top rated locations. In order to satisfied that need, visitors are provided with a list of 3 top rated spots at the landing page. It is possible as well to filter all of the available location by rate by visiting the "All Locations" page.
 
 2. User "B" wants to see list of all locations and user "C" wants the possibility to filter them by name, country and rating. The following steps needs to be conduct in that case:
 
     1. Navigate to the "All Locations" page where all of the spots are displayed showing 6 location cards by page. By default they are sorted alphabetically by location name.
     2. Select one of available buttons at the top of the page to sort locations by either country, rating or spot name.
 
-3. Users "D", "E", "F" and "G" wants to search for location based on various search criterias. The following steps needs to be conduct in that case:
+3. Users "D", "E", "F" and "G" wants to search for location based on various search criteria’s. The following steps needs to be conduct in that case:
 
     1. Navigate to the "Search" page where users are provided with a basic search by location name and an option for advanced search if required.
     2. In order to search locations by name, user is required to type spot name in the provided input form. The form has a autocomplete functionality in order to help with that search and a "Search" button which once clicked will either display search result or a lack of results message.
     3. The visitors have option to tailor their search results by selecting the "Advanced search". Once that option is selected a new form will be displayed showing dropdown lists and checkboxes.
-    4. Users can select any given vlue from the dropdown lists, e.g. "reef break" from break type, "right" from wave direction, etc.
+    4. Users can select any given value from the dropdown lists, e.g. "reef break" from break type, "right" from wave direction, etc.
     5. Users have option to include in the search any of the listed facility types by clicking on the checkbox beside facility type.
     6. Users have option to exclude in the search any of the listed hazard types by clicking on the checkbox beside hazard type.
     7. Once the selection is made, users should click the "Search" button which will either display search results or a lack of results message.
@@ -261,7 +275,7 @@ The following user stories from the UX section were tested to make sure everythi
 6. User "J" wants to add a new location. The following steps needs to be conduct in that case:
 
     1. Navigate to the "Add Spot" page where user is provided with a two step process of creating new location.
-    2. First step require to input a location name in order to verify if it is not a duplication of already exisiting spot. 
+    2. First step require to input a location name in order to verify if it is not a duplication of already existing spot. 
     3. Step two contain a form with all of the location features that user can select from. All of the selection fields require user input beside facilities and hazards checkboxes.
 
 7. Users "N" and "O" wants to track theirs interaction with the application by having their inputs stored on their personal page. Registered and logged users can access these pages by navigating to the nav bar at the top of the page on desktop and selecting their username that will be revealed once clicked on the "person" icon. Mobile version required users to click on the "hamburger" menu icon in order to access menu list where they will find their username. The personal page display all user interactions including list of created, edited, rated and commented locations.
@@ -310,7 +324,7 @@ The application was deployed to [Heroku](https://www.heroku.com/home) with the f
 
 1. Installing Heroku CLI.
 2. Creating a Heroku Account or Login into Heroku via command `heroku login`.
-3. Initializing a git repository if not already createad.
+3. Initializing a git repository if not already created.
 4. Create a heroku application with `heroku create your-first-heroku-app --buildpack heroku/python`.
 5. Add the remote heroku git repository with `heroku git:remote -a your-first-heroku-app`.
 6. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project with `sudo pip3 freeze --local > requirements.txt`.
