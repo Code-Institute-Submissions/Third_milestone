@@ -176,6 +176,7 @@ The following languages, technologies and tools were used to construct this webs
 - [MongoDB](https://www.mongodb.com/) - A NoSQL database used to build the application.
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - A automated cloud MongoDB service.
 - [Jasmine](https://jasmine.github.io/) - A behaviour-driven development framework for testing JavaScript code.
+- [Jasmine-jquery plugin](https://github.com/velesin/jasmine-jquery) - A extension for Jasmine Testing.
 - [Balsamiq Mockups](https://balsamiq.com/) - Used to sketch quick wireframes for website's UX design.
 - [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/) - Chrome browser tool used to iterate and debug the website.
 - [HTML Checker](https://validator.w3.org/nu/) - Online HTML checker used to validate code semantics.
@@ -267,13 +268,70 @@ The following user stories from the UX section were tested to make sure everythi
 
 8. Users "P" ,"Q" and "R" wants to see a data showing breakdown of locations per break type and bottom type, as well as the most popular facilities and most common hazards for all available locations. The data charts for each can be found by navigating to "about" page.
 
+#### Manual Testing Bugs
 
-# Credits
+I have not encountered any bugs with manual testing.
 
-Photo by Thierry Meier on Unsplash (hero_main.jpg)
-Photo by Cristian Palmer on Unsplash (footer.jpg)
-[article on conditional aggregation](http://davenewson.com/posts/2013/conditional-aggregation-on-arrays-of-objects-in-mongodb.html)
-Photo by Jeremy Bishop on Unsplash (background image for loc if no img provided)
-(gradient)[http://www.colorzilla.com/gradient-editor/]
-Photo by Jeremy Bishop on Unsplash (error)
-Photo by Tyler Nix (campervan)
+### Automated Testing
+
+The automate testing was conduct using the following tools:
+
+- Unit testing with Python
+
+Unit test is a test which verify that a single component in the application operates in the right way. In order to verify test results, please run the following in your command line `python3 test_global.py`
+
+- Jasmine framework with jasmine-jquery plugin
+
+Jasmine is a behaviour-driven development framework for testing JavaScript code. There are 5 specs tested with no failures.
+
+In order to run the Jasmine test please open the "specRunner.html" file in a browser. The test results will be displayed immediately. There is a known issue with new versions of Chrome which does not allow "file://URIs" to read other "file://URIs". This can be override by running Chrome with a switch "--allow-file-access-from-files". Works on other browsers without any problems.
+
+- Chrome Lighthouse
+
+The Lighthouse is an open-source automated tool that audits website for performance, accessibility, SEO and more. The website score was constantly satisfactory with recent results as follows:
+
+```
+- Performance at 78
+- Progressive Web App at 50
+- Accessibility at 91
+- Best Practices at 80
+- SEO at 89
+
+highest score is 100
+```
+
+#### Automated Testing Bugs
+
+I have not encountered any bugs with automated testing.
+
+## Deployment
+
+The application was deployed to [Heroku](https://www.heroku.com/home) with the following steps:
+
+1. Installing Heroku CLI.
+2. Creating a Heroku Account or Login into Heroku via command `heroku login`.
+3. Initializing a git repository if not already createad.
+4. Create a heroku application with `heroku create your-first-heroku-app --buildpack heroku/python`.
+5. Add the remote heroku git repository with `heroku git:remote -a your-first-heroku-app`.
+6. Create requirements.txt file in your project root folder in order for heroku to detect it as a Python project with `sudo pip3 freeze --local > requirements.txt`.
+7. Adding a Procfile with `echo web: python app.py > Procfile`.
+8. Committing the files to Heroku’s repository master branch with `git add .` and `git commit -m "First commit for heroku"`. Push the changes from your local master branch to heroku’s master branch with `git push heroku master`.
+9. Run the application with `heroku ps:scale web=1` (This is a command to the Heroku to tell it to get up and running).
+10. The final step is to specify IP and PORT. Go to Heroku web app and from there go to `Settings > Config Variables` to specify our IP and PORT `IP = 0.0.0.0` and `PORT = 5000`.
+
+## Credits
+
+### Media
+
+The photos used in the application were obtained from:
+
+- [Unsplash](https://unsplash.com/) and the following authors - Thierry Meier, Jeremy Bishop, Tyler Nix and Jeremy Bishop.
+- and [Magicseaweed](https://magicseaweed.com/).
+
+### Content
+
+The CSS Gradient was generated with [Colorzilla](http://www.colorzilla.com/gradient-editor/) online gradient editor.
+
+### Acknowledgements
+
+Dave Newson's [article](http://davenewson.com/posts/2013/conditional-aggregation-on-arrays-of-objects-in-mongodb.html) on conditional aggregation in MongoDB helped me understand it better.
