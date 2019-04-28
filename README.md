@@ -39,7 +39,7 @@ Based on the above description and the research process the following user stori
 
 ### Scope
 
-The Surfingeurope website should focus on user engagement by allowing users to create new locations and to edit existing spots in order to correct incorrect data. The users should be able as well to rate and comment on the spots to help other fellow surfers in making their future surf travel choices. In order to help in making that decision, each of the surfing locations should have spot features including but not limited to break type, bottom type, wind direction, type of available facilities and occurring hazards. These features together with location description would allow surfers to find at least one spot that is matching their surfing style and abilities.
+The Surfingeurope website should focus on user engagement by allowing users to create new locations and to edit existing spots in order to amend incorrect data. The users should be able as well to rate and comment on the spots to help other fellow surfers in making their future surf travel choices. In order to help in making that decision, each of the surfing locations should have spot features including but not limited to break type, bottom type, wind direction, type of available facilities and occurring hazards. These features together with location description would allow surfers to find at least one spot that is matching their surfing style and abilities.
 
 ### Structure
 
@@ -267,8 +267,8 @@ The following user stories from the UX section were tested to make sure everythi
 
     1. Users should find a location of choice either by going through the list of available locations, searching location by name or by browsing through list of advanced search results. If the location of interest was created by the user, or previously edited, rated or commented, it can be found as well under user's personal page.
     2. Once the spot is located, users should select it in order to be redirected to detailed view.
-    3. Once in detailed view, users can either "rate and comment", "edit location" or "remove" it by clicking on the related button that can be found underneath the comments section of the page.
-    4. If the user selects "rate and comment", he/she will be redirected to a new page that has a collapsible rate and comment elements. User then needs to select the action he wish to undertake and submit it, whether it is rating the spot or adding a comment about it. 
+    3. Once in detailed view, users can either "rate or comment", "edit location" or "remove" it by clicking on the related button that can be found underneath the comments section of the page.
+    4. If the user selects "rate or comment", he/she will be redirected to a new page that has a collapsible "rate or comment" elements. User then needs to select the action he wish to undertake and submit it, whether it is rating the spot or adding a comment about it. 
     5. If the user selects "edit location", he/she will be redirected to a new page that contain an editable form for each of the spot details. User can edit one or all of the features and save changes.
     6. If the user selects "remove", he/she will be redirected to a page which acts as a safe guard in case user clicked on the button by mistake. The user will be asked to tick a checkbox in order to acknowledge the deletion request and only then he/she will be able to remove the spot from the site.
 
