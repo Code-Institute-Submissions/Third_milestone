@@ -49,9 +49,9 @@ Based on the strategy and scope, the website structure should have clearly organ
 
 The following wireframes were created to determine the visual form and arrangement of the application elements:
 
-- <a href="mockups/Small_device.png" target="_blank">Small device.</a>
-- <a href="mockups/Medium_device.png" target="_blank">Medium device.</a>
-- <a href="mockups/Large_device.png" target="_blank">Large device.</a>
+- <a href="mockups/small_device.png" target="_blank">Small device.</a>
+- <a href="mockups/medium_device.png" target="_blank">Medium device.</a>
+- <a href="mockups/large_device.png" target="_blank">Large device.</a>
 
 ### Surface
 
