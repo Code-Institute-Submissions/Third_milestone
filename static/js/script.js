@@ -15,6 +15,7 @@ $(document).ready(function(){
     // Character counter for text inputs
     $('input#username, input#name_input, textarea#textarea1').characterCounter();
 
+    // Toggle between search and advance search view
     $('#advanced_btn').click(function() {
         $('#advanced_form').toggleClass('hide');
         $(this).text($(this).text() == 'ADVANCED SEARCH' ? 'SEARCH BY NAME' : 'ADVANCED SEARCH'
@@ -22,4 +23,4 @@ $(document).ready(function(){
         $('#search_name').toggleClass('hide');
     });
 
-  });
+});

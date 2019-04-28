@@ -26,6 +26,14 @@ ul {
     font-family: 'Oswald', sans-serif;
 }
 
+/* border divider */
+
+.border {
+    height: 1px;
+    overflow: hidden;
+    background-color: #e0e0e0;
+}
+
 /* footer */
 
 .page-footer {
@@ -44,12 +52,15 @@ ul {
     padding: 5px 0px;
 }
 
-/* border divider */
+/* Font Awesome style change */
 
-.border {
-    height: 1px;
-    overflow: hidden;
-    background-color: #e0e0e0;
+.fab {
+    color: #263238;
+}
+
+.page-footer .fab {
+    color: white;
+    padding: 20px;
 }
 
 /* card style changes */
@@ -145,6 +156,38 @@ ul {
     margin-bottom: 10px;
 }
 
+/* Forms style */
+
+#desc {
+    margin-top: 30px;
+}
+
+textarea.materialize-textarea {
+    overflow-y: scroll;
+}
+
+/* Edit Form error */
+
+.checkbox-error {
+    color: red;
+}
+
+/* pagination */
+
+.pagination li.active {
+    background-color: #03a9f4;
+}
+
+/* mobile nav menu*/
+
+.mobile-align {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); 
+}
+
+/* Templates style changes */
+
 /* base.html style changes */
 
 nav .brand-logo, nav ul a, nav a {
@@ -205,7 +248,7 @@ nav ul a:hover, .sidenav li>a:hover {
     }
 }
 
-/* Search */
+/* Search page */
 
 input {
     overflow-y: scroll;
@@ -239,7 +282,7 @@ label {
     padding-top: 25px;
 }
 
-/* Login form layout */
+/* Login page form layout */
 
 .form {
     margin-top: 50px;
@@ -255,46 +298,13 @@ label {
     border: none;
 }
 
-/* Font Awesome */
-
-.fab {
-    color: #263238;
-}
-
-.page-footer .fab {
-    color: white;
-    padding: 20px;
-}
-
-/* Login error */
+/* Login page error */
 
 .oups {
     color: red;
 }
 
-/* Forms style */
-
-#desc {
-    margin-top: 30px;
-}
-
-textarea.materialize-textarea {
-    overflow-y: scroll;
-}
-
-/* Edit Form error */
-
-.checkbox-error {
-    color: red;
-}
-
-/* pagination */
-
-.pagination li.active {
-    background-color: #03a9f4;
-}
-
-/* about */
+/* about page */
 
 .about {
     position: relative;
@@ -319,7 +329,7 @@ textarea.materialize-textarea {
     line-height: 40px;
 }
 
-/* ouch page */
+/* oups page */
 
 .error {
     position: relative;
@@ -342,7 +352,7 @@ textarea.materialize-textarea {
     width: 300px;
 }
 
-/* spot */
+/* spot page */
 
 .scroll {
     max-height: 150px;
@@ -357,7 +367,7 @@ textarea.materialize-textarea {
     line-height: 6px;
 }
 
-/* aloha */
+/* aloha page */
 
 .padding-left {
     padding-left: 10px;
@@ -383,22 +393,14 @@ textarea.materialize-textarea {
     font-family: 'Oswald', sans-serif;
 }
 
-/* mobile nav menu*/
-
-.mobile-align {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%); 
-}
-
-/* edit form */
+/* edit spot form */
 
 .input-field .helper-text, .input-field .helper-text1 {
     font-size: 12px;
     color: rgba(0,0,0,0.54);
 }
 
-/* add spot */
+/* add spot page */
 
 .step {
     color: #263238;
